@@ -11,13 +11,19 @@ namespace WeSplitApp.Models
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class Photo
+    using WeSplitApp.ViewModels;
+
+    public partial class Photo : BaseViewModel
     {
-        public int JourneyId { get; set; }
-        public int OrderNumber { get; set; }
-        public byte[] ImageBytes { get; set; }
-    
+        private int _journeyId;
+        public int JourneyId { get => _journeyId; set { _journeyId = value; OnPropertyChanged(); } }
+
+        private int _orderNumber;
+        public int OrderNumber { get => _orderNumber; set { _orderNumber = value; OnPropertyChanged(); } }
+
+        private byte[] _imageBytes;
+        public byte[] ImageBytes { get => _imageBytes; set { _imageBytes = value; OnPropertyChanged(); } }
+
         public virtual Journey Journey { get; set; }
     }
 }
