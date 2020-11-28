@@ -11,22 +11,34 @@ namespace WeSplitApp.Models
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class Location
+    using WeSplitApp.ViewModels;
+
+    public partial class Location : BaseViewModel
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Location()
         {
             this.Journeys = new HashSet<Journey>();
         }
-    
-        public int Id { get; set; }
-        public string ProvinceId { get; set; }
-        public string Name { get; set; }
-        public string Address { get; set; }
-        public string Description { get; set; }
-        public byte[] ImageBytes { get; set; }
-    
+
+        private int _id;
+        public int Id { get => _id; set { _id = value; OnPropertyChanged(); } }
+
+        private Nullable<int> _provinceId;
+        public Nullable<int> ProvinceId { get => _provinceId; set { _provinceId = value; OnPropertyChanged(); } }
+
+        private string _name;
+        public string Name { get => _name; set { _name = value; OnPropertyChanged(); } }
+
+        private string _address;
+        public string Address { get => _address; set { _address = value; OnPropertyChanged(); } }
+
+        private string _description;
+        public string Description { get => _description; set { _description = value; OnPropertyChanged(); } }
+
+        private byte[] _imageBytes;
+        public byte[] ImageBytes { get => _imageBytes; set { _imageBytes = value; OnPropertyChanged(); } }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Journey> Journeys { get; set; }
         public virtual Province Province { get; set; }
