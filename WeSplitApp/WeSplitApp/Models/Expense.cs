@@ -11,16 +11,28 @@ namespace WeSplitApp.Models
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class Expense
+    using WeSplitApp.ViewModels;
+
+    public partial class Expense : BaseViewModel
     {
-        public int JourneyId { get; set; }
-        public int OrderNumber { get; set; }
-        public int MemberId { get; set; }
-        public Nullable<int> Fees { get; set; }
-        public string Content { get; set; }
-        public Nullable<System.DateTime> Times { get; set; }
-    
+        private int _journeyId;
+        public int JourneyId { get => _journeyId; set { _journeyId = value; OnPropertyChanged(); } }
+
+        private int _orderNumber;
+        public int OrderNumber { get => _orderNumber; set { _orderNumber = value; OnPropertyChanged(); } }
+        
+        private int _memberId;
+        public int MemberId { get => _memberId; set { _memberId = value; OnPropertyChanged(); } }
+        
+        private Nullable<int> _fees;
+        public Nullable<int> Fees { get => _fees; set { _fees = value; OnPropertyChanged(); } }
+
+        private string _content;
+        public string Content { get => _content; set { _content = value; OnPropertyChanged(); } }
+        
+        private Nullable<System.DateTime> _times;
+        public Nullable<System.DateTime> Times { get => _times; set { _times = value; OnPropertyChanged(); } }
+
         public virtual Cost Cost { get; set; }
         public virtual Member Member { get; set; }
     }
