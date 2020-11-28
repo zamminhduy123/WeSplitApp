@@ -11,8 +11,9 @@ namespace WeSplitApp.Models
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class Cost
+    using WeSplitApp.ViewModels;
+
+    public partial class Cost : BaseViewModel
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Cost()
@@ -20,10 +21,16 @@ namespace WeSplitApp.Models
             this.Expenses = new HashSet<Expense>();
         }
     
-        public int JourneyId { get; set; }
-        public int OrderNumber { get; set; }
-        public string Content { get; set; }
-    
+        private int _journeyId;
+        public int JourneyId { get => _journeyId; set { _journeyId = value; OnPropertyChanged(); } }
+
+
+        private int _orderNumber;
+        public int OrderNumber { get => _orderNumber; set { _orderNumber = value; OnPropertyChanged(); } }
+
+        private string _content;
+        public string Content { get => _content; set { _content = value; OnPropertyChanged(); } }
+
         public virtual Journey Journey { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Expense> Expenses { get; set; }
