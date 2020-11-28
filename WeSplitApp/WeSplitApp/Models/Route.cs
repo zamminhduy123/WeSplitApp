@@ -11,14 +11,22 @@ namespace WeSplitApp.Models
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class Route
+    using WeSplitApp.ViewModels;
+
+    public partial class Route : BaseViewModel
     {
-        public int JourneyId { get; set; }
-        public int OrderNumber { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-    
+        private int _journeyId;
+        public int JourneyId { get => _journeyId; set { _journeyId = value; OnPropertyChanged(); } }
+
+        private int _orderNumber;
+        public int OrderNumber { get => _orderNumber; set { _orderNumber = value; OnPropertyChanged(); } }
+
+        private string _name;
+        public string Name { get => _name; set { _name = value; OnPropertyChanged(); } }
+
+        private string _description;
+        public string Description { get => _description; set { _description = value; OnPropertyChanged(); } }
+
         public virtual Journey Journey { get; set; }
     }
 }
