@@ -11,18 +11,22 @@ namespace WeSplitApp.Models
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class Province
+    using WeSplitApp.ViewModels;
+
+    public partial class Province : BaseViewModel
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Province()
         {
             this.Locations = new HashSet<Location>();
         }
-    
-        public string Id { get; set; }
-        public string Name { get; set; }
-    
+
+        private int _id;
+        public int Id { get => _id; set { _id = value; OnPropertyChanged(); } }
+
+        private string _name;
+        public string Name { get => _name; set { _name = value; OnPropertyChanged(); } }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Location> Locations { get; set; }
     }
