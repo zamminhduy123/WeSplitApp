@@ -11,8 +11,9 @@ namespace WeSplitApp.Models
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class Journey
+    using WeSplitApp.ViewModels;
+
+    public partial class Journey : BaseViewModel
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Journey()
@@ -22,14 +23,25 @@ namespace WeSplitApp.Models
             this.Routes = new HashSet<Route>();
             this.Members = new HashSet<Member>();
         }
-    
-        public int Id { get; set; }
-        public Nullable<int> LocationId { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public Nullable<System.DateTime> Departure { get; set; }
-        public Nullable<System.DateTime> Arrival { get; set; }
-    
+
+        private int _id;
+        public int Id { get => _id; set { _id = value; OnPropertyChanged(); } }
+        
+        private Nullable<int> _locationId;
+        public Nullable<int> LocationId { get => _locationId; set { _locationId = value; OnPropertyChanged(); } }
+
+        private string _name;
+        public string Name { get => _name; set { _name = value; OnPropertyChanged(); } }
+        
+        private string _description;
+        public string Description { get => _description; set { _description = value; OnPropertyChanged(); } }
+        
+        private Nullable<System.DateTime> _departure;
+        public Nullable<System.DateTime> Departure { get => _departure; set { _departure = value; OnPropertyChanged(); } }
+        
+        private Nullable<System.DateTime> _arrival;
+        public Nullable<System.DateTime> Arrival { get => _arrival; set { _arrival = value; OnPropertyChanged(); } }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Cost> Costs { get; set; }
         public virtual Location Location { get; set; }
