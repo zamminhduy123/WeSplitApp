@@ -11,8 +11,9 @@ namespace WeSplitApp.Models
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class Member
+    using WeSplitApp.ViewModels;
+
+    public partial class Member : BaseViewModel
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Member()
@@ -20,13 +21,22 @@ namespace WeSplitApp.Models
             this.Expenses = new HashSet<Expense>();
             this.Journeys = new HashSet<Journey>();
         }
-    
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Phone { get; set; }
-        public string Email { get; set; }
-        public byte[] ImageBytes { get; set; }
-    
+
+        private int _id;
+        public int Id { get => _id; set { _id = value; OnPropertyChanged(); } }
+
+        private string _name;
+        public string Name { get => _name; set { _name = value; OnPropertyChanged(); } }
+
+        private string _phone;
+        public string Phone { get => _phone; set { _phone = value; OnPropertyChanged(); } }
+
+        private string _email;
+        public string Email { get => _email; set { _email = value; OnPropertyChanged(); } }
+
+        private byte[] _imageBytes;
+        public byte[] ImageBytes { get => _imageBytes; set { _imageBytes = value; OnPropertyChanged(); } }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Expense> Expenses { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
