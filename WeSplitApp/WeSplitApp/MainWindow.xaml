@@ -5,8 +5,84 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WeSplitApp"
         mc:Ignorable="d"
+<<<<<<< Updated upstream
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         
     </Grid>
+=======
+        WindowStartupLocation="CenterOwner"
+        WindowStyle="None" 
+        AllowsTransparency="True"
+        ResizeMode="CanResizeWithGrip"
+        Background="Transparent"
+
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal"
+             TextOptions.TextRenderingMode="Auto"
+             FontFamily="{DynamicResource MaterialDesignFont}"
+        
+        Height="1024" Width="1440" MinWidth="940" MinHeight="665">
+    <WindowChrome.WindowChrome>
+        <WindowChrome     
+        CaptionHeight="1"  
+        CornerRadius ="0"
+        ResizeBorderThickness="4"         
+        GlassFrameThickness="0">
+        </WindowChrome>
+    </WindowChrome.WindowChrome>
+    <Border CornerRadius="40" Background="White">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="288" MinWidth="50"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="75"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <!-- background image -->
+            <Image Opacity="0.8" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Stretch="Fill" Height="500"  RenderTransformOrigin="0.5 0.5" VerticalAlignment="Bottom" RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True">
+                <Image.Source>
+                    <BitmapImage UriSource="/Assets/background.png" Rotation="Rotate180"/>
+                </Image.Source>
+            </Image>
+
+            <!-- control bar -->
+            <uc:ControlBarUC Grid.Column="0" Grid.ColumnSpan="2" Grid.ZIndex = "999"/>
+
+            <!-- left panel -->
+            <Grid Grid.Row="1" Grid.Column="0" Background="#1b5e20" Height="70" HorizontalAlignment="Right" Width="5" VerticalAlignment="Top" Margin="0 100 0 0" Grid.ZIndex="2"></Grid>
+            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" VerticalAlignment="Top" Height="auto" MinWidth="50" Margin="0 100 0 0">
+                <StackPanel Orientation="Horizontal" Margin="0 0 0 20" Background="#a5d6a7" Height="70" Style="{StaticResource StackPanelOnMouseEnter}">
+                    <materialDesign:PackIcon Kind="Home" Width="40" Height="40" Margin="5" VerticalAlignment="Center"/>
+                    <TextBlock Text="HOME" VerticalAlignment="Center" FontSize="30" FontWeight="Medium" Margin="10 5 0 0"></TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0 0 0 20" Height="70" Style="{StaticResource StackPanelOnMouseEnter}">
+                    <materialDesign:PackIcon Kind="MapPlus"  Width="40" Height="40" Margin="5" VerticalAlignment="Center"/>
+                    <TextBlock Text="ADD A PLACE" VerticalAlignment="Center" FontSize="30" FontWeight="Medium" Margin="10 5 0 0"></TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0 0 0 20" Height="70" Style="{StaticResource StackPanelOnMouseEnter}">
+                    <materialDesign:PackIcon Kind="AccountPlus" Width="40" Height="40" Margin="5" VerticalAlignment="Center"/>
+                    <TextBlock Text="ADD MEMBER" VerticalAlignment="Center" FontSize="30" FontWeight="Medium" Margin="10 5 0 0"></TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0 0 0 20" Height="70" Style="{StaticResource StackPanelOnMouseEnter}">
+                    <materialDesign:PackIcon Kind="Cog" Width="40" Height="40" Margin="5" VerticalAlignment="Center"/>
+                    <TextBlock Text="SETTING" VerticalAlignment="Center" FontSize="30" FontWeight="Medium" Margin="10 5 0 0"></TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0 0 0 20" Height="70" Style="{StaticResource StackPanelOnMouseEnter}">
+                    <materialDesign:PackIcon Kind="InformationOutline" Width="40" Height="40" Margin="5" VerticalAlignment="Center"s/>
+                    <TextBlock Text="ABOUT" VerticalAlignment="Center" FontSize="30" FontWeight="Medium" Margin="10 5 0 0"></TextBlock>
+                </StackPanel>
+            </StackPanel>
+
+            <ContentControl Grid.Row="1" Grid.Column="1"></ContentControl>
+        </Grid>
+    </Border>
+>>>>>>> Stashed changes
 </Window>

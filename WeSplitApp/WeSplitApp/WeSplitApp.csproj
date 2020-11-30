@@ -177,6 +177,11 @@
     <Folder Include="Views\" />
   </ItemGroup>
   <ItemGroup>
+<<<<<<< Updated upstream
+=======
+    <Resource Include="Assets\pie-chart.png" />
+    <Resource Include="Assets\background.png" />
+>>>>>>> Stashed changes
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Model1.Context.cs</LastGenOutput>
