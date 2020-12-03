@@ -3,5 +3,5 @@
                     xmlns:viewmodel="clr-namespace:WeSplitApp.ViewModels">
     <viewmodel:ControlBarViewModel x:Key="CBVM"></viewmodel:ControlBarViewModel>
     <viewmodel:MainViewModel x:Key="MVM"></viewmodel:MainViewModel>
-    <viewmodel:HomeUCViewModel x:Key="HUCVM"></viewmodel:HomeUCViewModel>
+    <viewmodel:DetailUCViewModel x:Key="DUCVM"></viewmodel:DetailUCViewModel>
 </ResourceDictionary>

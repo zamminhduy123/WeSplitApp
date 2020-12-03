@@ -59,8 +59,8 @@ namespace WeSplitApp.ViewModels
             {
                 ResetAllPanelColor();
                 DetailColor = "#2a9df4";
-                param.Content = new HomeUCViewModel();
-                CurrentPageViewModel = new HomeUCViewModel();
+                param.Content = new DetailUCViewModel();
+                CurrentPageViewModel = new DetailUCViewModel();
             });
             AddMemberCommand = new RelayCommand<object>((param) => { return true; }, (param) =>
             {

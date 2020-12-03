@@ -26,8 +26,8 @@
 
         Height="1024" Width="1440" MinWidth="940" MinHeight="665">
     <Window.Resources>
-        <DataTemplate DataType="{x:Type viewmodels:HomeUCViewModel}">
-            <uc:HomeUC DataContext="{Binding}"/>
+        <DataTemplate DataType="{x:Type viewmodels:DetailUCViewModel}">
+            <uc:DetailUC DataContext="{Binding}"/>
             <!-- This is a UserControl -->
         </DataTemplate>
     </Window.Resources>
