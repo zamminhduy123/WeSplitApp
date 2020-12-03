@@ -26,19 +26,19 @@ namespace WeSplitApp.Models
 
         private int _id;
         public int Id { get => _id; set { _id = value; OnPropertyChanged(); } }
-        
+
         private Nullable<int> _locationId;
         public Nullable<int> LocationId { get => _locationId; set { _locationId = value; OnPropertyChanged(); } }
 
         private string _name;
         public string Name { get => _name; set { _name = value; OnPropertyChanged(); } }
-        
+
         private string _description;
         public string Description { get => _description; set { _description = value; OnPropertyChanged(); } }
-        
+
         private Nullable<System.DateTime> _departure;
         public Nullable<System.DateTime> Departure { get => _departure; set { _departure = value; OnPropertyChanged(); } }
-        
+
         private Nullable<System.DateTime> _arrival;
         public Nullable<System.DateTime> Arrival { get => _arrival; set { _arrival = value; OnPropertyChanged(); } }
 

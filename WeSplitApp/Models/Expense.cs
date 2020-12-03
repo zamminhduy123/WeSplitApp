@@ -20,16 +20,16 @@ namespace WeSplitApp.Models
 
         private int _orderNumber;
         public int OrderNumber { get => _orderNumber; set { _orderNumber = value; OnPropertyChanged(); } }
-        
+
         private int _memberId;
         public int MemberId { get => _memberId; set { _memberId = value; OnPropertyChanged(); } }
-        
+
         private Nullable<int> _fees;
         public Nullable<int> Fees { get => _fees; set { _fees = value; OnPropertyChanged(); } }
 
         private string _content;
         public string Content { get => _content; set { _content = value; OnPropertyChanged(); } }
-        
+
         private Nullable<System.DateTime> _times;
         public Nullable<System.DateTime> Times { get => _times; set { _times = value; OnPropertyChanged(); } }
 

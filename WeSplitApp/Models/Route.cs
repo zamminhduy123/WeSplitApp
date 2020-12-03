@@ -15,6 +15,7 @@ namespace WeSplitApp.Models
 
     public partial class Route : BaseViewModel
     {
+
         private int _journeyId;
         public int JourneyId { get => _journeyId; set { _journeyId = value; OnPropertyChanged(); } }
 

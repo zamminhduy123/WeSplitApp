@@ -24,8 +24,8 @@ namespace WeSplitApp.Models
         private int _id;
         public int Id { get => _id; set { _id = value; OnPropertyChanged(); } }
 
-        private Nullable<int> _provinceId;
-        public Nullable<int> ProvinceId { get => _provinceId; set { _provinceId = value; OnPropertyChanged(); } }
+        private string _provinceId;
+        public string ProvinceId { get => _provinceId; set { _provinceId = value; OnPropertyChanged(); } }
 
         private string _name;
         public string Name { get => _name; set { _name = value; OnPropertyChanged(); } }

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Cost">
           <Key>
             <PropertyRef Name="JourneyId" />
@@ -92,16 +92,6 @@
           <Property Name="OrderNumber" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar(max)" />
           <Property Name="Description" Type="nvarchar(max)" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <Association Name="fk_cost_journey">
           <End Role="Journey" Type="Self.Journey" Multiplicity="1" />
@@ -213,7 +203,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="DBModelStoreContainer">
+        <EntityContainer Name="ModelStoreContainer">
           <EntitySet Name="Cost" EntityType="Self.Cost" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Expense" EntityType="Self.Expense" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Journey" EntityType="Self.Journey" Schema="dbo" store:Type="Tables" />
@@ -223,7 +213,6 @@
           <EntitySet Name="Photo" EntityType="Self.Photo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Province" EntityType="Self.Province" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Route" EntityType="Self.Route" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="fk_cost_journey" Association="Self.fk_cost_journey">
             <End Role="Journey" EntitySet="Journey" />
             <End Role="Cost" EntitySet="Cost" />
@@ -265,7 +254,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Cost">
           <Key>
             <PropertyRef Name="JourneyId" />
@@ -361,16 +350,6 @@
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Journey" Relationship="Self.fk_route_journey" FromRole="Route" ToRole="Journey" />
-        </EntityType>
-        <EntityType Name="sysdiagram">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <Association Name="fk_cost_journey">
           <End Role="Journey" Type="Self.Journey" Multiplicity="1" />
@@ -471,7 +450,6 @@
           <EntitySet Name="Photos" EntityType="Self.Photo" />
           <EntitySet Name="Provinces" EntityType="Self.Province" />
           <EntitySet Name="Routes" EntityType="Self.Route" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <AssociationSet Name="fk_cost_journey" Association="Self.fk_cost_journey">
             <End Role="Journey" EntitySet="Journeys" />
             <End Role="Cost" EntitySet="Costs" />
@@ -510,9 +488,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="DBModelStoreContainer" CdmEntityContainer="WeSplitAppDBEntities">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="WeSplitAppDBEntities">
           <EntitySetMapping Name="Costs">
-            <EntityTypeMapping TypeName="DBModel.Cost">
+            <EntityTypeMapping TypeName="Model.Cost">
               <MappingFragment StoreEntitySet="Cost">
                 <ScalarProperty Name="JourneyId" ColumnName="JourneyId" />
                 <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
@@ -521,7 +499,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Expenses">
-            <EntityTypeMapping TypeName="DBModel.Expense">
+            <EntityTypeMapping TypeName="Model.Expense">
               <MappingFragment StoreEntitySet="Expense">
                 <ScalarProperty Name="JourneyId" ColumnName="JourneyId" />
                 <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
@@ -533,7 +511,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Journeys">
-            <EntityTypeMapping TypeName="DBModel.Journey">
+            <EntityTypeMapping TypeName="Model.Journey">
               <MappingFragment StoreEntitySet="Journey">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="LocationId" ColumnName="LocationId" />
@@ -545,7 +523,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Locations">
-            <EntityTypeMapping TypeName="DBModel.Location">
+            <EntityTypeMapping TypeName="Model.Location">
               <MappingFragment StoreEntitySet="Location">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ProvinceId" ColumnName="ProvinceId" />
@@ -557,7 +535,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Members">
-            <EntityTypeMapping TypeName="DBModel.Member">
+            <EntityTypeMapping TypeName="Model.Member">
               <MappingFragment StoreEntitySet="Member">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -568,7 +546,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Photos">
-            <EntityTypeMapping TypeName="DBModel.Photo">
+            <EntityTypeMapping TypeName="Model.Photo">
               <MappingFragment StoreEntitySet="Photo">
                 <ScalarProperty Name="JourneyId" ColumnName="JourneyId" />
                 <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
@@ -577,7 +555,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Provinces">
-            <EntityTypeMapping TypeName="DBModel.Province">
+            <EntityTypeMapping TypeName="Model.Province">
               <MappingFragment StoreEntitySet="Province">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -585,7 +563,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Routes">
-            <EntityTypeMapping TypeName="DBModel.Route">
+            <EntityTypeMapping TypeName="Model.Route">
               <MappingFragment StoreEntitySet="Route">
                 <ScalarProperty Name="JourneyId" ColumnName="JourneyId" />
                 <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
@@ -594,18 +572,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="DBModel.sysdiagram">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <AssociationSetMapping Name="Participation" TypeName="DBModel.Participation" StoreEntitySet="Participation">
+          <AssociationSetMapping Name="Participation" TypeName="Model.Participation" StoreEntitySet="Participation">
             <EndProperty Name="Journey">
               <ScalarProperty Name="Id" ColumnName="JourneyId" />
             </EndProperty>
