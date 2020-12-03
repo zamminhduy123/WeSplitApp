@@ -13,16 +13,16 @@
          TextOptions.TextFormattingMode="Ideal"
          TextOptions.TextRenderingMode="Auto"
          FontFamily="{DynamicResource MaterialDesignFont}"
-             Background="White"
+             Background="Transparent"
              DataContext="{StaticResource HUCVM}"
              mc:Ignorable="d" 
-             d:DesignHeight="900" d:DesignWidth="2080">
+             d:DesignHeight="800" d:DesignWidth="2080" MinHeight="665">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/> 
-            <RowDefinition/> 
-            <RowDefinition/> 
-            <RowDefinition/>
+            <RowDefinition Height="1*" MinHeight="200"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -33,18 +33,24 @@
         </Grid.ColumnDefinitions>
 
         <!-- thumbnail image -->
-        <Border Grid.Column="0"  VerticalAlignment="Bottom" Grid.Row="0" Grid.RowSpan="2" BorderThickness="3" BorderBrush="Black"
-                        CornerRadius="50" Margin="10" Height="430" Padding="0" RenderOptions.BitmapScalingMode="HighQuality">
+        <Border Grid.Column="0" Height="auto"  VerticalAlignment="Bottom" Grid.Row="0" Grid.RowSpan="2" BorderThickness="2" BorderBrush="Black"
+                        CornerRadius="50" Margin="10" Padding="0" RenderOptions.BitmapScalingMode="HighQuality">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="10" ShadowDepth="5"></DropShadowEffect>
+            </Border.Effect>
             <Border.Background>
                 <ImageBrush Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" ImageSource="/Assets/du-lich-ha-long-1.jpeg">
                 </ImageBrush>
             </Border.Background>
         </Border>
         <!-- member list -->
-        <Border Grid.Column="0"  VerticalAlignment="Bottom" Grid.Row="2" Grid.RowSpan="2" BorderThickness="5" BorderBrush="Black"
-                        CornerRadius="50" Height="450" Padding="0" RenderOptions.BitmapScalingMode="HighQuality" Margin="5">
+        <Border Grid.Column="0"  VerticalAlignment="Bottom" Grid.Row="2" Grid.RowSpan="2" Background="White"
+                        CornerRadius="50" Height="auto" MinHeight="300" Padding="0" RenderOptions.BitmapScalingMode="HighQuality" Margin="10 10 10 5">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="10" ShadowDepth="10"></DropShadowEffect>
+            </Border.Effect>
             <StackPanel>
-                <Border  CornerRadius="50"  BorderThickness="2" BorderBrush="Black" Height="100" Background="#03254c" >
+                <Border  CornerRadius="50 50 0 0"  BorderThickness="0" BorderBrush="Black" Height="100" Background="#03254c">
                     <TextBlock Text="THÀNH VIÊN THAM GIA" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
                 </Border>
                 <ListView ItemsSource="{Binding ParticipantsList}">
@@ -52,7 +58,7 @@
                         <DataTemplate>
                             <Grid Margin="0" Width="100" >
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="{Binding Name}" FontSize="12   " Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                                    <TextBlock Text="{Binding Name}" FontSize="12" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
                                     <TextBlock Text="{Binding Quantity}" FontSize="10" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
                                 </StackPanel>
                             </Grid>
@@ -64,22 +70,30 @@
 
         <!-- date -->
         <Border Grid.Column="1" Grid.Row="0" Background="#d0efff" CornerRadius="50" Margin="10" >
-            <StackPanel Orientation="Vertical">
-                <StackPanel Orientation="Horizontal" Margin="0 30 0 0" HorizontalAlignment="Center">
-                    <materialDesign:PackIcon Kind="Calendar" Width="60" Height="60" />
-                    <TextBlock Margin="10 0 0 0" Foreground="Red" Text="NGÀY ĐI: 0/0/0000" FontSize="40" VerticalAlignment="Center" FontWeight="Medium"> </TextBlock>
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="10" ShadowDepth="10"></DropShadowEffect>
+            </Border.Effect>
+            <Grid>
+                <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <materialDesign:PackIcon Kind="Calendar" Width="60" Height="60" />
+                        <TextBlock Margin="10 0 0 0" Foreground="Red" Text="NGÀY ĐI: 0/0/0000" FontSize="40" VerticalAlignment="Center" FontWeight="Medium"></TextBlock>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0 20 0 0" HorizontalAlignment="Center">
+                        <materialDesign:PackIcon Kind="Calendar" Width="60" Height="60" />
+                        <TextBlock Margin="10 0 0 0" Foreground="#03254c" Text="NGÀY ĐI: 0/0/0000" FontSize="40" VerticalAlignment="Center" FontWeight="Medium"></TextBlock>
+                    </StackPanel>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0 20 0 0" HorizontalAlignment="Center">
-                    <materialDesign:PackIcon Kind="Calendar" Width="60" Height="60" />
-                    <TextBlock Margin="10 0 0 0" Foreground="#03254c" Text="NGÀY ĐI: 0/0/0000" FontSize="40" VerticalAlignment="Center" FontWeight="Medium"></TextBlock>
-                </StackPanel>
-            </StackPanel>
+            </Grid>
         </Border>
 
         <!-- route list -->
-        <Border Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Background="white" CornerRadius="50" Margin="10" BorderThickness="5" BorderBrush="Black" >
+        <Border Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Background="white" CornerRadius="50" Margin="10 10 10 0"  >
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="10" ShadowDepth="10"></DropShadowEffect>
+            </Border.Effect>
             <StackPanel>
-                <Border  CornerRadius="50"  BorderThickness="2" BorderBrush="Black" Height="100" Background="#03254c" >
+                <Border  CornerRadius="50 50 0 0"   Height="100" Background="#03254c" >
                     <TextBlock Text="THÀNH VIÊN THAM GIA" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
                 </Border>
                 <ListView ItemsSource="{Binding RoutesList}">
@@ -96,11 +110,14 @@
                 </ListView>
             </StackPanel>
         </Border>
-        
+
         <!-- Summary -->
-        <Border Grid.Column="3" Grid.Row="0" Grid.RowSpan="4" Background="white" CornerRadius="50" Margin="10" BorderThickness="5" BorderBrush="Black" >
+        <Border Grid.Column="3" Grid.Row="0" Grid.RowSpan="4" Background="white" CornerRadius="50" Margin="10 10 10 5">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="10" ShadowDepth="10"></DropShadowEffect>
+            </Border.Effect>
             <StackPanel>
-                <Border  CornerRadius="50"  BorderThickness="2" BorderBrush="Black" Height="100" Background="#03254c" >
+                <Border  CornerRadius="50 50 0 0"  Height="100" Background="#03254c" >
                     <TextBlock Text="TỔNG KẾT" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
                 </Border>
                 <ListView ItemsSource="{Binding SummaryList}">

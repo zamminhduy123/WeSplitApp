@@ -219,9 +219,9 @@
     <Folder Include="Views\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\background.png" />
     <Resource Include="Assets\pie-chart.png" />
     <Resource Include="Assets\du-lich-ha-long-1.jpeg" />
+    <Resource Include="Assets\background.png" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Model1.Context.cs</LastGenOutput>
