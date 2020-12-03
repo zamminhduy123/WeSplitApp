@@ -20,7 +20,7 @@ namespace WeSplitApp.Models
         {
             this.Expenses = new HashSet<Expense>();
         }
-    
+
         private int _journeyId;
         public int JourneyId { get => _journeyId; set { _journeyId = value; OnPropertyChanged(); } }
 

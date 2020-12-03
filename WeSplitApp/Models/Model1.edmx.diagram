@@ -4,24 +4,23 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="4cee31137cba47b9bbcd68609f8368df" Name="Diagram1">
-        <EntityTypeShape EntityType="DBModel.Cost" Width="1.5" PointX="7.5" PointY="1.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DBModel.Expense" Width="1.5" PointX="9.75" PointY="2.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DBModel.Journey" Width="1.5" PointX="5.25" PointY="5.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DBModel.Location" Width="1.5" PointX="3" PointY="5.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DBModel.Member" Width="1.5" PointX="7.5" PointY="4.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="DBModel.Photo" Width="1.5" PointX="7.5" PointY="7.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="DBModel.Province" Width="1.5" PointX="0.75" PointY="6" IsExpanded="true" />
-        <EntityTypeShape EntityType="DBModel.Route" Width="1.5" PointX="7.5" PointY="10" IsExpanded="true" />
-        <EntityTypeShape EntityType="DBModel.sysdiagram" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <AssociationConnector Association="DBModel.fk_cost_journey" ManuallyRouted="false" />
-        <AssociationConnector Association="DBModel.fk_expense_cost" ManuallyRouted="false" />
-        <AssociationConnector Association="DBModel.fk_expense_member" ManuallyRouted="false" />
-        <AssociationConnector Association="DBModel.fk_journey_location" ManuallyRouted="false" />
-        <AssociationConnector Association="DBModel.fk_photo_journey" ManuallyRouted="false" />
-        <AssociationConnector Association="DBModel.fk_route_journey" ManuallyRouted="false" />
-        <AssociationConnector Association="DBModel.fk_location_province" ManuallyRouted="false" />
-        <AssociationConnector Association="DBModel.Participation" ManuallyRouted="false" />
+      <Diagram DiagramId="4a7155eab1334a6fa9c9058e4f98ff9f" Name="Diagram1">
+        <EntityTypeShape EntityType="Model.Cost" Width="1.5" PointX="7.5" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Expense" Width="1.5" PointX="9.75" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Journey" Width="1.5" PointX="5.25" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Location" Width="1.5" PointX="3" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Member" Width="1.5" PointX="7.5" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Photo" Width="1.5" PointX="7.5" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Province" Width="1.5" PointX="0.75" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Route" Width="1.5" PointX="7.5" PointY="10" IsExpanded="true" />
+        <AssociationConnector Association="Model.fk_cost_journey" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.fk_expense_cost" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.fk_expense_member" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.fk_journey_location" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.fk_photo_journey" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.fk_route_journey" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.fk_location_province" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.Participation" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
