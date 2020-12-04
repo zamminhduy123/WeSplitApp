@@ -46,6 +46,7 @@
         </Style.Triggers>
     </Style>
 
+    <!--panel style-->
     <DropShadowEffect x:Key="DropShadow" BlurRadius="25" Direction="315" />
     <Style x:Key="DropShadowButton" TargetType="Button">
         <Style.Triggers>
@@ -53,5 +54,31 @@
                 <Setter Property="Effect" Value="{StaticResource DropShadow}" />
             </Trigger>
         </Style.Triggers>
+    </Style>
+    
+    <!--tab item style-->
+    <Style x:Key="customTabItem" TargetType="TabItem">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TabItem">
+                    <StackPanel Orientation="Vertical" Margin="5 0" >
+                        <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        Margin="10,2"/>
+                        <Grid Height="5" Background="#002171" Name="Grid"></Grid>
+                    </StackPanel>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="Grid" Property="Background" Value="#002171" />
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="False">
+                            <Setter TargetName="Grid" Property="Background" Value="GhostWhite" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 </ResourceDictionary>

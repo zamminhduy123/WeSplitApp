@@ -50,10 +50,13 @@ namespace WeSplitApp.ViewModels
         #endregion
         public MainViewModel()
         {
-            HomeCommand = new RelayCommand<object>((param) => { return true; }, (param) =>
+            CurrentPageViewModel = new HomeUCViewModel();
+            HomeCommand = new RelayCommand<ContentControl>((param) => { return true; }, (param) =>
             {
                 ResetAllPanelColor();
                 HomeColor = "#2a9df4";
+                param.Content = new HomeUCViewModel();
+                CurrentPageViewModel = new HomeUCViewModel();
             });
             DetailCommand = new RelayCommand<ContentControl>((param) => { return true; }, (param) =>
             {
