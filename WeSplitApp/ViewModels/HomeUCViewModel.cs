@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,16 @@ namespace WeSplitApp.ViewModels
 
         private AsyncObservableCollection<dynamic> _lastTripList;
         public AsyncObservableCollection<dynamic> LastTripList { get => _lastTripList; set { _lastTripList = value; OnPropertyChanged(); } }
+
+        private dynamic _selectedTrip;
+        public dynamic SelectedTrip { get => _selectedTrip; set { _selectedTrip = value;
+                var config = ConfigurationManager.OpenExeConfiguration(
+                ConfigurationUserLevel.None);
+                config.AppSettings.Settings["DetailTripId"].Value = (SelectedTrip.Id).ToString();
+                config.Save(ConfigurationSaveMode.Minimal);
+
+                ConfigurationManager.RefreshSection("appSettings");
+                OnPropertyChanged(); } }
 
         //Command
         public ICommand CloseWindowCommand { get; set; }

@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using WeSplitApp.Model;
+using System.Configuration;
 
 namespace WeSplitApp.ViewModels
 {
     class MainViewModel : BaseViewModel
     {
-
-
         #region private variables
         private BaseViewModel _currentPageViewModel = null;
 
@@ -60,10 +61,19 @@ namespace WeSplitApp.ViewModels
             });
             DetailCommand = new RelayCommand<ContentControl>((param) => { return true; }, (param) =>
             {
-                ResetAllPanelColor();
-                DetailColor = "#2a9df4";
-                param.Content = new DetailUCViewModel();
-                CurrentPageViewModel = new DetailUCViewModel();
+                var value = ConfigurationManager.AppSettings["DetailTripId"];
+                int DetailTripId = int.Parse(value);
+                if (DetailTripId == -1 || DataProvider.Ins.DB.Journeys.Where(x => x.Id == DetailTripId).Count() == 0)
+                {
+                    MessageBox.Show("Please select a trip to see detail !");
+                }
+                else
+                {
+                    ResetAllPanelColor();
+                    DetailColor = "#2a9df4";
+                    param.Content = new DetailUCViewModel();
+                    CurrentPageViewModel = new DetailUCViewModel();
+                }
             });
             AddMemberCommand = new RelayCommand<object>((param) => { return true; }, (param) =>
             {

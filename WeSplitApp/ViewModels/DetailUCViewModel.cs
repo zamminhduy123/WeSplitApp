@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -66,7 +67,9 @@ namespace WeSplitApp.ViewModels
 
         public DetailUCViewModel()
         {
-            int JourneyId = 1;
+            var value = ConfigurationManager.AppSettings["DetailTripId"];
+            int DetailTripId = int.Parse(value);
+            int JourneyId = DetailTripId;
             DetailJourney = DataProvider.Ins.DB.Journeys.Where(x => x.Id == JourneyId).FirstOrDefault();
         }
 

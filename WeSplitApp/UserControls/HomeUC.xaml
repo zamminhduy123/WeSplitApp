@@ -68,7 +68,7 @@
                 <Border  CornerRadius="50 50 0 0"  BorderThickness="0" BorderBrush="Black" Height="100" Background="#03254c">
                     <TextBlock Text="CHUYẾN ĐI HIỆN TẠI" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
                 </Border>
-                <ListView ItemsSource="{Binding CurrentTripList}" SelectedItem="{Binding SelectedTrip}">
+                <ListView ItemsSource="{Binding CurrentTripList}" >
                     <ListView.ItemTemplate >
                         <DataTemplate>
                             <Grid Margin="0" Width="100" >
