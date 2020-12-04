@@ -68,13 +68,14 @@
                 <Border  CornerRadius="50 50 0 0"  BorderThickness="0" BorderBrush="Black" Height="100" Background="#03254c">
                     <TextBlock Text="CHUYẾN ĐI HIỆN TẠI" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
                 </Border>
-                <ListView ItemsSource="{Binding CurrentTripList}">
+                <ListView ItemsSource="{Binding CurrentTripList}" SelectedItem="{Binding SelectedTrip}">
                     <ListView.ItemTemplate >
                         <DataTemplate>
                             <Grid Margin="0" Width="100" >
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="{Binding Name}" FontSize="12" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
-                                    <TextBlock Text="{Binding Phone}" FontSize="10" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                                    <TextBlock Text="{Binding Description}" FontSize="10" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                                    <TextBlock Text="{Binding State}" FontSize="10" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
                                 </StackPanel>
                             </Grid>
                         </DataTemplate>
@@ -93,13 +94,13 @@
                 <Border  CornerRadius="50 50 0 0"  BorderThickness="0" BorderBrush="Black" Height="100" Background="#03254c">
                     <TextBlock Text="LỊCH SỬ CHUYẾN ĐI" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
                 </Border>
-                <ListView ItemsSource="{Binding CurrentTripList}">
+                <ListView ItemsSource="{Binding LastTripList}" SelectedItem="{Binding SelectedTrip}">
                     <ListView.ItemTemplate >
                         <DataTemplate>
                             <Grid Margin="0" Width="100" >
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="{Binding Name}" FontSize="12" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
-                                    <TextBlock Text="{Binding Phone}" FontSize="10" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                                    <TextBlock Text="{Binding Description}" FontSize="10" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
                                 </StackPanel>
                             </Grid>
                         </DataTemplate>
