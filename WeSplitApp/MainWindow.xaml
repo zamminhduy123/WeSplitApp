@@ -34,6 +34,10 @@
             <uc:HomeUC DataContext="{Binding}"/>
             <!-- This is a UserControl -->
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:PlacesUCViewModel}">
+            <uc:PlacesUC DataContext="{Binding}"/>
+            <!-- This is a UserControl -->
+        </DataTemplate>
     </Window.Resources>
     <WindowChrome.WindowChrome>
         <WindowChrome     
@@ -90,23 +94,23 @@
                         <TextBlock Text="DETAIL" VerticalAlignment="Center" FontSize="25" FontWeight="Medium" Margin="10 5 0 0" Foreground="Black"></TextBlock>
                     </StackPanel>
                 </Button>
-                <Button Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="70" Margin="0 0 0 20" Command="{Binding AddPlaceCommand}" CommandParameter="{Binding ElementName=mainContentControl}" Style="{StaticResource DropShadowButton}">
+                <Button Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="70" Margin="0 0 0 20" Command="{Binding PlacesCommand}" CommandParameter="{Binding ElementName=mainContentControl}" Style="{StaticResource DropShadowButton}">
                     <StackPanel  Orientation="Horizontal" Height="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}},Path=ActualHeight}"    
                                  Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}},Path=ActualWidth}" 
-                                  Background="{Binding AddPlaceColor}">
-                        <materialDesign:PackIcon Kind="MapPlus"  Width="40" Height="40" Margin="5" VerticalAlignment="Center" Foreground="Black"/>
-                        <TextBlock Text="ADD A PLACE" VerticalAlignment="Center" FontSize="25" FontWeight="Medium" Margin="10 5 0 0" Foreground="Black"></TextBlock>
+                                  Background="{Binding PlacesColor}">
+                        <materialDesign:PackIcon Kind="Map"  Width="40" Height="40" Margin="5" VerticalAlignment="Center" Foreground="Black"/>
+                        <TextBlock Text="PLACES" VerticalAlignment="Center" FontSize="25" FontWeight="Medium" Margin="10 5 0 0" Foreground="Black"></TextBlock>
                     </StackPanel>
                 </Button>
-                <Button Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="70" Margin="0 0 0 20" Command="{Binding AddMemberCommand}" Style="{StaticResource DropShadowButton}">
+                <Button Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="70" Margin="0 0 0 20" Command="{Binding AddMemberCommand}" CommandParameter="{Binding ElementName=mainContentControl}" Style="{StaticResource DropShadowButton}">
                     <StackPanel Orientation="Horizontal" Height="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}},Path=ActualHeight}"    
                                 Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}},Path=ActualWidth}" 
                                  Background="{Binding AddMemberColor}">
-                        <materialDesign:PackIcon Kind="AccountPlus" Width="40" Height="40" Margin="5" VerticalAlignment="Center" Foreground="Black"/>
-                        <TextBlock Text="ADD MEMBER" VerticalAlignment="Center" FontSize="25" FontWeight="Medium" Margin="10 5 0 0" Foreground="Black"></TextBlock>
+                        <materialDesign:PackIcon Kind="Account" Width="40" Height="40" Margin="5" VerticalAlignment="Center" Foreground="Black"/>
+                        <TextBlock Text="MEMBERS" VerticalAlignment="Center" FontSize="25" FontWeight="Medium" Margin="10 5 0 0" Foreground="Black"></TextBlock>
                     </StackPanel>
                 </Button>
-                <Button Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="70" Margin="0 0 0 20" Command="{Binding SettingCommand}" Style="{StaticResource DropShadowButton}">
+                <Button Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="70" Margin="0 0 0 20" Command="{Binding SettingCommand}" CommandParameter="{Binding ElementName=mainContentControl}" Style="{StaticResource DropShadowButton}">
                     <StackPanel Orientation="Horizontal" Height="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}},Path=ActualHeight}"    
                                 Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}},Path=ActualWidth}" 
                                  Background="{Binding SettingColor}">
@@ -114,7 +118,7 @@
                         <TextBlock Text="SETTING" VerticalAlignment="Center" FontSize="25" FontWeight="Medium" Margin="10 5 0 0" Foreground="Black"></TextBlock>
                     </StackPanel>
                 </Button>
-                <Button Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="70" Margin="0 0 0 20" Command="{Binding AboutCommand}" Style="{StaticResource DropShadowButton}">
+                <Button Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="70" Margin="0 0 0 20" Command="{Binding AboutCommand}" CommandParameter="{Binding ElementName=mainContentControl}" Style="{StaticResource DropShadowButton}">
                     <StackPanel Orientation="Horizontal" Height="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}},Path=ActualHeight}"    
                                 Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}},Path=ActualWidth}" 
                                  Background="{Binding AboutColor}">

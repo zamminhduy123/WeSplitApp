@@ -29,7 +29,7 @@ namespace WeSplitApp.ViewModels
 
         public ICommand HomeCommand { get; set; }
         public ICommand DetailCommand { get; set; }
-        public ICommand AddPlaceCommand { get; set; }
+        public ICommand PlacesCommand { get; set; }
         public ICommand AddMemberCommand { get; set; }
         public ICommand SettingCommand { get; set; }
         public ICommand AboutCommand { get; set; }
@@ -41,7 +41,7 @@ namespace WeSplitApp.ViewModels
         public String HomeColor { get => _homeColor; set {_homeColor = value; OnPropertyChanged(); } }
         public String DetailColor { get => _detailColor; set { _detailColor = value; OnPropertyChanged(); } }
 
-        public String AddPlaceColor { get => _addPlaceColor; set { _addPlaceColor = value; OnPropertyChanged(); } }
+        public String PlacesColor { get => _addPlaceColor; set { _addPlaceColor = value; OnPropertyChanged(); } }
         public String AddMemberColor { get => _addMemberColor; set { _addMemberColor = value; OnPropertyChanged(); } }
         public String SettingColor { get => _settingColor; set { _settingColor = value; OnPropertyChanged(); } }
         public String AboutColor { get => _aboutColor; set { _aboutColor = value; OnPropertyChanged(); } }
@@ -75,15 +75,17 @@ namespace WeSplitApp.ViewModels
                     CurrentPageViewModel = new DetailUCViewModel();
                 }
             });
+            PlacesCommand = new RelayCommand<ContentControl>((param) => { return true; }, (param) =>
+            {
+                ResetAllPanelColor();
+                PlacesColor = "#2a9df4";
+                param.Content = new PlacesUCViewModel();
+                CurrentPageViewModel = new PlacesUCViewModel();
+            });
             AddMemberCommand = new RelayCommand<object>((param) => { return true; }, (param) =>
             {
                 ResetAllPanelColor();
                 AddMemberColor = "#2a9df4";
-            });
-            AddPlaceCommand = new RelayCommand<object>((param) => { return true; }, (param) =>
-            {
-                ResetAllPanelColor();
-                AddPlaceColor = "#2a9df4";
             });
             SettingCommand = new RelayCommand<object>((param) => { return true; }, (param) =>
             {
@@ -102,7 +104,7 @@ namespace WeSplitApp.ViewModels
         {
             HomeColor = Brushes.White.ToString();
             DetailColor = Brushes.White.ToString();
-            AddPlaceColor = Brushes.White.ToString();
+            PlacesColor = Brushes.White.ToString();
             AddMemberColor = Brushes.White.ToString();
             SettingColor = Brushes.White.ToString();
             AboutColor = Brushes.White.ToString();

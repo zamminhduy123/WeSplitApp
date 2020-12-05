@@ -27,7 +27,8 @@ namespace WeSplitApp.ViewModels
                 config.Save(ConfigurationSaveMode.Minimal);
 
                 ConfigurationManager.RefreshSection("appSettings");
-                OnPropertyChanged(); } }
+                OnPropertyChanged(); } 
+        }
 
         //Command
         public ICommand CloseWindowCommand { get; set; }

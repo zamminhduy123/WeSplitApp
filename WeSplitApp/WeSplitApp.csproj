@@ -187,11 +187,15 @@
     <Compile Include="UserControls\HomeUC.xaml.cs">
       <DependentUpon>HomeUC.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\PlacesUC.xaml.cs">
+      <DependentUpon>PlacesUC.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\ControlBarViewModel.cs" />
     <Compile Include="ViewModels\DetailUCViewModel.cs" />
     <Compile Include="ViewModels\HomeUCViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\PlacesUCViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -223,6 +227,10 @@
     <Page Include="UserControls\HomeUC.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\PlacesUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
