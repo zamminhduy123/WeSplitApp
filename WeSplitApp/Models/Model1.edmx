@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="WeSplitAppDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Cost">
           <Key>
             <PropertyRef Name="JourneyId" />
@@ -47,7 +47,7 @@
           <Property Name="Name" Type="nvarchar(max)" />
           <Property Name="Address" Type="nvarchar(max)" />
           <Property Name="Description" Type="nvarchar(max)" />
-          <Property Name="ImageBytes" Type="binary" MaxLength="1" />
+          <Property Name="ImageBytes" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="Member">
           <Key>
@@ -57,7 +57,7 @@
           <Property Name="Name" Type="nvarchar(max)" />
           <Property Name="Phone" Type="nvarchar(max)" />
           <Property Name="Email" Type="nvarchar(max)" />
-          <Property Name="ImageBytes" Type="binary" MaxLength="1" />
+          <Property Name="ImageBytes" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="Participation">
           <Key>
@@ -74,7 +74,7 @@
           </Key>
           <Property Name="JourneyId" Type="int" Nullable="false" />
           <Property Name="OrderNumber" Type="int" Nullable="false" />
-          <Property Name="ImageBytes" Type="binary" MaxLength="1" />
+          <Property Name="ImageBytes" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="Province">
           <Key>
@@ -203,7 +203,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="ModelStoreContainer">
+        <EntityContainer Name="WeSplitAppDBModelStoreContainer">
           <EntitySet Name="Cost" EntityType="Self.Cost" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Expense" EntityType="Self.Expense" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Journey" EntityType="Self.Journey" Schema="dbo" store:Type="Tables" />
@@ -254,7 +254,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="WeSplitAppDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Cost">
           <Key>
             <PropertyRef Name="JourneyId" />
@@ -306,7 +306,7 @@
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ImageBytes" Type="Binary" MaxLength="1" FixedLength="true" />
+          <Property Name="ImageBytes" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="Journeys" Relationship="Self.fk_journey_location" FromRole="Location" ToRole="Journey" />
           <NavigationProperty Name="Province" Relationship="Self.fk_location_province" FromRole="Location" ToRole="Province" />
         </EntityType>
@@ -318,7 +318,7 @@
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Phone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ImageBytes" Type="Binary" MaxLength="1" FixedLength="true" />
+          <Property Name="ImageBytes" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="Expenses" Relationship="Self.fk_expense_member" FromRole="Member" ToRole="Expense" />
           <NavigationProperty Name="Journeys" Relationship="Self.Participation" FromRole="Member" ToRole="Journey" />
         </EntityType>
@@ -329,7 +329,7 @@
           </Key>
           <Property Name="JourneyId" Type="Int32" Nullable="false" />
           <Property Name="OrderNumber" Type="Int32" Nullable="false" />
-          <Property Name="ImageBytes" Type="Binary" MaxLength="1" FixedLength="true" />
+          <Property Name="ImageBytes" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="Journey" Relationship="Self.fk_photo_journey" FromRole="Photo" ToRole="Journey" />
         </EntityType>
         <EntityType Name="Province">
@@ -488,9 +488,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="WeSplitAppDBEntities">
+        <EntityContainerMapping StorageEntityContainer="WeSplitAppDBModelStoreContainer" CdmEntityContainer="WeSplitAppDBEntities">
           <EntitySetMapping Name="Costs">
-            <EntityTypeMapping TypeName="Model.Cost">
+            <EntityTypeMapping TypeName="WeSplitAppDBModel.Cost">
               <MappingFragment StoreEntitySet="Cost">
                 <ScalarProperty Name="JourneyId" ColumnName="JourneyId" />
                 <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
@@ -499,7 +499,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Expenses">
-            <EntityTypeMapping TypeName="Model.Expense">
+            <EntityTypeMapping TypeName="WeSplitAppDBModel.Expense">
               <MappingFragment StoreEntitySet="Expense">
                 <ScalarProperty Name="JourneyId" ColumnName="JourneyId" />
                 <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
@@ -511,7 +511,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Journeys">
-            <EntityTypeMapping TypeName="Model.Journey">
+            <EntityTypeMapping TypeName="WeSplitAppDBModel.Journey">
               <MappingFragment StoreEntitySet="Journey">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="LocationId" ColumnName="LocationId" />
@@ -523,7 +523,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Locations">
-            <EntityTypeMapping TypeName="Model.Location">
+            <EntityTypeMapping TypeName="WeSplitAppDBModel.Location">
               <MappingFragment StoreEntitySet="Location">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ProvinceId" ColumnName="ProvinceId" />
@@ -535,7 +535,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Members">
-            <EntityTypeMapping TypeName="Model.Member">
+            <EntityTypeMapping TypeName="WeSplitAppDBModel.Member">
               <MappingFragment StoreEntitySet="Member">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -546,7 +546,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Photos">
-            <EntityTypeMapping TypeName="Model.Photo">
+            <EntityTypeMapping TypeName="WeSplitAppDBModel.Photo">
               <MappingFragment StoreEntitySet="Photo">
                 <ScalarProperty Name="JourneyId" ColumnName="JourneyId" />
                 <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
@@ -555,7 +555,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Provinces">
-            <EntityTypeMapping TypeName="Model.Province">
+            <EntityTypeMapping TypeName="WeSplitAppDBModel.Province">
               <MappingFragment StoreEntitySet="Province">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -563,7 +563,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Routes">
-            <EntityTypeMapping TypeName="Model.Route">
+            <EntityTypeMapping TypeName="WeSplitAppDBModel.Route">
               <MappingFragment StoreEntitySet="Route">
                 <ScalarProperty Name="JourneyId" ColumnName="JourneyId" />
                 <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
@@ -572,7 +572,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="Participation" TypeName="Model.Participation" StoreEntitySet="Participation">
+          <AssociationSetMapping Name="Participation" TypeName="WeSplitAppDBModel.Participation" StoreEntitySet="Participation">
             <EndProperty Name="Journey">
               <ScalarProperty Name="Id" ColumnName="JourneyId" />
             </EndProperty>
