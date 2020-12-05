@@ -15,7 +15,7 @@ namespace WeSplitApp.ViewModels
     class MainViewModel : BaseViewModel
     {
         #region private variables
-        private BaseViewModel _currentPageViewModel = null;
+        //private BaseViewModel _currentPageViewModel = null;
 
         private String _homeColor = "#2a9df4";
         private String _addPlaceColor = Brushes.White.ToString();
@@ -46,18 +46,18 @@ namespace WeSplitApp.ViewModels
         public String SettingColor { get => _settingColor; set { _settingColor = value; OnPropertyChanged(); } }
         public String AboutColor { get => _aboutColor; set { _aboutColor = value; OnPropertyChanged(); } }
 
-        public BaseViewModel CurrentPageViewModel { get => _currentPageViewModel; set { _currentPageViewModel = value; OnPropertyChanged(); } }
+        public Global global =  Global.GetInstance();
 
         #endregion
         public MainViewModel()
         {
-            CurrentPageViewModel = new HomeUCViewModel();
+            global.CurrentPageViewModel = new HomeUCViewModel();
             HomeCommand = new RelayCommand<ContentControl>((param) => { return true; }, (param) =>
             {
                 ResetAllPanelColor();
                 HomeColor = "#2a9df4";
-                param.Content = new HomeUCViewModel();
-                CurrentPageViewModel = new HomeUCViewModel();
+                //param.Content = new HomeUCViewModel();
+                global.CurrentPageViewModel = new HomeUCViewModel();
             });
             DetailCommand = new RelayCommand<ContentControl>((param) => { return true; }, (param) =>
             {
@@ -71,16 +71,16 @@ namespace WeSplitApp.ViewModels
                 {
                     ResetAllPanelColor();
                     DetailColor = "#2a9df4";
-                    param.Content = new DetailUCViewModel();
-                    CurrentPageViewModel = new DetailUCViewModel();
+                    //param.Content = new DetailUCViewModel();
+                    global.CurrentPageViewModel = new DetailUCViewModel();
                 }
             });
             PlacesCommand = new RelayCommand<ContentControl>((param) => { return true; }, (param) =>
             {
                 ResetAllPanelColor();
                 PlacesColor = "#2a9df4";
-                param.Content = new PlacesUCViewModel();
-                CurrentPageViewModel = new PlacesUCViewModel();
+                //param.Content = new PlacesUCViewModel();
+                global.CurrentPageViewModel = new PlacesUCViewModel();
             });
             AddMemberCommand = new RelayCommand<object>((param) => { return true; }, (param) =>
             {
