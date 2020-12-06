@@ -140,6 +140,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\BytesToBitMapConverter.cs" />
+    <Compile Include="Global.cs" />
     <Compile Include="Models\Cost.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

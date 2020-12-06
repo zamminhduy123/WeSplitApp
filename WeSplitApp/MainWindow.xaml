@@ -26,6 +26,9 @@
 
         Height="1024" Width="1440" MinWidth="940" MinHeight="720">
     <Window.Resources>
+        <ObjectDataProvider x:Key="currentPage"
+                      ObjectType="{x:Type local:Global}"
+                      MethodName="GetInstance" />
         <DataTemplate DataType="{x:Type viewmodels:DetailUCViewModel}">
             <uc:DetailUC DataContext="{Binding}"/>
             <!-- This is a UserControl -->
@@ -130,7 +133,7 @@
             </StackPanel>
 
 
-            <ContentControl Name="mainContentControl" Grid.Column="1" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Center" Content="{Binding CurrentPageViewModel}" Width="1000" Height="800" MinHeight="720" Margin="10" ></ContentControl>
+            <ContentControl Name="mainContentControl" Grid.Column="1" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Center" Content="{Binding Source={StaticResource currentPage},Path=CurrentPageViewModel}" Width="1000" Height="800" MinHeight="720" Margin="10" ></ContentControl>
               
       
         </Grid>
