@@ -1,0 +1,6 @@
+C:\Users\ASUS\Desktop\WeSplitApp\WeSplitApp\WeSplitApp\obj\Debug\WeSplitApp.csprojAssemblyReference.cache
+C:\Users\ASUS\Desktop\WeSplitApp\WeSplitApp\WeSplitApp\obj\Debug\MainWindow.g.cs
+C:\Users\ASUS\Desktop\WeSplitApp\WeSplitApp\WeSplitApp\obj\Debug\App.g.cs
+C:\Users\ASUS\Desktop\WeSplitApp\WeSplitApp\WeSplitApp\obj\Debug\WeSplitApp_Content.g.cs
+C:\Users\ASUS\Desktop\WeSplitApp\WeSplitApp\WeSplitApp\obj\Debug\WeSplitApp_MarkupCompile.cache
+C:\Users\ASUS\Desktop\WeSplitApp\WeSplitApp\WeSplitApp\obj\Debug\WeSplitApp_MarkupCompile.lref

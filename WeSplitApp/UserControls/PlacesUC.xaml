@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WeSplitApp.UserControls"
+             xmlns:model="clr-namespace:WeSplitApp.Models"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
              TextOptions.TextFormattingMode="Ideal"
@@ -13,6 +14,9 @@
              DataContext="{StaticResource PUCVM}"
              mc:Ignorable="d" 
              d:DesignHeight="850" d:DesignWidth="1000" MinHeight="665">
+    <UserControl.Resources>
+        <model:BytesToBitMapConverter x:Key="ImageConverter" />
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -29,14 +33,16 @@
                 <Border  CornerRadius="50 50 0 0"  BorderThickness="0" BorderBrush="Black" Height="100" Background="#03254c">
                     <TextBlock Text="DANH SÁCH ĐỊA DANH" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
                 </Border>
-                <ListView ItemsSource="{Binding CurrentTripList}" >
+                <ListView ItemsSource="{Binding LocationList}" SelectedItem="{Binding SelectedLocation}">
                     <ListView.ItemTemplate >
                         <DataTemplate>
                             <Grid Margin="0" Width="100" >
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="{Binding Name}" FontSize="12" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                                    <TextBlock Text="{Binding Province}" FontSize="10" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                                    <TextBlock Text="{Binding Address}" FontSize="10" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
                                     <TextBlock Text="{Binding Description}" FontSize="10" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
-                                    <TextBlock Text="{Binding State}" FontSize="10" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                                    <Image Source="{Binding ImageBytes, Converter={StaticResource ImageConverter}}" VerticalAlignment="Center" HorizontalAlignment="Left"></Image>
                                 </StackPanel>
                             </Grid>
                         </DataTemplate>
@@ -60,16 +66,17 @@
                               materialDesign:HintAssist.Hint="Tên Địa Danh"
                               Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                               VerticalAlignment="Center"
-                                 FontSize="25"/>
+                                 FontSize="25" Text="{Binding LocationName}"/>
 
                     <Border Height="200" MinHeight="150" CornerRadius="20" BorderThickness="1" BorderBrush="#03254c" Margin="10">
+                        <!--<Image Source="{Binding ImageCover, Converter={StaticResource ImageConverter}}"-->
                         <Button
                             Grid.Column="0"
                             Grid.Row="1"
                           Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
                           ToolTip="MaterialDesignFloatingActionDarkButton"
                             VerticalAlignment="Center"
-                            HorizontalAlignment="Center">
+                            HorizontalAlignment="Center" Command="{Binding AddImageCommand}">
                             <materialDesign:PackIcon
                                 Kind="ImagePlus"
                                 Height="24"
@@ -83,7 +90,7 @@
                               materialDesign:HintAssist.Hint="Địa chỉ"
                               Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                               VerticalAlignment="Center"
-                                 FontSize="25" Margin="10"/>
+                                 FontSize="25" Margin="10" Text="{Binding LocationAddress}"/>
                         
 
 
@@ -91,14 +98,20 @@
                              MaxLines="4"
                              materialDesign:HintAssist.Hint="Thông tin"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             VerticalAlignment="Center"  />
+                             VerticalAlignment="Center" Text="{Binding LocationDescription}" />
+
+                    <ComboBox Grid.Row="1" Grid.Column="2" Margin="10"
+                      materialDesign:HintAssist.Hint="Search"
+                      materialDesign:HintAssist.HintOpacity=".26" SelectedItem="{Binding SelectedProvince}" ItemsSource="{Binding ProvinceList}"
+                      IsEditable="True" DisplayMemberPath="Name">
+                    </ComboBox>
 
                     <Button
                         Margin="0 10 0 0"
                         Style="{StaticResource MaterialDesignRaisedAccentButton}"
                         Width="150"
                         ToolTip="Resource name: MaterialDesignRaisedAccentButton"
-                        materialDesign:RippleAssist.Feedback="#DD000000">   
+                        materialDesign:RippleAssist.Feedback="#DD000000" Command="{Binding AddLocationCommand}">   
                         Thêm
                     </Button>
                 </StackPanel>
