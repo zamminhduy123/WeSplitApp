@@ -51,11 +51,12 @@ namespace WeSplitApp.ViewModels
         #endregion
         public MainViewModel()
         {
+           
             global.CurrentPageViewModel = new HomeUCViewModel();
             HomeCommand = new RelayCommand<ContentControl>((param) => { return true; }, (param) =>
             {
                 ResetAllPanelColor();
-                HomeColor = "#2a9df4";
+                HomeColor = global.ThemeColor;
                 //param.Content = new HomeUCViewModel();
                 global.CurrentPageViewModel = new HomeUCViewModel();
             });
@@ -70,7 +71,7 @@ namespace WeSplitApp.ViewModels
                 else
                 {
                     ResetAllPanelColor();
-                    DetailColor = "#2a9df4";
+                    DetailColor = global.ThemeColor;
                     //param.Content = new DetailUCViewModel();
                     global.CurrentPageViewModel = new DetailUCViewModel();
                 }
@@ -78,24 +79,26 @@ namespace WeSplitApp.ViewModels
             PlacesCommand = new RelayCommand<ContentControl>((param) => { return true; }, (param) =>
             {
                 ResetAllPanelColor();
-                PlacesColor = "#2a9df4";
+                PlacesColor = global.ThemeColor;
                 //param.Content = new PlacesUCViewModel();
                 global.CurrentPageViewModel = new PlacesUCViewModel();
             });
             AddMemberCommand = new RelayCommand<object>((param) => { return true; }, (param) =>
             {
                 ResetAllPanelColor();
-                AddMemberColor = "#2a9df4";
+                AddMemberColor = global.ThemeColor;
+
             });
             SettingCommand = new RelayCommand<object>((param) => { return true; }, (param) =>
             {
                 ResetAllPanelColor();
-                SettingColor = "#2a9df4";
+                SettingColor = global.ThemeColor;
+                global.CurrentPageViewModel = new ThemeUCViewModel();
             });
             AboutCommand = new RelayCommand<object>((param) => { return true; }, (param) =>
             {
                 ResetAllPanelColor();
-                AboutColor = "#2a9df4";
+                AboutColor = global.ThemeColor;
             });
 
         }

@@ -55,7 +55,7 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    
+
     <!--tab item style-->
     <Style x:Key="customTabItem" TargetType="TabItem">
         <Setter Property="Template">
@@ -80,5 +80,17 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+
+    <Style x:Key="onBorderOver" TargetType="Border">
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Border.CornerRadius" Value="30" />
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="False">
+                <Setter Property="Border.CornerRadius" Value="20" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 </ResourceDictionary>

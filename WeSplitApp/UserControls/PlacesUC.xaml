@@ -69,14 +69,17 @@
                                  FontSize="25" Text="{Binding LocationName}"/>
 
                     <Border Height="200" MinHeight="150" CornerRadius="20" BorderThickness="1" BorderBrush="#03254c" Margin="10">
-                        <!--<Image Source="{Binding ImageCover, Converter={StaticResource ImageConverter}}"-->
+                        <Border.Background>
+                            <ImageBrush ImageSource="{Binding ImageCover, Converter={StaticResource ImageConverter}}" RenderOptions.BitmapScalingMode="HighQuality"></ImageBrush>
+                        </Border.Background>
                         <Button
                             Grid.Column="0"
                             Grid.Row="1"
                           Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
                           ToolTip="MaterialDesignFloatingActionDarkButton"
                             VerticalAlignment="Center"
-                            HorizontalAlignment="Center" Command="{Binding AddImageCommand}">
+                            HorizontalAlignment="Center" Command="{Binding AddImageCommand}"
+                            Visibility="{Binding AddImageButtonVisibility}">
                             <materialDesign:PackIcon
                                 Kind="ImagePlus"
                                 Height="24"

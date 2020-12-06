@@ -6,4 +6,5 @@
     <viewmodel:DetailUCViewModel x:Key="DUCVM"></viewmodel:DetailUCViewModel>
     <viewmodel:HomeUCViewModel x:Key="HUCVM"></viewmodel:HomeUCViewModel>
     <viewmodel:PlacesUCViewModel x:Key="PUCVM"></viewmodel:PlacesUCViewModel>
+    <viewmodel:ThemeUCViewModel x:Key="TUCVM"></viewmodel:ThemeUCViewModel>
 </ResourceDictionary>

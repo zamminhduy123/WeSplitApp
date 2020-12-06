@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using WeSplitApp.Model;
@@ -16,7 +17,8 @@ namespace WeSplitApp.ViewModels
 {
     class PlacesUCViewModel : BaseViewModel
     {
-        //Properties
+        //Properties 
+
         private AsyncObservableCollection<dynamic> _locationList;
         public AsyncObservableCollection<dynamic> LocationList { get => _locationList; set { _locationList = value; OnPropertyChanged(); } }
 
@@ -27,6 +29,7 @@ namespace WeSplitApp.ViewModels
         public Province SelectedProvince { get => _selectedProvince; set { _selectedProvince = value; OnPropertyChanged(); } }
 
         private dynamic _selectedLocation;
+
         public dynamic SelectedLocation { get => _selectedLocation; set { _selectedLocation = value;
                 if (SelectedLocation != null)
                 {
@@ -46,7 +49,10 @@ namespace WeSplitApp.ViewModels
                     ImageCover = null;
                     SelectedProvince = null;
                 }
-                OnPropertyChanged(); } }
+                OnPropertyChanged(); 
+            } 
+        }
+
 
         private string _locationName;
         public string LocationName { get => _locationName; set { _locationName = value; OnPropertyChanged(); } }
@@ -95,6 +101,7 @@ namespace WeSplitApp.ViewModels
                     new Uri(AbsoluteLink,
                     UriKind.Absolute)
                     ));
+
             });
 
             AddLocationCommand = new RelayCommand<object>((param) => { return true; }, (param) => {

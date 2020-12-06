@@ -33,6 +33,7 @@ namespace WeSplitApp.ViewModels
         //Command
         public ICommand CloseWindowCommand { get; set; }
         public ICommand SelectTripCommand { get; set; }
+
         public HomeUCViewModel()
         {
             CurrentTripList = new AsyncObservableCollection<dynamic>();
@@ -66,7 +67,7 @@ namespace WeSplitApp.ViewModels
             }
 
             SelectTripCommand = new RelayCommand<object>((param) => { return true; }, (param) => {
-                Global.GetInstance().CurrentPageViewModel = new DetailUCViewModel();
+              Global.GetInstance().CurrentPageViewModel = new DetailUCViewModel();
             });
         }
 

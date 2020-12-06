@@ -192,12 +192,16 @@
     <Compile Include="UserControls\PlacesUC.xaml.cs">
       <DependentUpon>PlacesUC.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ThemeUC.xaml.cs">
+      <DependentUpon>ThemeUC.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\ControlBarViewModel.cs" />
     <Compile Include="ViewModels\DetailUCViewModel.cs" />
     <Compile Include="ViewModels\HomeUCViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\PlacesUCViewModel.cs" />
+    <Compile Include="ViewModels\ThemeUCViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -233,6 +237,10 @@
     <Page Include="UserControls\PlacesUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ThemeUC.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
