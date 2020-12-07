@@ -41,15 +41,16 @@
             VerticalAlignment="Center">
             <materialDesign:PackIcon  Width="40"
                                       Height="40" Kind="MapSearchOutline" VerticalAlignment="Center" />
-            <PasswordBox
+            <TextBox
                 Width="400"
-              x:Name="PasswordBox"
-                Foreground="{Binding Source={StaticResource themeColor},Path=ThemeColor}"
+              x:Name="SearchTextBox"
+              Foreground="{Binding Source={StaticResource themeColor},Path=ThemeColor}"
               materialDesign:HintAssist.Hint="Search for trip"
               materialDesign:TextFieldAssist.HasClearButton="True"
               materialDesign:HintAssist.HelperText="Search bar will search for both table"
-                Style="{StaticResource MaterialDesignOutlinedPasswordFieldPasswordBox}"
-                VerticalAlignment="Center"/>
+                Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
+                VerticalAlignment="Center"
+                Text="{Binding Search,UpdateSourceTrigger=PropertyChanged}"/>
 
         </StackPanel>
 
@@ -57,12 +58,11 @@
             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Text="Search to: " FontWeight="Medium" FontSize="25"></TextBlock>
             <ListBox
              Style="{StaticResource  MaterialDesignFilterChipAccentOutlineListBox}"
-             x:Name="RadioButtonGroupChoiceChipPrimary"
-                >
-                <ListBoxItem BorderBrush="{Binding Source={StaticResource themeColor},Path=ThemeColor}"  IsSelected="True">
+             x:Name="RadioButtonGroupChoiceChipPrimary">
+                <ListBoxItem BorderBrush="{Binding Source={StaticResource themeColor},Path=ThemeColor}"  IsSelected="{Binding IsPlaceSelected}">
                     Place
                 </ListBoxItem>
-                <ListBoxItem BorderBrush="{Binding Source={StaticResource themeColor},Path=ThemeColor}">
+                <ListBoxItem BorderBrush="{Binding Source={StaticResource themeColor},Path=ThemeColor}" IsSelected="{Binding IsMemberSelected}">
                     Member
                 </ListBoxItem>
             </ListBox>
