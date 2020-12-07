@@ -283,6 +283,12 @@
     <Folder Include="Views\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="WeSplitAppDB.mdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WeSplitAppDB_log.ldf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Assets\pie-chart.png" />
     <Resource Include="Assets\du-lich-ha-long-1.jpeg" />
     <Resource Include="Assets\background.png" />
@@ -296,13 +302,6 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
       <LastGenOutput>Model1.cs</LastGenOutput>
-    </Content>
-    <Content Include="WeSplitAppDB.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="WeSplitAppDB_log.ldf">
-      <DependentUpon>WeSplitAppDB.mdf</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>

@@ -42,14 +42,15 @@
             VerticalAlignment="Center">
             <materialDesign:PackIcon  Width="40"
                                       Height="40" Kind="MapSearchOutline" VerticalAlignment="Center" />
-            <PasswordBox
+            <TextBox
                 Width="400"
-              x:Name="PasswordBox"
+              x:Name="SearchTextBox"
               materialDesign:HintAssist.Hint="Search for trip"
               materialDesign:TextFieldAssist.HasClearButton="True"
               materialDesign:HintAssist.HelperText="Search bar will search for both table"
-                Style="{StaticResource MaterialDesignOutlinedPasswordFieldPasswordBox}"
-                VerticalAlignment="Center"/>
+                Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
+                VerticalAlignment="Center"
+                Text="{Binding Search,UpdateSourceTrigger=PropertyChanged}"/>
 
         </StackPanel>
 
@@ -58,10 +59,10 @@
             <ListBox
              Style="{StaticResource  MaterialDesignFilterChipAccentOutlineListBox}"
              x:Name="RadioButtonGroupChoiceChipPrimary">
-                <ListBoxItem  IsSelected="True">
+                <ListBoxItem  IsSelected="{Binding IsPlaceSelected}">
                     Place
                 </ListBoxItem>
-                <ListBoxItem>
+                <ListBoxItem IsSelected="{Binding IsMemberSelected}">
                     Member
                 </ListBoxItem>
             </ListBox>
