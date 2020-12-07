@@ -20,7 +20,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="850" d:DesignWidth="1000" MinHeight="665">
     <UserControl.Resources>
-        <!-- check this please -->
         <ObjectDataProvider x:Key="themeColor"
                       ObjectType="{x:Type xlocal:Global}"
                       MethodName="GetInstance" />
@@ -45,6 +44,7 @@
             <PasswordBox
                 Width="400"
               x:Name="PasswordBox"
+                Foreground="{Binding Source={StaticResource themeColor},Path=ThemeColor}"
               materialDesign:HintAssist.Hint="Search for trip"
               materialDesign:TextFieldAssist.HasClearButton="True"
               materialDesign:HintAssist.HelperText="Search bar will search for both table"
@@ -57,11 +57,12 @@
             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Text="Search to: " FontWeight="Medium" FontSize="25"></TextBlock>
             <ListBox
              Style="{StaticResource  MaterialDesignFilterChipAccentOutlineListBox}"
-             x:Name="RadioButtonGroupChoiceChipPrimary">
-                <ListBoxItem  IsSelected="True">
+             x:Name="RadioButtonGroupChoiceChipPrimary"
+                >
+                <ListBoxItem BorderBrush="{Binding Source={StaticResource themeColor},Path=ThemeColor}"  IsSelected="True">
                     Place
                 </ListBoxItem>
-                <ListBoxItem>
+                <ListBoxItem BorderBrush="{Binding Source={StaticResource themeColor},Path=ThemeColor}">
                     Member
                 </ListBoxItem>
             </ListBox>
@@ -74,7 +75,7 @@
                 <DropShadowEffect BlurRadius="10" ShadowDepth="10"></DropShadowEffect>
             </Border.Effect>
             <StackPanel>
-                <Border  CornerRadius="50 50 0 0"  BorderThickness="0" BorderBrush="Black" Height="100" Background="#03254c">
+                <Border  CornerRadius="50 50 0 0"  BorderThickness="0" BorderBrush="Black" Height="100" Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}">
                     <!--Background = "{Binding Source={StaticResource themeColor},Path=ThemeColor}"--> 
                     <TextBlock Text="CHUYẾN ĐI HIỆN TẠI" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
                 </Border>
@@ -101,7 +102,7 @@
                 <DropShadowEffect BlurRadius="10" ShadowDepth="10"></DropShadowEffect>
             </Border.Effect>
             <StackPanel>
-                <Border  CornerRadius="50 50 0 0"  BorderThickness="0" BorderBrush="Black" Height="100" Background="#03254c">
+                <Border  CornerRadius="50 50 0 0"  BorderThickness="0" BorderBrush="Black" Height="100" Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}">
                     <TextBlock Text="LỊCH SỬ CHUYẾN ĐI" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
                 </Border>
                 <ListView ItemsSource="{Binding LastTripList}" SelectedItem="{Binding SelectedTrip}">

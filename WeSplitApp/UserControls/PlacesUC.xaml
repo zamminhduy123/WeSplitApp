@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WeSplitApp.UserControls"
+             xmlns:xlocal ="clr-namespace:WeSplitApp"
+             
              xmlns:model="clr-namespace:WeSplitApp.Models"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -15,6 +17,12 @@
              mc:Ignorable="d" 
              d:DesignHeight="850" d:DesignWidth="1000" MinHeight="665">
     <UserControl.Resources>
+
+        <ObjectDataProvider x:Key="themeColor"
+                      ObjectType="{x:Type xlocal:Global}"
+                      MethodName="GetInstance" />
+
+
         <model:BytesToBitMapConverter x:Key="ImageConverter" />
     </UserControl.Resources>
     <Grid>
@@ -30,7 +38,7 @@
                 <DropShadowEffect BlurRadius="10" ShadowDepth="10"></DropShadowEffect>
             </Border.Effect>
             <StackPanel>
-                <Border  CornerRadius="50 50 0 0"  BorderThickness="0" BorderBrush="Black" Height="100" Background="#03254c">
+                <Border  CornerRadius="50 50 0 0"  BorderThickness="0" BorderBrush="Black" Height="100" Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}">
                     <TextBlock Text="DANH SÁCH ĐỊA DANH" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
                 </Border>
                 <ListView ItemsSource="{Binding LocationList}" SelectedItem="{Binding SelectedLocation}">
@@ -58,7 +66,7 @@
                 <DropShadowEffect BlurRadius="10" ShadowDepth="10"></DropShadowEffect>
             </Border.Effect>
             <StackPanel>
-                <Border  CornerRadius="50 50 0 0"  BorderThickness="0" BorderBrush="Black" Height="100" Background="#03254c">
+                <Border  CornerRadius="50 50 0 0"  BorderThickness="0" BorderBrush="Black" Height="100" Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}">
                     <TextBlock Text="THÊM ĐỊA DANH" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
                 </Border>
                 <StackPanel Orientation="Vertical" Margin="0 20 0 0 ">
@@ -79,10 +87,12 @@
                           ToolTip="MaterialDesignFloatingActionDarkButton"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Center" Command="{Binding AddImageCommand}"
+                            Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}"
                             Visibility="{Binding AddImageButtonVisibility}">
                             <materialDesign:PackIcon
                                 Kind="ImagePlus"
                                 Height="24"
+                                Foreground="White"
                                 Width="24" />   
                         </Button>
                     </Border>

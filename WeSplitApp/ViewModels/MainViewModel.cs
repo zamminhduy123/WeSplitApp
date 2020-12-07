@@ -17,7 +17,7 @@ namespace WeSplitApp.ViewModels
         #region private variables
         //private BaseViewModel _currentPageViewModel = null;
 
-        private String _homeColor = "#2a9df4";
+        private String _homeColor;
         private String _addPlaceColor = Brushes.White.ToString();
         private String _detailColor = Brushes.White.ToString();
         private String _addMemberColor = Brushes.White.ToString();
@@ -51,8 +51,8 @@ namespace WeSplitApp.ViewModels
         #endregion
         public MainViewModel()
         {
-           
             global.CurrentPageViewModel = new HomeUCViewModel();
+            HomeColor = global.ThemeColor;
             HomeCommand = new RelayCommand<ContentControl>((param) => { return true; }, (param) =>
             {
                 ResetAllPanelColor();
