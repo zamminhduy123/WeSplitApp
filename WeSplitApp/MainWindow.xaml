@@ -1,8 +1,8 @@
 ﻿<Window x:Class="WeSplitApp.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:WeSplitApp"
         xmlns:viewmodels="clr-namespace:WeSplitApp.ViewModels"
         xmlns:uc="clr-namespace:WeSplitApp.UserControls"
@@ -26,9 +26,6 @@
 
         Height="1024" Width="1440" MinWidth="940" MinHeight="750">
     <Window.Resources>
-        <ObjectDataProvider x:Key="currentPage"
-                      ObjectType="{x:Type local:Global}"
-                      MethodName="GetInstance" />
         <DataTemplate DataType="{x:Type viewmodels:DetailUCViewModel}">
             <uc:DetailUC DataContext="{Binding}"/>
             <!-- This is a UserControl -->
@@ -45,6 +42,9 @@
             <uc:ThemeUC DataContext="{Binding}"/>
             <!-- This is a UserControl -->
         </DataTemplate>
+        <ObjectDataProvider x:Key="currentPage"
+                      ObjectType="{x:Type local:Global}"
+                      MethodName="GetInstance" />
     </Window.Resources>
     <WindowChrome.WindowChrome>
         <WindowChrome     
@@ -136,8 +136,8 @@
                 </Button>
             </StackPanel>
 
-            <ScrollViewer Grid.Column="1" Grid.Row="1"  VerticalAlignment="Top" HorizontalAlignment="Center">
-                <ContentControl Name="mainContentControl"  Content="{Binding Source={StaticResource currentPage},Path=CurrentPageViewModel}" Width="1000" Height="800" MinHeight="720" Margin="10" ></ContentControl>
+            <ScrollViewer Grid.Column="1" Grid.Row="1"  VerticalAlignment="Top" HorizontalAlignment="Center" HorizontalScrollBarVisibility="Auto">
+                <ContentControl Name="mainContentControl"  Content="{Binding Source={StaticResource currentPage},Path=CurrentPageViewModel}" Width="1000" Height="800" MinHeight="720" MinWidth="650" Margin="10" ></ContentControl>
             </ScrollViewer>
 
         </Grid>

@@ -14,12 +14,12 @@
              
              mc:Ignorable="d" 
              DataContext="{StaticResource TUCVM}"
-             d:DesignHeight="850" d:DesignWidth="1000">
+             d:DesignHeight="850" d:DesignWidth="1000" MinWidth="650">
     <Grid>
-        <materialDesign:Card Padding="0 5" Background="White" HorizontalAlignment="Left" VerticalAlignment="Top" Height="350" Width="auto" UniformCornerRadius="30">
+        <materialDesign:Card MinWidth="650" Padding="0 5" Background="White" HorizontalAlignment="Left" VerticalAlignment="Top" Height="350" Width="auto" UniformCornerRadius="30">
             <StackPanel>
                 <TextBlock VerticalAlignment="Top" HorizontalAlignment="Center" Text="APP THEME" FontSize="30" FontWeight="DemiBold" Foreground="Black" Margin="10 0 0 0" />
-                <ItemsControl x:Name="colorList" ItemsSource="{Binding Colors}" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="10">
+                <ItemsControl x:Name="colorList" ItemsSource="{Binding Colors}" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="10" MinWidth="650">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Button Background="{x:Null}" BorderBrush="{x:Null}" Padding="0"  Margin="0 20 40 20" Width="100" Height="100" Command="{Binding ElementName=colorList,Path=DataContext.ThemeButtonCommand}" CommandParameter="{Binding}">

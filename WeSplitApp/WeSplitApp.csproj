@@ -195,7 +195,7 @@
     <Compile Include="UserControls\ThemeUC.xaml.cs">
       <DependentUpon>ThemeUC.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="BaseViewModel.cs" />
     <Compile Include="ViewModels\ControlBarViewModel.cs" />
     <Compile Include="ViewModels\DetailUCViewModel.cs" />
     <Compile Include="ViewModels\HomeUCViewModel.cs" />

@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WeSplitApp.UserControls"
+             xmlns:xlocal="clr-namespace:WeSplitApp"
         
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
          TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -14,6 +15,12 @@
              DataContext="{StaticResource DUCVM}"
              mc:Ignorable="d" 
              d:DesignHeight="850" d:DesignWidth="1000" MinHeight="665">
+
+    <UserControl.Resources>
+        <ObjectDataProvider x:Key="themeColor"
+                      ObjectType="{x:Type xlocal:Global}"
+                      MethodName="GetInstance" />
+    </UserControl.Resources>
 
     <TabControl TabStripPlacement="Top"  Margin="10" Background="Transparent" BorderBrush="Transparent" >
         <TabItem  Header="Thời gian" FontSize="45" FontWeight="Medium" Style="{StaticResource customTabItem}" HorizontalAlignment="Center" VerticalAlignment="Center">
