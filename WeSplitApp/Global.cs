@@ -47,6 +47,15 @@ namespace WeSplitApp
             }
         }
 
+        public bool DeleteMessage()
+        {
+            MessageBoxResult result = MessageBox.Show("Are you sure to delete this ? the data will be delete permanently !", "WARNING", MessageBoxButton.OKCancel);
+            if (result == MessageBoxResult.OK)
+            {
+                return true;
+            }
+            else return false;
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

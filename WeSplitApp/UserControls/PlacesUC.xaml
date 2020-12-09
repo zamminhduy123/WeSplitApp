@@ -41,7 +41,7 @@
                 <Border  CornerRadius="50 50 0 0"  BorderThickness="0" BorderBrush="Black" Height="100" Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}">
                     <TextBlock Text="DANH SÁCH ĐỊA DANH" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
                 </Border>
-                <ListView ItemsSource="{Binding LocationList}" SelectedItem="{Binding SelectedLocation}">
+                <ListView x:Name="PlaceList" ItemsSource="{Binding LocationList}" SelectedItem="{Binding SelectedLocation}">
                     <ListView.ItemTemplate >
                         <DataTemplate>
                             <Grid Margin="0" Width="100" >
@@ -51,6 +51,11 @@
                                     <TextBlock Text="{Binding Address}" FontSize="10" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
                                     <TextBlock Text="{Binding Description}" FontSize="10" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
                                     <Image Source="{Binding ImageBytes, Converter={StaticResource ImageConverter}}" VerticalAlignment="Center" HorizontalAlignment="Left"></Image>
+                                    <Button
+                                        Style="{StaticResource MaterialDesignFlatMidBgButton}"
+                                        ToolTip="MaterialDesignFlatMidButton" Content="DELETE"
+                                        Command="{Binding ElementName=PlaceList, Path=DataContext.DeletePlaceCommand}" CommandParameter="{Binding}">
+                                    </Button>
                                 </StackPanel>
                             </Grid>
                         </DataTemplate>
@@ -67,7 +72,10 @@
             </Border.Effect>
             <StackPanel>
                 <Border  CornerRadius="50 50 0 0"  BorderThickness="0" BorderBrush="Black" Height="100" Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}">
-                    <TextBlock Text="THÊM ĐỊA DANH" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
+                    <StackPanel Orientation="Horizontal" Width="227">
+                        <TextBlock Text="{Binding UpdateOrAddContent}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
+                        <TextBlock Text=" ĐỊA DANH" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"/>
+                    </StackPanel>
                 </Border>
                 <StackPanel Orientation="Vertical" Margin="0 20 0 0 ">
                     <TextBox Grid.Row="0" Grid.Column="0" Margin="10"
@@ -124,8 +132,7 @@
                         Style="{StaticResource MaterialDesignRaisedAccentButton}"
                         Width="150"
                         ToolTip="Resource name: MaterialDesignRaisedAccentButton"
-                        materialDesign:RippleAssist.Feedback="#DD000000" Command="{Binding AddLocationCommand}">   
-                        Thêm
+                        materialDesign:RippleAssist.Feedback="#DD000000" Command="{Binding AddLocationCommand}" Content="{Binding UpdateOrAddContent}">
                     </Button>
                 </StackPanel>
             </StackPanel>
