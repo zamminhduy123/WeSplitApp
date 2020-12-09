@@ -46,6 +46,7 @@ namespace WeSplitApp.ViewModels
                 {
                     IsMemberSelected = true;
                 }
+                CallSearch();
                 OnPropertyChanged();
             }
         }
@@ -65,6 +66,7 @@ namespace WeSplitApp.ViewModels
                 {
                     IsPlaceSelected = true;
                 }
+                CallSearch();
                 OnPropertyChanged();
             }
         }
@@ -75,12 +77,7 @@ namespace WeSplitApp.ViewModels
             set
             {
                 _search = value;
-                LoadTripList();
-                if (Search != null && Search != "")
-                {
-                    LastTripList = SearchJourney(Search, LastTripList, IsPlaceSelected);
-                    CurrentTripList = SearchJourney(Search, CurrentTripList, IsPlaceSelected);
-                }
+                CallSearch();
                 OnPropertyChanged();
             }
         }
@@ -101,6 +98,15 @@ namespace WeSplitApp.ViewModels
             });
         }
 
+        public void CallSearch()
+        {
+            LoadTripList();
+            if (Search != null && Search != "")
+            {
+                LastTripList = SearchJourney(Search, LastTripList, IsPlaceSelected);
+                CurrentTripList = SearchJourney(Search, CurrentTripList, IsPlaceSelected);
+            }
+        }
         public void LoadTripList()
         {
             CurrentTripList = new AsyncObservableCollection<dynamic>();
