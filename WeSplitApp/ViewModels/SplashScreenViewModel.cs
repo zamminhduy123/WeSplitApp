@@ -45,7 +45,6 @@ namespace WeSplitApp.ViewModels
         #endregion
         public SplashScreenViewModel()
         {
-            globalTheme.ThemeColor = "#FFa500";
             
             ChangeShow = new RelayCommand<object>((prop) => { return true; }, (prop) =>
             {
