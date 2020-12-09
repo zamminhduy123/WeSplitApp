@@ -13,7 +13,7 @@ namespace WeSplitApp.ViewModels
 {
     class HomeUCViewModel : BaseViewModel
     {
-        //Properties
+        #region Properties
         private AsyncObservableCollection<dynamic> _currentTripList;
         public AsyncObservableCollection<dynamic> CurrentTripList { get => _currentTripList; set { _currentTripList = value; OnPropertyChanged(); } }
 
@@ -46,6 +46,7 @@ namespace WeSplitApp.ViewModels
                 {
                     IsMemberSelected = true;
                 }
+                CallSearch();
                 OnPropertyChanged();
             }
         }
@@ -65,6 +66,7 @@ namespace WeSplitApp.ViewModels
                 {
                     IsPlaceSelected = true;
                 }
+                CallSearch();
                 OnPropertyChanged();
             }
         }
@@ -75,22 +77,16 @@ namespace WeSplitApp.ViewModels
             set
             {
                 _search = value;
-                LoadTripList();
-                if (Search != null && Search != "")
-                {
-                    //int a = CurrentTripList.First().Id;
-                    LastTripList = SearchJourney(Search, LastTripList, IsPlaceSelected);
-                   // CurrentTripList = SearchJourney(Search, CurrentTripList);
-                    
-                }
+                CallSearch();
                 OnPropertyChanged();
             }
         }
-
-        //Command
+        #endregion
+        #region Command
         public ICommand CloseWindowCommand { get; set; }
         public ICommand SelectTripCommand { get; set; }
 
+        #endregion
         public HomeUCViewModel()
         {
             IsPlaceSelected = true;
@@ -102,6 +98,15 @@ namespace WeSplitApp.ViewModels
             });
         }
 
+        public void CallSearch()
+        {
+            LoadTripList();
+            if (Search != null && Search != "")
+            {
+                LastTripList = SearchJourney(Search, LastTripList, IsPlaceSelected);
+                CurrentTripList = SearchJourney(Search, CurrentTripList, IsPlaceSelected);
+            }
+        }
         public void LoadTripList()
         {
             CurrentTripList = new AsyncObservableCollection<dynamic>();
@@ -296,9 +301,10 @@ namespace WeSplitApp.ViewModels
                             rawTable.Rows.Add(item.Name, 0, 0, 0, memberJourney.Id);
                         }
                     }
-                  
+                    
                 }
-                
+               
+
 
                 DataTable notTable = new DataTable();
                 if (listWordsNOT.Count > 0)
@@ -309,8 +315,9 @@ namespace WeSplitApp.ViewModels
                         notTable = SearchOneWord(word, notTable);
                     }
                 }
-
                 
+
+
                 DataTable andTable = new DataTable();
                 if (listWordsAND.Count > 0)
                 {
@@ -324,17 +331,20 @@ namespace WeSplitApp.ViewModels
                         resultTable.Rows.Add(rowData.ItemArray);
                     }
                 }
+
+               
                 
 
                 foreach (string word in listWordsOR)
                 {
                     DataTable orTable = SearchOneWord(word, rawTable);
+                    
                     foreach (DataRow rowDataOrTable in orTable.Rows)
                     {
                         bool flag = true;
                         foreach (DataRow rowDataResultTable in resultTable.Rows)
                         {
-                            if (rowDataOrTable["Name"] == rowDataResultTable["Name"])
+                            if (rowDataOrTable["Name"] == rowDataResultTable["Name"] && rowDataOrTable["JourneyId"] == rowDataResultTable["JourneyId"])
                             {
                                 flag = false;
                                 break;
@@ -351,7 +361,7 @@ namespace WeSplitApp.ViewModels
                 {
                     for (int y = 0; y < resultTable.Rows.Count; y++)
                     {
-                        if (notTable.Rows[x].Field<string>(0) == resultTable.Rows[y].Field<string>(0))
+                        if (notTable.Rows[x].Field<string>(0) == resultTable.Rows[y].Field<string>(0) && notTable.Rows[x].Field<int>(4) == resultTable.Rows[y].Field<int>(4))
                         {
                             resultTable.Rows.RemoveAt(y);
                         }
