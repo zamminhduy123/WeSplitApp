@@ -1,0 +1,52 @@
+﻿using WeSplitApp.Model;
+using WeSplitApp.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+using System.Text;
+using System.Timers;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using WeSplitApp;
+
+namespace WeSplitApp
+{
+    /// <summary>
+    /// Interaction logic for SplashScreen.xaml
+    /// </summary>
+    public partial class SplashScreen : Window
+    {
+        private const int Interval = 4000;
+        private readonly Timer dT = new Timer(Interval);
+        public SplashScreen()
+        {
+            InitializeComponent();
+            this.DataContext = new SplashScreenViewModel();
+            dT.Elapsed += dt_Tick;
+            dT.Start();
+        }
+        void dt_Tick(object sender, EventArgs e)
+        {
+            dT.Dispose();
+            Dispatcher.Invoke(() =>
+            {
+                if (MainViewModel.IsShowed == false)
+                {
+                    MainWindow mW = new MainWindow();
+                    mW.Show();
+                    MainViewModel.IsShowed = true;
+                }
+                this.Close();
+            });
+            
+
+        }
+    }
+}

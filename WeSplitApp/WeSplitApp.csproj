@@ -180,6 +180,7 @@
     <Compile Include="Models\Route.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="SplashScreenWindow.xaml.cs" />
     <Compile Include="UserControls\ControlBarUC.xaml.cs">
       <DependentUpon>ControlBarUC.xaml</DependentUpon>
     </Compile>
@@ -201,6 +202,7 @@
     <Compile Include="ViewModels\HomeUCViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\PlacesUCViewModel.cs" />
+    <Compile Include="ViewModels\SplashScreenViewModel.cs" />
     <Compile Include="ViewModels\ThemeUCViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -221,6 +223,10 @@
     <Page Include="ResourceDictionaries\MainResource.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SplashScreenWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\ControlBarUC.xaml">
       <SubType>Designer</SubType>

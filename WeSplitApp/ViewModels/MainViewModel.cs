@@ -49,6 +49,12 @@ namespace WeSplitApp.ViewModels
         public Global global =  Global.GetInstance();
 
         #endregion
+
+        #region static variable
+
+        public static bool IsShowed = false;
+
+        #endregion
         public MainViewModel()
         {
             global.CurrentPageViewModel = new HomeUCViewModel();

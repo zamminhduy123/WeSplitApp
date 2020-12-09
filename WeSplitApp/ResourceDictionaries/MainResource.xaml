@@ -7,4 +7,5 @@
     <viewmodel:HomeUCViewModel x:Key="HUCVM"/>
     <viewmodel:PlacesUCViewModel x:Key="PUCVM"/>
     <viewmodel:ThemeUCViewModel x:Key="TUCVM"/>
+    <viewmodel:SplashScreenViewModel x:Key="SSVM"/>
 </ResourceDictionary>
