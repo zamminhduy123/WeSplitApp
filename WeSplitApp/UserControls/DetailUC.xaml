@@ -88,7 +88,7 @@
                             materialDesign:RippleAssist.Feedback="#DD000000" Command="{Binding AddParticipantCommand}" Content="THÊM">
                         </Button>
                     </StackPanel>
-                    <ListView x:Name="ParticipantList" ItemsSource="{Binding DetailMemberList}">
+                    <ListView x:Name="ParticipantsList" ItemsSource="{Binding DetailMemberList}">
                         <ListView.ItemTemplate >
                             <DataTemplate>
                                 <Grid Margin="0" Width="100" >
@@ -98,7 +98,7 @@
                                         <Button
                                             Style="{StaticResource MaterialDesignFlatMidBgButton}"
                                             ToolTip="MaterialDesignFlatMidButton" Content="XÓA"
-                                            Command="{Binding ElementName=ParticipantList, Path=DataContext.DeleteParticipantCommand}" CommandParameter="{Binding}">
+                                            Command="{Binding ElementName=ParticipantsList, Path=DataContext.DeleteParticipantCommand}" CommandParameter="{Binding}">
                                         </Button>
                                     </StackPanel>
                                 </Grid>
