@@ -41,7 +41,7 @@
                 <Border  CornerRadius="50 50 0 0"  BorderThickness="0" BorderBrush="Black" Height="100" Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}">
                     <TextBlock Text="DANH SÁCH ĐỊA DANH" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
                 </Border>
-                <ListView x:Name="PlaceList" ItemsSource="{Binding LocationList}" SelectedItem="{Binding SelectedLocation}">
+                <ListView x:Name="PlacesList" ItemsSource="{Binding LocationList}" SelectedItem="{Binding SelectedLocation}">
                     <ListView.ItemTemplate >
                         <DataTemplate>
                             <Grid Margin="0" Width="100" >
@@ -53,8 +53,8 @@
                                     <Image Source="{Binding ImageBytes, Converter={StaticResource ImageConverter}}" VerticalAlignment="Center" HorizontalAlignment="Left"></Image>
                                     <Button
                                         Style="{StaticResource MaterialDesignFlatMidBgButton}"
-                                        ToolTip="MaterialDesignFlatMidButton" Content="DELETE"
-                                        Command="{Binding ElementName=PlaceList, Path=DataContext.DeletePlaceCommand}" CommandParameter="{Binding}">
+                                        ToolTip="MaterialDesignFlatMidButton" Content="XÓA"
+                                        Command="{Binding ElementName=PlacesList, Path=DataContext.DeletePlaceCommand}" CommandParameter="{Binding}">
                                     </Button>
                                 </StackPanel>
                             </Grid>
@@ -122,7 +122,7 @@
                              VerticalAlignment="Center" Text="{Binding LocationDescription}" />
 
                     <ComboBox Grid.Row="1" Grid.Column="2" Margin="10"
-                      materialDesign:HintAssist.Hint="Search"
+                      materialDesign:HintAssist.Hint="Tìm kiếm"
                       materialDesign:HintAssist.HintOpacity=".26" SelectedItem="{Binding SelectedProvince}" ItemsSource="{Binding ProvinceList}"
                       IsEditable="True" DisplayMemberPath="Name">
                     </ComboBox>

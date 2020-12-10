@@ -47,9 +47,9 @@ namespace WeSplitApp
             }
         }
 
-        public bool DeleteMessage()
+        public bool ConfirmMessageDelete()
         {
-            MessageBoxResult result = MessageBox.Show("Are you sure to delete this ? the data will be delete permanently !", "WARNING", MessageBoxButton.OKCancel);
+            MessageBoxResult result = MessageBox.Show("Bạn có chắc chắn muốn xóa dữ liệu này ? Dữ liệu sẽ bị xóa vĩnh viễn !", "CẢNH BÁO", MessageBoxButton.OKCancel);
             if (result == MessageBoxResult.OK)
             {
                 return true;

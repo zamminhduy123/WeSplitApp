@@ -157,11 +157,11 @@ namespace WeSplitApp.ViewModels
                     {
                         listplace += "- " + journey.Name + "\n";
                     }
-                    MessageBox.Show("The following journeys arrive this location\n\n" + listplace + "\nPlease delete all of them to delete this location.");
+                    MessageBox.Show("Hiện tại đang có những chuyến đi sau đến địa điểm này\n\n" + listplace + "\nBạn cần xóa những chuyến đi này để có thể xóa địa điểm.");
                 }
                 else
                 {
-                    if (Global.GetInstance().DeleteMessage() == true)
+                    if (Global.GetInstance().ConfirmMessageDelete() == true)
                     {
                         DataProvider.Ins.DB.Locations.Remove(deleteItem);
                         LocationList.Remove(param);

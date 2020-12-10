@@ -111,13 +111,13 @@ namespace WeSplitApp.ViewModels
                 {
                     RouteName = "";
                     RouteDescription = "";
-                    AddOrUpdateRouteContent = "ADD";
+                    AddOrUpdateRouteContent = "THÊM";
                 }
                 else
                 {
                     RouteName = SelectedRoute.Name;
                     RouteDescription = SelectedRoute.Description;
-                    AddOrUpdateRouteContent = "UPDATE";
+                    AddOrUpdateRouteContent = "CẬP NHẬT";
                 }
                 OnPropertyChanged(); } }
 
@@ -130,14 +130,14 @@ namespace WeSplitApp.ViewModels
 
         public DetailUCViewModel()
         {
-            AddOrUpdateRouteContent = "ADD";
+            AddOrUpdateRouteContent = "THÊM";
             var value = ConfigurationManager.AppSettings["DetailTripId"];
             int DetailTripId = int.Parse(value);
             int JourneyId = DetailTripId;
             DetailJourney = DataProvider.Ins.DB.Journeys.Where(x => x.Id == JourneyId).FirstOrDefault();
 
             DeleteParticipantCommand = new RelayCommand<Member>((param) => { return true; }, (param) => {
-                if (Global.GetInstance().DeleteMessage() == true)
+                if (Global.GetInstance().ConfirmMessageDelete() == true)
                 {
                     DataProvider.Ins.DB.Journeys.Find(DetailJourney.Id).Members.Remove(param);
                     DataProvider.Ins.DB.Members.Find(param.Id).Journeys.Remove(DetailJourney);
@@ -210,7 +210,7 @@ namespace WeSplitApp.ViewModels
                 SelectedRoute = null;
             });
             DeleteRouteCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
-                if (Global.GetInstance().DeleteMessage() == true)
+                if (Global.GetInstance().ConfirmMessageDelete() == true)
                 {
                     int id = param.Id;
                     Route deleteroute = DataProvider.Ins.DB.Routes.Find(DetailJourney.Id, id);

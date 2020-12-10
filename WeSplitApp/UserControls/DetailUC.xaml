@@ -76,7 +76,7 @@
                     </Border>
                     <StackPanel Orientation="Horizontal">
                         <ComboBox Grid.Row="1" Grid.Column="2" Margin="10"
-                          materialDesign:HintAssist.Hint="Search member to add"
+                          materialDesign:HintAssist.Hint="Chọn thành viên để thêm vào"
                           materialDesign:HintAssist.HintOpacity=".26" SelectedItem="{Binding SelectedMember}" ItemsSource="{Binding MemberList}"
                           IsEditable="True" DisplayMemberPath="Name" Width="774">
                         </ComboBox>
@@ -85,7 +85,7 @@
                             Style="{StaticResource MaterialDesignRaisedAccentButton}"
                             Width="150"
                             ToolTip="Resource name: MaterialDesignRaisedAccentButton"
-                            materialDesign:RippleAssist.Feedback="#DD000000" Command="{Binding AddParticipantCommand}" Content="ADD">
+                            materialDesign:RippleAssist.Feedback="#DD000000" Command="{Binding AddParticipantCommand}" Content="THÊM">
                         </Button>
                     </StackPanel>
                     <ListView x:Name="ParticipantList" ItemsSource="{Binding DetailMemberList}">
@@ -97,7 +97,7 @@
                                         <TextBlock Text="{Binding Phone}" FontSize="10" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
                                         <Button
                                             Style="{StaticResource MaterialDesignFlatMidBgButton}"
-                                            ToolTip="MaterialDesignFlatMidButton" Content="DELETE"
+                                            ToolTip="MaterialDesignFlatMidButton" Content="XÓA"
                                             Command="{Binding ElementName=ParticipantList, Path=DataContext.DeleteParticipantCommand}" CommandParameter="{Binding}">
                                         </Button>
                                     </StackPanel>
@@ -122,7 +122,7 @@
                     </Border>
                     <StackPanel Orientation="Horizontal">
                         <TextBox Grid.Row="1" Grid.Column="2" Margin="10"
-                          materialDesign:HintAssist.Hint="Name"
+                          materialDesign:HintAssist.Hint="Tên"
                           materialDesign:HintAssist.HintOpacity=".26" Width="747" Text="{Binding RouteName}" FontSize="20"></TextBox>
                         <Button
                             Margin="0 10 0 0"
@@ -133,9 +133,9 @@
                         </Button>
                     </StackPanel>
                     <TextBox TextWrapping="Wrap" AcceptsReturn="True" Grid.Row="1" Grid.Column="2" Margin="10"
-                          materialDesign:HintAssist.Hint="Description"
+                          materialDesign:HintAssist.Hint="Mô tả"
                           materialDesign:HintAssist.HintOpacity=".26" Height="89" Text="{Binding RouteDescription}" FontSize="20"/>
-                    <ListView x:Name="RouteList" ItemsSource="{Binding DetailRouteList}" SelectedItem="{Binding SelectedRoute}">
+                    <ListView x:Name="RoutesList" ItemsSource="{Binding DetailRouteList}" SelectedItem="{Binding SelectedRoute}">
                         <ListView.ItemTemplate >
                             <DataTemplate>
                                 <Grid Margin="0" Width="100" >
@@ -144,8 +144,8 @@
                                         <TextBlock Text="{Binding Description}" FontSize="10" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
                                         <Button
                                             Style="{StaticResource MaterialDesignFlatMidBgButton}"
-                                            ToolTip="MaterialDesignFlatMidButton" Content="DELETE"
-                                            Command="{Binding ElementName=RouteList, Path=DataContext.DeleteRouteCommand}" CommandParameter="{Binding}">
+                                            ToolTip="MaterialDesignFlatMidButton" Content="XÓA"
+                                            Command="{Binding ElementName=RoutesList, Path=DataContext.DeleteRouteCommand}" CommandParameter="{Binding}">
                                         </Button>
                                     </StackPanel>
                                 </Grid>
