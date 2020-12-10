@@ -41,7 +41,7 @@
                 <Border  CornerRadius="50 50 0 0"  BorderThickness="0" BorderBrush="Black" Height="100" Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}">
                     <TextBlock Text="DANH SÁCH ĐỊA DANH" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
                 </Border>
-                <ListView x:Name="PlaceList" ItemsSource="{Binding LocationList}" SelectedItem="{Binding SelectedLocation}">
+                <ListView x:Name="PlacesList" ItemsSource="{Binding LocationList}" SelectedItem="{Binding SelectedLocation}">
                     <ListView.ItemTemplate >
                         <DataTemplate>
                             <Grid Margin="0" Width="100" >
@@ -54,7 +54,7 @@
                                     <Button
                                         Style="{StaticResource MaterialDesignFlatMidBgButton}"
                                         ToolTip="MaterialDesignFlatMidButton" Content="DELETE"
-                                        Command="{Binding ElementName=PlaceList, Path=DataContext.DeletePlaceCommand}" CommandParameter="{Binding}">
+                                        Command="{Binding ElementName=PlacesList, Path=DataContext.DeletePlaceCommand}" CommandParameter="{Binding}">
                                     </Button>
                                 </StackPanel>
                             </Grid>
