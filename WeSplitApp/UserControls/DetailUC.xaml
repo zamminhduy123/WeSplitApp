@@ -50,12 +50,12 @@
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                 <materialDesign:PackIcon Kind="Calendar" Width="60" Height="60" />
                                 <TextBlock Margin="10 0 0 0" Foreground="Red" Text="NGÀY ĐI: " FontSize="40" VerticalAlignment="Center" FontWeight="Medium"></TextBlock>
-                                <TextBlock Margin="10 0 0 0" Foreground="Red" Text="{Binding StartDate}" FontSize="40" VerticalAlignment="Center" FontWeight="Medium"></TextBlock>
+                                <DatePicker SelectedDate="{Binding StartDate}" Margin="10 0 0 0" Foreground="Red" FontSize="40" VerticalAlignment="Center" FontWeight="Medium" SelectedDateFormat="Short"></DatePicker>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0 20 0 0" HorizontalAlignment="Center">
                                 <materialDesign:PackIcon Kind="Calendar" Width="60" Height="60" />
                                 <TextBlock Margin="10 0 0 0" Foreground="#03254c" Text="NGÀY VỀ: " FontSize="40" VerticalAlignment="Center" FontWeight="Medium"></TextBlock>
-                                <TextBlock Margin="10 0 0 0" Foreground="#03254c" Text="{Binding EndDate}" FontSize="40" VerticalAlignment="Center" FontWeight="Medium"></TextBlock>
+                                <DatePicker SelectedDate="{Binding EndDate}" Margin="10 0 0 0" Foreground="#03254c" FontSize="40" VerticalAlignment="Center" FontWeight="Medium" SelectedDateFormat="Short"></DatePicker>
                             </StackPanel>
                         </StackPanel>
                     </Grid>
@@ -74,13 +74,32 @@
                     <Border  CornerRadius="50 50 0 0"  BorderThickness="0" BorderBrush="Black" Height="100" Background="#03254c">
                         <TextBlock Text="THÀNH VIÊN THAM GIA" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
                     </Border>
-                    <ListView ItemsSource="{Binding DetailMemberList}">
+                    <StackPanel Orientation="Horizontal">
+                        <ComboBox Grid.Row="1" Grid.Column="2" Margin="10"
+                          materialDesign:HintAssist.Hint="Chọn thành viên để thêm vào"
+                          materialDesign:HintAssist.HintOpacity=".26" SelectedItem="{Binding SelectedMember}" ItemsSource="{Binding MemberList}"
+                          IsEditable="True" DisplayMemberPath="Name" Width="774">
+                        </ComboBox>
+                        <Button
+                            Margin="0 10 0 0"
+                            Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                            Width="150"
+                            ToolTip="Resource name: MaterialDesignRaisedAccentButton"
+                            materialDesign:RippleAssist.Feedback="#DD000000" Command="{Binding AddParticipantCommand}" Content="THÊM">
+                        </Button>
+                    </StackPanel>
+                    <ListView x:Name="ParticipantsList" ItemsSource="{Binding DetailMemberList}">
                         <ListView.ItemTemplate >
                             <DataTemplate>
                                 <Grid Margin="0" Width="100" >
                                     <StackPanel Orientation="Vertical">
                                         <TextBlock Text="{Binding Name}" FontSize="12" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
                                         <TextBlock Text="{Binding Phone}" FontSize="10" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                                        <Button
+                                            Style="{StaticResource MaterialDesignFlatMidBgButton}"
+                                            ToolTip="MaterialDesignFlatMidButton" Content="XÓA"
+                                            Command="{Binding ElementName=ParticipantsList, Path=DataContext.DeleteParticipantCommand}" CommandParameter="{Binding}">
+                                        </Button>
                                     </StackPanel>
                                 </Grid>
                             </DataTemplate>
@@ -101,13 +120,33 @@
                     <Border  CornerRadius="50 50 0 0"   Height="100" Background="#03254c" >
                         <TextBlock Text="LỘ TRÌNH CHUYẾN ĐI" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
                     </Border>
-                    <ListView ItemsSource="{Binding DetailRouteList}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Grid.Row="1" Grid.Column="2" Margin="10"
+                          materialDesign:HintAssist.Hint="Tên"
+                          materialDesign:HintAssist.HintOpacity=".26" Width="747" Text="{Binding RouteName}" FontSize="20"></TextBox>
+                        <Button
+                            Margin="0 10 0 0"
+                            Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                            Width="150"
+                            ToolTip="Resource name: MaterialDesignRaisedAccentButton"
+                            materialDesign:RippleAssist.Feedback="#DD000000" Command="{Binding AddRouteCommand}" Content="{Binding AddOrUpdateRouteContent}">
+                        </Button>
+                    </StackPanel>
+                    <TextBox TextWrapping="Wrap" AcceptsReturn="True" Grid.Row="1" Grid.Column="2" Margin="10"
+                          materialDesign:HintAssist.Hint="Mô tả"
+                          materialDesign:HintAssist.HintOpacity=".26" Height="89" Text="{Binding RouteDescription}" FontSize="20"/>
+                    <ListView x:Name="RoutesList" ItemsSource="{Binding DetailRouteList}" SelectedItem="{Binding SelectedRoute}">
                         <ListView.ItemTemplate >
                             <DataTemplate>
                                 <Grid Margin="0" Width="100" >
                                     <StackPanel Orientation="Vertical">
                                         <TextBlock Text="{Binding Name}" FontSize="12   " Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
                                         <TextBlock Text="{Binding Description}" FontSize="10" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                                        <Button
+                                            Style="{StaticResource MaterialDesignFlatMidBgButton}"
+                                            ToolTip="MaterialDesignFlatMidButton" Content="XÓA"
+                                            Command="{Binding ElementName=RoutesList, Path=DataContext.DeleteRouteCommand}" CommandParameter="{Binding}">
+                                        </Button>
                                     </StackPanel>
                                 </Grid>
                             </DataTemplate>
