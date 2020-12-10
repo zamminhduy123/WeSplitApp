@@ -28,5 +28,6 @@ namespace WeSplitApp.UserControls
             InitializeComponent();
             this.DataContext = Viewmodel = new PlacesUCViewModel();
         }
+
     }
 }
