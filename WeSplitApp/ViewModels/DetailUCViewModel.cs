@@ -21,7 +21,7 @@ namespace WeSplitApp.ViewModels
 
                 // get Routes list
                 DetailRouteList = new AsyncObservableCollection<dynamic>();
-                foreach (var route in DetailJourney.Routes)
+                foreach (var route in DetailJourney.Routes.OrderBy(t => t.OrderNumber))
                 {
                     dynamic tmp = new { 
                         Id = route.OrderNumber,
@@ -88,18 +88,49 @@ namespace WeSplitApp.ViewModels
                 OnPropertyChanged(); } }
 
         private string _endDate;
-        public string EndDate { get => _endDate; set { _endDate = value; OnPropertyChanged(); } }
+        public string EndDate { get => _endDate; set { _endDate = value;
+                DataProvider.Ins.DB.Journeys.Find(DetailJourney.Id).Arrival = Convert.ToDateTime(EndDate);
+                DataProvider.Ins.DB.SaveChanges();
+                OnPropertyChanged(); } }
 
         private BitmapImage _cover;
         public BitmapImage Cover { get => _cover; set { _cover = value; OnPropertyChanged(); } }
+
+        private string _routeName;
+        public string RouteName { get => _routeName; set { _routeName = value; OnPropertyChanged(); } }
+
+        private string _routeDescription;
+        public string RouteDescription { get => _routeDescription; set { _routeDescription = value; OnPropertyChanged(); } }
+
+        private string _addOrUpdateRouteContent;
+        public string AddOrUpdateRouteContent { get => _addOrUpdateRouteContent; set { _addOrUpdateRouteContent = value; OnPropertyChanged(); } }
+
+        private dynamic _selectedRoute;
+        public dynamic SelectedRoute { get => _selectedRoute; set { _selectedRoute = value;
+                if (SelectedRoute == null)
+                {
+                    RouteName = "";
+                    RouteDescription = "";
+                    AddOrUpdateRouteContent = "ADD";
+                }
+                else
+                {
+                    RouteName = SelectedRoute.Name;
+                    RouteDescription = SelectedRoute.Description;
+                    AddOrUpdateRouteContent = "UPDATE";
+                }
+                OnPropertyChanged(); } }
 
         //Commands
         public ICommand CloseWindowCommand { get; set; }
         public ICommand DeleteParticipantCommand { get; set; }
         public ICommand AddParticipantCommand { get; set; }
+        public ICommand AddRouteCommand { get; set; }
+        public ICommand DeleteRouteCommand { get; set; }
 
         public DetailUCViewModel()
         {
+            AddOrUpdateRouteContent = "ADD";
             var value = ConfigurationManager.AppSettings["DetailTripId"];
             int DetailTripId = int.Parse(value);
             int JourneyId = DetailTripId;
@@ -131,8 +162,63 @@ namespace WeSplitApp.ViewModels
                 DataProvider.Ins.DB.Journeys.Find(DetailJourney.Id).Members.Add(SelectedMember);
                 DataProvider.Ins.DB.Members.Find(SelectedMember.Id).Journeys.Add(DetailJourney);
                 MemberList.Remove(SelectedMember);
-                var x = DataProvider.Ins.DB.Members.ToList();
                 DataProvider.Ins.DB.SaveChanges();
+            });
+
+            AddRouteCommand = new RelayCommand<object>((param) => { return true; }, (param) => {
+                if (RouteName == null || RouteName == "")
+                {
+                    MessageBox.Show("Please enter route name");
+                    return;
+                }
+                if (SelectedRoute == null)
+                {
+                    DataProvider.Ins.DB.Routes.Add(new Route { 
+                        JourneyId = DetailJourney.Id,
+                        OrderNumber = DetailJourney.Routes.Max(x => x.OrderNumber) + 1,
+                        Name = RouteName,
+                        Description=RouteDescription,
+                    });
+                    DataProvider.Ins.DB.SaveChanges();
+                    dynamic tmp = new
+                    {
+                        Id = DetailJourney.Routes.Max(x => x.OrderNumber),
+                        Name = RouteName,
+                        Description = RouteDescription,
+                    };
+                    DetailRouteList.Add(tmp);
+                }
+                else // update exist route
+                {
+                    int id = SelectedRoute.Id;
+                    Route tmp = DataProvider.Ins.DB.Routes.Find(DetailJourney.Id, id);
+                    tmp.Name = RouteName;
+                    tmp.Description = RouteDescription;
+                    DataProvider.Ins.DB.SaveChanges();
+                    DetailRouteList = new AsyncObservableCollection<dynamic>();
+                    foreach (var route in DetailJourney.Routes.OrderBy(t => t.OrderNumber))
+                    {
+                        dynamic tmp2 = new
+                        {
+                            Id = route.OrderNumber,
+                            Name = route.Name,
+                            Description = route.Description,
+                        };
+                        DetailRouteList.Add(tmp2);
+                    }
+                }
+                SelectedRoute = null;
+            });
+            DeleteRouteCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
+                if (Global.GetInstance().DeleteMessage() == true)
+                {
+                    int id = param.Id;
+                    Route deleteroute = DataProvider.Ins.DB.Routes.Find(DetailJourney.Id, id);
+                    DataProvider.Ins.DB.Routes.Remove(deleteroute);
+                    DataProvider.Ins.DB.SaveChanges();
+
+                    DetailRouteList.Remove(param);
+                }
             });
         }
 
