@@ -79,7 +79,12 @@
                     <!--Background = "{Binding Source={StaticResource themeColor},Path=ThemeColor}"--> 
                     <TextBlock Text="CHUYẾN ĐI HIỆN TẠI" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
                 </Border>
-                <ListView ItemsSource="{Binding CurrentTripList}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListView ItemsSource="{Binding CurrentTripList}" SelectedItem="{Binding SelectedTrip}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding SelectTripCommand}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                     <ListView.ItemTemplate >
                         <DataTemplate>
                             <Grid Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}},Path=ActualWidth}">

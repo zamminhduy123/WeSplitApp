@@ -33,5 +33,6 @@ namespace WeSplitApp.Models
         public virtual DbSet<Photo> Photos { get; set; }
         public virtual DbSet<Province> Provinces { get; set; }
         public virtual DbSet<Route> Routes { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
     }
 }

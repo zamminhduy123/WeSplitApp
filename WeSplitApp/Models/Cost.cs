@@ -24,9 +24,11 @@ namespace WeSplitApp.Models
         private int _journeyId;
         public int JourneyId { get => _journeyId; set { _journeyId = value; OnPropertyChanged(); } }
 
-
         private int _orderNumber;
         public int OrderNumber { get => _orderNumber; set { _orderNumber = value; OnPropertyChanged(); } }
+
+        private Nullable<int> _fees;
+        public Nullable<int> Fees { get => _fees; set { _fees = value; OnPropertyChanged(); } }
 
         private string _content;
         public string Content { get => _content; set { _content = value; OnPropertyChanged(); } }

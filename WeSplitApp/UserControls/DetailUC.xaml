@@ -6,8 +6,8 @@
              xmlns:local="clr-namespace:WeSplitApp.UserControls"
              xmlns:xlocal="clr-namespace:WeSplitApp"
         
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
          TextOptions.TextFormattingMode="Ideal"
          TextOptions.TextRenderingMode="Auto"
          FontFamily="{DynamicResource MaterialDesignFont}"
@@ -22,7 +22,7 @@
                       MethodName="GetInstance" />
     </UserControl.Resources>
 
-    <TabControl TabStripPlacement="Top"  Margin="10" Background="Transparent" BorderBrush="Transparent" >
+    <TabControl TabStripPlacement="Top"  Margin="10" Background="Transparent" BorderBrush="Transparent" SelectedItem="{Binding SelectedTab}" >
         <TabItem  Header="Thời gian" FontSize="45" FontWeight="Medium" Style="{StaticResource customTabItem}" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Grid>
                 <Grid.RowDefinitions>
@@ -58,7 +58,7 @@
                         <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                 <TextBlock Margin="10 0 0 0" Foreground="Red" Text="NGÀY ĐI : " FontSize="40" VerticalAlignment="Center" FontWeight="Medium"></TextBlock>
-                                <DatePicker SelectedDate="{Binding StartDate}" Margin="10 0 0 0" Foreground="Red" FontSize="35" HorizontalContentAlignment="Center"   VerticalAlignment="Center" FontWeight="Medium" SelectedDateFormat="Short" Width="250"></DatePicker>
+                                <DatePicker SelectedDate="{Binding StartDate, StringFormat='dd/mm/yyyy'}" Margin="10 0 0 0" Foreground="Red" FontSize="35" HorizontalContentAlignment="Center"   VerticalAlignment="Center" FontWeight="Medium" SelectedDateFormat="Short" Width="250"></DatePicker>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0 20 0 0" HorizontalAlignment="Center">
                                 <TextBlock Margin="10 0 0 0" Foreground="#03254c" Text="NGÀY VỀ: " FontSize="40" VerticalAlignment="Center" FontWeight="Medium"></TextBlock>
@@ -175,6 +175,11 @@
 
 
         </TabItem>
+
+        <TabItem Header="Thu chi" FontSize="45" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Medium" Style="{StaticResource customTabItem}">
+            
+        </TabItem>
+
 
         <TabItem Header="Tổng kết" FontSize="45" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Medium" Style="{StaticResource customTabItem}">
             <!-- Summary -->
