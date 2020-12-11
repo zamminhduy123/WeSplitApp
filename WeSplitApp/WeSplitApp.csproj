@@ -75,9 +75,6 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Dragablz, Version=0.0.3.223, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dragablz.0.0.3.223\lib\net45\Dragablz.dll</HintPath>
-    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -190,6 +187,9 @@
     <Compile Include="UserControls\HomeUC.xaml.cs">
       <DependentUpon>HomeUC.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\MemebersUC.xaml.cs">
+      <DependentUpon>MemebersUC.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\PlacesUC.xaml.cs">
       <DependentUpon>PlacesUC.xaml</DependentUpon>
     </Compile>
@@ -201,6 +201,7 @@
     <Compile Include="ViewModels\DetailUCViewModel.cs" />
     <Compile Include="ViewModels\HomeUCViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\MembersUCViewModel.cs" />
     <Compile Include="ViewModels\PlacesUCViewModel.cs" />
     <Compile Include="ViewModels\SplashScreenViewModel.cs" />
     <Compile Include="ViewModels\ThemeUCViewModel.cs" />
@@ -239,6 +240,10 @@
     <Page Include="UserControls\HomeUC.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\MemebersUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\PlacesUC.xaml">
       <SubType>Designer</SubType>

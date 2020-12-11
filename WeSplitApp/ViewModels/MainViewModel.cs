@@ -93,6 +93,7 @@ namespace WeSplitApp.ViewModels
             {
                 ResetAllPanelColor();
                 AddMemberColor = global.ThemeColor;
+                global.CurrentPageViewModel = new MembersUCViewModel();
 
             });
             SettingCommand = new RelayCommand<object>((param) => { return true; }, (param) =>

@@ -67,7 +67,7 @@ namespace WeSplitApp
         Global()
         {
             CurrentPageViewModel = new HomeUCViewModel();
-            ThemeColor = "#03254c";
+            ThemeColor = "#03a9f4";
         }
     }
 }

@@ -8,4 +8,5 @@
     <viewmodel:PlacesUCViewModel x:Key="PUCVM"/>
     <viewmodel:ThemeUCViewModel x:Key="TUCVM"/>
     <viewmodel:SplashScreenViewModel x:Key="SSVM"/>
+    <viewmodel:MembersUCViewModel x:Key="MUCVM"/>
 </ResourceDictionary>
