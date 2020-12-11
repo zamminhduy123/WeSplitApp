@@ -105,20 +105,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_expense_cost">
-          <End Role="Cost" Type="Self.Cost" Multiplicity="1" />
-          <End Role="Expense" Type="Self.Expense" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Cost">
-              <PropertyRef Name="JourneyId" />
-              <PropertyRef Name="OrderNumber" />
-            </Principal>
-            <Dependent Role="Expense">
-              <PropertyRef Name="JourneyId" />
-              <PropertyRef Name="OrderNumber" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_expense_journey">
           <End Role="Journey" Type="Self.Journey" Multiplicity="1" />
           <End Role="Expense" Type="Self.Expense" Multiplicity="*" />
@@ -229,10 +215,6 @@
             <End Role="Journey" EntitySet="Journey" />
             <End Role="Cost" EntitySet="Cost" />
           </AssociationSet>
-          <AssociationSet Name="fk_expense_cost" Association="Self.fk_expense_cost">
-            <End Role="Cost" EntitySet="Cost" />
-            <End Role="Expense" EntitySet="Expense" />
-          </AssociationSet>
           <AssociationSet Name="fk_expense_journey" Association="Self.fk_expense_journey">
             <End Role="Journey" EntitySet="Journey" />
             <End Role="Expense" EntitySet="Expense" />
@@ -280,7 +262,6 @@
           <Property Name="OrderNumber" Type="Int32" Nullable="false" />
           <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Journey" Relationship="Self.fk_cost_journey" FromRole="Cost" ToRole="Journey" />
-          <NavigationProperty Name="Expenses" Relationship="Self.fk_expense_cost" FromRole="Cost" ToRole="Expense" />
         </EntityType>
         <EntityType Name="Expense">
           <Key>
@@ -294,7 +275,6 @@
           <Property Name="Fees" Type="Int32" />
           <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Times" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="Cost" Relationship="Self.fk_expense_cost" FromRole="Expense" ToRole="Cost" />
           <NavigationProperty Name="Journey" Relationship="Self.fk_expense_journey" FromRole="Expense" ToRole="Journey" />
           <NavigationProperty Name="Member" Relationship="Self.fk_expense_member" FromRole="Expense" ToRole="Member" />
         </EntityType>
@@ -378,20 +358,6 @@
             </Principal>
             <Dependent Role="Cost">
               <PropertyRef Name="JourneyId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_expense_cost">
-          <End Role="Cost" Type="Self.Cost" Multiplicity="1" />
-          <End Role="Expense" Type="Self.Expense" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Cost">
-              <PropertyRef Name="JourneyId" />
-              <PropertyRef Name="OrderNumber" />
-            </Principal>
-            <Dependent Role="Expense">
-              <PropertyRef Name="JourneyId" />
-              <PropertyRef Name="OrderNumber" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -483,10 +449,6 @@
           <AssociationSet Name="fk_cost_journey" Association="Self.fk_cost_journey">
             <End Role="Journey" EntitySet="Journeys" />
             <End Role="Cost" EntitySet="Costs" />
-          </AssociationSet>
-          <AssociationSet Name="fk_expense_cost" Association="Self.fk_expense_cost">
-            <End Role="Cost" EntitySet="Costs" />
-            <End Role="Expense" EntitySet="Expenses" />
           </AssociationSet>
           <AssociationSet Name="fk_expense_journey" Association="Self.fk_expense_journey">
             <End Role="Journey" EntitySet="Journeys" />
