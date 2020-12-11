@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\ASUS\Desktop\WeSplitApp\WeSplitApp\Models\Model1.edmx'. 
+﻿// T4 code generation is enabled for model 'D:\Bài học\Năm 3 HK 1\Lập trình WINDOW\Clone project\WeSplitApp\WeSplitApp\Models\Model1.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

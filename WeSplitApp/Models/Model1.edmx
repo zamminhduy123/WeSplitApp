@@ -119,6 +119,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_expense_journey">
+          <End Role="Journey" Type="Self.Journey" Multiplicity="1" />
+          <End Role="Expense" Type="Self.Expense" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Journey">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Expense">
+              <PropertyRef Name="JourneyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_expense_member">
           <End Role="Member" Type="Self.Member" Multiplicity="1" />
           <End Role="Expense" Type="Self.Expense" Multiplicity="*" />
@@ -221,6 +233,10 @@
             <End Role="Cost" EntitySet="Cost" />
             <End Role="Expense" EntitySet="Expense" />
           </AssociationSet>
+          <AssociationSet Name="fk_expense_journey" Association="Self.fk_expense_journey">
+            <End Role="Journey" EntitySet="Journey" />
+            <End Role="Expense" EntitySet="Expense" />
+          </AssociationSet>
           <AssociationSet Name="fk_expense_member" Association="Self.fk_expense_member">
             <End Role="Member" EntitySet="Member" />
             <End Role="Expense" EntitySet="Expense" />
@@ -279,6 +295,7 @@
           <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Times" Type="DateTime" Precision="0" />
           <NavigationProperty Name="Cost" Relationship="Self.fk_expense_cost" FromRole="Expense" ToRole="Cost" />
+          <NavigationProperty Name="Journey" Relationship="Self.fk_expense_journey" FromRole="Expense" ToRole="Journey" />
           <NavigationProperty Name="Member" Relationship="Self.fk_expense_member" FromRole="Expense" ToRole="Member" />
         </EntityType>
         <EntityType Name="Journey">
@@ -292,6 +309,7 @@
           <Property Name="Departure" Type="DateTime" Precision="0" />
           <Property Name="Arrival" Type="DateTime" Precision="0" />
           <NavigationProperty Name="Costs" Relationship="Self.fk_cost_journey" FromRole="Journey" ToRole="Cost" />
+          <NavigationProperty Name="Expenses" Relationship="Self.fk_expense_journey" FromRole="Journey" ToRole="Expense" />
           <NavigationProperty Name="Location" Relationship="Self.fk_journey_location" FromRole="Journey" ToRole="Location" />
           <NavigationProperty Name="Photos" Relationship="Self.fk_photo_journey" FromRole="Journey" ToRole="Photo" />
           <NavigationProperty Name="Routes" Relationship="Self.fk_route_journey" FromRole="Journey" ToRole="Route" />
@@ -377,6 +395,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_expense_journey">
+          <End Role="Journey" Type="Self.Journey" Multiplicity="1" />
+          <End Role="Expense" Type="Self.Expense" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Journey">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Expense">
+              <PropertyRef Name="JourneyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_expense_member">
           <End Role="Member" Type="Self.Member" Multiplicity="1" />
           <End Role="Expense" Type="Self.Expense" Multiplicity="*" />
@@ -456,6 +486,10 @@
           </AssociationSet>
           <AssociationSet Name="fk_expense_cost" Association="Self.fk_expense_cost">
             <End Role="Cost" EntitySet="Costs" />
+            <End Role="Expense" EntitySet="Expenses" />
+          </AssociationSet>
+          <AssociationSet Name="fk_expense_journey" Association="Self.fk_expense_journey">
+            <End Role="Journey" EntitySet="Journeys" />
             <End Role="Expense" EntitySet="Expenses" />
           </AssociationSet>
           <AssociationSet Name="fk_expense_member" Association="Self.fk_expense_member">
