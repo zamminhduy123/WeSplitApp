@@ -38,6 +38,10 @@
             <uc:PlacesUC DataContext="{Binding}"/>
             <!-- This is a UserControl -->
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:MembersUCViewModel}">
+            <uc:MemebersUC DataContext="{Binding}"/>
+            <!-- This is a UserControl -->
+        </DataTemplate>
         <DataTemplate DataType="{x:Type viewmodels:ThemeUCViewModel}">
             <uc:ThemeUC DataContext="{Binding}"/>
             <!-- This is a UserControl -->
