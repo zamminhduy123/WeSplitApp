@@ -232,6 +232,10 @@ namespace WeSplitApp.ViewModels
             DeleteParticipantCommand = new RelayCommand<Member>((param) => { return true; }, (param) => {
                 if (Global.GetInstance().ConfirmMessageDelete() == true)
                 {
+                    foreach (var expense in DataProvider.Ins.DB.Expenses.Where(x => x.JourneyId == DetailJourney.Id && x.MemberId == param.Id))
+                    {
+                        DataProvider.Ins.DB.Expenses.Remove(expense);
+                    }
                     DataProvider.Ins.DB.Journeys.Find(DetailJourney.Id).Members.Remove(param);
                     DataProvider.Ins.DB.Members.Find(param.Id).Journeys.Remove(DetailJourney);
                     DataProvider.Ins.DB.SaveChanges();
