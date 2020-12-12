@@ -137,21 +137,90 @@ namespace WeSplitApp.ViewModels
                 }
                 if (SelectedTab.Header == "Thu chi")
                 {
+                    // đọc danh sách thành viên tham gia chuyến đi
+                    PaticipantsList = new AsyncObservableCollection<Member>();
+                    foreach (var member in DetailJourney.Members)
+                    {
+                        PaticipantsList.Add(member);
+                    }
 
+                    // đọc danh sách các khoản thu
+                    InFeesList = new AsyncObservableCollection<dynamic>();
+                    foreach (var fee in DetailJourney.Expenses)
+                    {
+                        dynamic tmp = new
+                        {
+                            Id = fee.OrderNumber,
+                            MemberId = fee.MemberId,
+                            Name = fee.Member.Name,
+                            Fees = (fee.Fees == null) ? 0 : fee.Fees.Value,
+                        };
+                        InFeesList.Add(tmp);
+                    }
+
+                    // đọc danh sách các khoản chi
+                    OutFeesList = new AsyncObservableCollection<dynamic>();
+                    foreach (var fee in DetailJourney.Costs)
+                    {
+                        dynamic tmp = new
+                        {
+                            Id = fee.OrderNumber,
+                            Name = fee.Content,
+                            Fees = (fee.Fees == null) ? 0 : fee.Fees.Value,
+                        };
+                        OutFeesList.Add(tmp);
+                    }
                 }
                 if (SelectedTab.Header == "Tổng kết")
                 {
 
                 }
                 OnPropertyChanged(); } }
+           
+        // Thu chi
+            //danh sách thành viên tham gia chuyến đi
+        private AsyncObservableCollection<Member> _paticipantsList;
+        public AsyncObservableCollection<Member> PaticipantsList { get => _paticipantsList; set { _paticipantsList = value; OnPropertyChanged(); } }
+            
+            // thành viên đc chọn để thu tiền
+        private Member _selectedInFeeMember;
+        public Member SelectedInFeeMember { get => _selectedInFeeMember; set { _selectedInFeeMember = value; OnPropertyChanged(); } }
 
+            // Danh sách thành viên đã đóng tiền và số tiền đã đóng
+        private AsyncObservableCollection<dynamic> _inFeesList;
+        public AsyncObservableCollection<dynamic> InFeesList { get => _inFeesList; set { _inFeesList = value; OnPropertyChanged(); } }
+
+            // Số tiền thu vào
+        private string _inFee;
+        public string InFee { get => _inFee; set { _inFee = value; OnPropertyChanged(); } }
+
+            // danh sách khoản chi
+        private AsyncObservableCollection<dynamic> _outFeesList;
+        public AsyncObservableCollection<dynamic> OutFeesList { get => _outFeesList; set { _outFeesList = value; OnPropertyChanged(); } }
+            
+            // Tên khoản chi mới
+        private string _outFeeContent;
+        public string OutFeeContent { get => _outFeeContent; set { _outFeeContent = value; OnPropertyChanged(); } }
+
+            // Số tiền chi ra
+        private string _outFee;
+        public string OutFee { get => _outFee; set { _outFee = value; OnPropertyChanged(); } }
+
+            // Khoản chi đã chọn dưới danh sách
+        private dynamic _selectedOutFee;
+        public dynamic SelectedOutFee { get => _selectedOutFee; set { _selectedOutFee = value;
+                OutFeeContent = (SelectedOutFee == null) ? null : SelectedOutFee.Name;
+                OnPropertyChanged(); } }
         //Commands
         public ICommand CloseWindowCommand { get; set; }
         public ICommand DeleteParticipantCommand { get; set; }
         public ICommand AddParticipantCommand { get; set; }
         public ICommand AddRouteCommand { get; set; }
         public ICommand DeleteRouteCommand { get; set; }
-
+        public ICommand AddInFeeCommand { get; set; }
+        public ICommand DeleteInFeeCommand { get; set; }
+        public ICommand AddOutFeeCommand { get; set; }
+        public ICommand DeleteOutFeeCommand { get; set; }
         public DetailUCViewModel()
         {
             AddOrUpdateRouteContent = "THÊM";
@@ -234,6 +303,7 @@ namespace WeSplitApp.ViewModels
                 }
                 SelectedRoute = null;
             });
+            
             DeleteRouteCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
                 if (Global.GetInstance().ConfirmMessageDelete() == true)
                 {
@@ -243,6 +313,123 @@ namespace WeSplitApp.ViewModels
                     DataProvider.Ins.DB.SaveChanges();
 
                     DetailRouteList.Remove(param);
+                }
+            });
+
+            AddInFeeCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
+                if (SelectedInFeeMember == null)
+                {
+                    MessageBox.Show("Hãy chọn thành viên trước");
+                    return;
+                }
+                if (InFee == null || InFee == "")
+                {
+                    MessageBox.Show("Hãy nhập số tiền");
+                    return;
+                }
+                if (System.Text.RegularExpressions.Regex.IsMatch(InFee, "[^0-9]"))
+                {
+                    MessageBox.Show("Số tiền chỉ có thể nhập số");
+                    InFee = null;
+                    return;
+                }
+                Expense newexpense = new Expense
+                {
+                    JourneyId = DetailJourney.Id,
+                    MemberId = SelectedInFeeMember.Id,
+                    OrderNumber = DataProvider.Ins.DB.Expenses.Max(x => x.OrderNumber) + 1,
+                    Fees = int.Parse(InFee),
+                };
+                DataProvider.Ins.DB.Expenses.Add(newexpense);
+                DataProvider.Ins.DB.SaveChanges();
+                dynamic tmp = new
+                {
+                    Id = newexpense.OrderNumber,
+                    MemberId =  newexpense.MemberId,
+                    Name = newexpense.Member.Name,
+                    Fees = newexpense.Fees.Value,
+                };
+                InFeesList.Add(tmp);
+
+                SelectedInFeeMember = null;
+                InFee = null;
+            });
+
+            DeleteInFeeCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
+                if (Global.GetInstance().ConfirmMessageDelete() == true)
+                {
+                    Expense deleteExpense = DataProvider.Ins.DB.Expenses.Find(DetailJourney.Id, param.Id, param.MemberId);
+                    DataProvider.Ins.DB.Expenses.Remove(deleteExpense);
+                    DataProvider.Ins.DB.SaveChanges();
+                    InFeesList.Remove(param);
+                }
+            });
+
+            AddOutFeeCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
+                if (OutFeeContent == null || OutFeeContent == "")
+                {
+                    MessageBox.Show("Hãy nhập khoản chi trước");
+                    OutFeeContent = null;
+                    return;
+                }
+                if (OutFee == null || OutFee == "")
+                {
+                    MessageBox.Show("Hãy nhập số tiền");
+                    return;
+                }
+                if (System.Text.RegularExpressions.Regex.IsMatch(OutFee, "[^0-9]"))
+                {
+                    MessageBox.Show("Số tiền chỉ có thể nhập số");
+                    OutFee = null;
+                    return;
+                }
+                if (DetailJourney.Costs.Where(x => x.Content.ToUpper() == OutFeeContent.ToUpper()).Count() != 0)
+                {
+                    int id = DetailJourney.Costs.First(x => x.Content.ToUpper() == OutFeeContent.ToUpper()).OrderNumber;
+                    Cost tmpCost = DataProvider.Ins.DB.Costs.Find(DetailJourney.Id, id);
+                    tmpCost.Fees = ((tmpCost.Fees == null) ? 0 : tmpCost.Fees.Value) + int.Parse(OutFee);
+                    OutFeesList = new AsyncObservableCollection<dynamic>();
+                    foreach (var fee in DetailJourney.Costs)
+                    {
+                        dynamic tmp = new
+                        {
+                            Id = fee.OrderNumber,
+                            Name = fee.Content,
+                            Fees = (fee.Fees == null) ? 0 : fee.Fees.Value,
+                        };
+                        OutFeesList.Add(tmp);
+                    }
+                }
+                else
+                {
+                    Cost newCost = new Cost
+                    {
+                        JourneyId = DetailJourney.Id,
+                        OrderNumber = DataProvider.Ins.DB.Costs.Max(x => x.OrderNumber) + 1,
+                        Content = OutFeeContent,
+                        Fees = int.Parse(OutFee),
+                    };
+                    DataProvider.Ins.DB.Costs.Add(newCost);
+                    dynamic tmp = new
+                    {
+                        Id = newCost.OrderNumber,
+                        Name = newCost.Content,
+                        Fees = newCost.Fees.Value,
+                    };
+                    OutFeesList.Add(tmp);
+                }
+                DataProvider.Ins.DB.SaveChanges();
+                OutFeeContent = null;
+                OutFee = null;
+            });
+
+            DeleteOutFeeCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
+                if (Global.GetInstance().ConfirmMessageDelete() == true)
+                {
+                    Cost deleteCost = DetailJourney.Costs.First(x => x.OrderNumber == param.Id);
+                    DataProvider.Ins.DB.Costs.Remove(deleteCost);
+                    DataProvider.Ins.DB.SaveChanges();
+                    OutFeesList.Remove(param);
                 }
             });
         }
