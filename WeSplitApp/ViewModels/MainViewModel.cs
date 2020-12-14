@@ -106,6 +106,7 @@ namespace WeSplitApp.ViewModels
             {
                 ResetAllPanelColor();
                 AboutColor = global.ThemeColor;
+                global.CurrentPageViewModel = new AboutUCViewModel();
             });
 
         }

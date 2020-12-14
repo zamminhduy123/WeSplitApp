@@ -9,4 +9,5 @@
     <viewmodel:ThemeUCViewModel x:Key="TUCVM"/>
     <viewmodel:SplashScreenViewModel x:Key="SSVM"/>
     <viewmodel:MembersUCViewModel x:Key="MUCVM"/>
+    <viewmodel:AboutUCViewModel x:Key="AVM"></viewmodel:AboutUCViewModel>
 </ResourceDictionary>

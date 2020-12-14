@@ -46,6 +46,10 @@
             <uc:ThemeUC DataContext="{Binding}"/>
             <!-- This is a UserControl -->
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:AboutUCViewModel}">
+            <uc:AboutUC DataContext="{Binding}"/>
+            <!-- This is a UserControl -->
+        </DataTemplate>
         <ObjectDataProvider x:Key="currentPage"
                       ObjectType="{x:Type local:Global}"
                       MethodName="GetInstance" />
