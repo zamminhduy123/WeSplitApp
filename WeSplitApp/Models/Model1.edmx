@@ -13,6 +13,7 @@
           <Property Name="JourneyId" Type="int" Nullable="false" />
           <Property Name="OrderNumber" Type="int" Nullable="false" />
           <Property Name="Content" Type="nvarchar(max)" />
+          <Property Name="Fees" Type="int" />
         </EntityType>
         <EntityType Name="Expense">
           <Key>
@@ -93,6 +94,16 @@
           <Property Name="Name" Type="nvarchar(max)" />
           <Property Name="Description" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
         <Association Name="fk_cost_journey">
           <End Role="Journey" Type="Self.Journey" Multiplicity="1" />
           <End Role="Cost" Type="Self.Cost" Multiplicity="*" />
@@ -105,17 +116,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_expense_cost">
-          <End Role="Cost" Type="Self.Cost" Multiplicity="1" />
+        <Association Name="fk_expense_journey">
+          <End Role="Journey" Type="Self.Journey" Multiplicity="1" />
           <End Role="Expense" Type="Self.Expense" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Cost">
-              <PropertyRef Name="JourneyId" />
-              <PropertyRef Name="OrderNumber" />
+            <Principal Role="Journey">
+              <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Expense">
               <PropertyRef Name="JourneyId" />
-              <PropertyRef Name="OrderNumber" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -213,12 +222,13 @@
           <EntitySet Name="Photo" EntityType="Self.Photo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Province" EntityType="Self.Province" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Route" EntityType="Self.Route" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="fk_cost_journey" Association="Self.fk_cost_journey">
             <End Role="Journey" EntitySet="Journey" />
             <End Role="Cost" EntitySet="Cost" />
           </AssociationSet>
-          <AssociationSet Name="fk_expense_cost" Association="Self.fk_expense_cost">
-            <End Role="Cost" EntitySet="Cost" />
+          <AssociationSet Name="fk_expense_journey" Association="Self.fk_expense_journey">
+            <End Role="Journey" EntitySet="Journey" />
             <End Role="Expense" EntitySet="Expense" />
           </AssociationSet>
           <AssociationSet Name="fk_expense_member" Association="Self.fk_expense_member">
@@ -263,8 +273,8 @@
           <Property Name="JourneyId" Type="Int32" Nullable="false" />
           <Property Name="OrderNumber" Type="Int32" Nullable="false" />
           <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Fees" Type="Int32" />
           <NavigationProperty Name="Journey" Relationship="Self.fk_cost_journey" FromRole="Cost" ToRole="Journey" />
-          <NavigationProperty Name="Expenses" Relationship="Self.fk_expense_cost" FromRole="Cost" ToRole="Expense" />
         </EntityType>
         <EntityType Name="Expense">
           <Key>
@@ -278,7 +288,7 @@
           <Property Name="Fees" Type="Int32" />
           <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Times" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="Cost" Relationship="Self.fk_expense_cost" FromRole="Expense" ToRole="Cost" />
+          <NavigationProperty Name="Journey" Relationship="Self.fk_expense_journey" FromRole="Expense" ToRole="Journey" />
           <NavigationProperty Name="Member" Relationship="Self.fk_expense_member" FromRole="Expense" ToRole="Member" />
         </EntityType>
         <EntityType Name="Journey">
@@ -292,6 +302,7 @@
           <Property Name="Departure" Type="DateTime" Precision="0" />
           <Property Name="Arrival" Type="DateTime" Precision="0" />
           <NavigationProperty Name="Costs" Relationship="Self.fk_cost_journey" FromRole="Journey" ToRole="Cost" />
+          <NavigationProperty Name="Expenses" Relationship="Self.fk_expense_journey" FromRole="Journey" ToRole="Expense" />
           <NavigationProperty Name="Location" Relationship="Self.fk_journey_location" FromRole="Journey" ToRole="Location" />
           <NavigationProperty Name="Photos" Relationship="Self.fk_photo_journey" FromRole="Journey" ToRole="Photo" />
           <NavigationProperty Name="Routes" Relationship="Self.fk_route_journey" FromRole="Journey" ToRole="Route" />
@@ -351,6 +362,16 @@
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Journey" Relationship="Self.fk_route_journey" FromRole="Route" ToRole="Journey" />
         </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
         <Association Name="fk_cost_journey">
           <End Role="Journey" Type="Self.Journey" Multiplicity="1" />
           <End Role="Cost" Type="Self.Cost" Multiplicity="*" />
@@ -363,17 +384,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_expense_cost">
-          <End Role="Cost" Type="Self.Cost" Multiplicity="1" />
+        <Association Name="fk_expense_journey">
+          <End Role="Journey" Type="Self.Journey" Multiplicity="1" />
           <End Role="Expense" Type="Self.Expense" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Cost">
-              <PropertyRef Name="JourneyId" />
-              <PropertyRef Name="OrderNumber" />
+            <Principal Role="Journey">
+              <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Expense">
               <PropertyRef Name="JourneyId" />
-              <PropertyRef Name="OrderNumber" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -450,12 +469,13 @@
           <EntitySet Name="Photos" EntityType="Self.Photo" />
           <EntitySet Name="Provinces" EntityType="Self.Province" />
           <EntitySet Name="Routes" EntityType="Self.Route" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <AssociationSet Name="fk_cost_journey" Association="Self.fk_cost_journey">
             <End Role="Journey" EntitySet="Journeys" />
             <End Role="Cost" EntitySet="Costs" />
           </AssociationSet>
-          <AssociationSet Name="fk_expense_cost" Association="Self.fk_expense_cost">
-            <End Role="Cost" EntitySet="Costs" />
+          <AssociationSet Name="fk_expense_journey" Association="Self.fk_expense_journey">
+            <End Role="Journey" EntitySet="Journeys" />
             <End Role="Expense" EntitySet="Expenses" />
           </AssociationSet>
           <AssociationSet Name="fk_expense_member" Association="Self.fk_expense_member">
@@ -495,6 +515,7 @@
                 <ScalarProperty Name="JourneyId" ColumnName="JourneyId" />
                 <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="Fees" ColumnName="Fees" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -569,6 +590,17 @@
                 <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="WeSplitAppDBModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

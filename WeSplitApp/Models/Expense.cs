@@ -32,8 +32,7 @@ namespace WeSplitApp.Models
 
         private Nullable<System.DateTime> _times;
         public Nullable<System.DateTime> Times { get => _times; set { _times = value; OnPropertyChanged(); } }
-
-        public virtual Cost Cost { get; set; }
+        public virtual Journey Journey { get; set; }
         public virtual Member Member { get; set; }
     }
 }

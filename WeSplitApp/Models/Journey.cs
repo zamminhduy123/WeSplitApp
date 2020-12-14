@@ -13,12 +13,13 @@ namespace WeSplitApp.Models
     using System.Collections.Generic;
     using WeSplitApp.ViewModels;
 
-    public partial class Journey : BaseViewModel
+    public partial class Journey: BaseViewModel
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Journey()
         {
             this.Costs = new HashSet<Cost>();
+            this.Expenses = new HashSet<Expense>();
             this.Photos = new HashSet<Photo>();
             this.Routes = new HashSet<Route>();
             this.Members = new HashSet<Member>();
@@ -44,6 +45,8 @@ namespace WeSplitApp.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Cost> Costs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Expense> Expenses { get; set; }
         public virtual Location Location { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Photo> Photos { get; set; }
