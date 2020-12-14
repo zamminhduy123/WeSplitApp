@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -21,7 +22,12 @@ namespace WeSplitApp.ViewModels
         {
             ThemeButtonCommand = new RelayCommand<String>((prop) => { return true; }, (prop) =>
             {
+                var config = ConfigurationManager.OpenExeConfiguration(
+                ConfigurationUserLevel.None);
+                config.AppSettings.Settings["ThemeColor"].Value = prop;
+                config.Save(ConfigurationSaveMode.Minimal);
 
+                ConfigurationManager.RefreshSection("appSettings");
                 globalTheme.ThemeColor = prop;
                 globalTheme.OnPropertyChanged("ThemeColor");
 
