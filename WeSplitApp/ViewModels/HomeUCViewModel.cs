@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using WeSplitApp.Model;
 using WeSplitApp.Models;
@@ -81,23 +82,120 @@ namespace WeSplitApp.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        // New Journey
+
+        private bool _isOpenAddJourneyDialog;
+        public bool IsOpenAddJourneyDialog { get => _isOpenAddJourneyDialog; set { _isOpenAddJourneyDialog = value; OnPropertyChanged(); } }
+
+        private string _journeyName;
+        public string JourneyName { get => _journeyName; set { _journeyName = value; OnPropertyChanged(); } }
+
+        private AsyncObservableCollection<Location> _locationsList;
+        public AsyncObservableCollection<Location> LocationsList { get => _locationsList; set { _locationsList = value; OnPropertyChanged(); } }
+
+        private Location _selectedLocation;
+        public Location SelectedLocation { get => _selectedLocation; set { _selectedLocation = value; OnPropertyChanged(); } }
+
+        private string _journeyDescription;
+        public string JourneyDescription { get => _journeyDescription; set { _journeyDescription = value; OnPropertyChanged(); } }
+
         #endregion
         #region Command
         public ICommand CloseWindowCommand { get; set; }
         public ICommand SelectTripCommand { get; set; }
-
+        public ICommand AddJourneyCommand { get; set; }
+        public ICommand DeleteJourneyCommand { get; set; }
         #endregion
         public HomeUCViewModel()
         {
+            IsOpenAddJourneyDialog = false;
             IsPlaceSelected = true;
             IsMemberSelected = false;
             LoadTripList();
 
-            SelectTripCommand = new RelayCommand<object>((param) => { return true; }, (param) => {
-              Global.GetInstance().CurrentPageViewModel = new DetailUCViewModel();
+            LocationsList = new AsyncObservableCollection<Location>();
+            foreach (var location in DataProvider.Ins.DB.Locations)
+            {
+                LocationsList.Add(location);
+            }
+
+            SelectTripCommand = new RelayCommand<object>((param) => { return true; }, (param) =>
+            {
+                Global.GetInstance().CurrentPageViewModel = new DetailUCViewModel();
+            });
+
+            AddJourneyCommand = new RelayCommand<string>((param) => { return true; }, (param) =>
+            {
+                if (bool.Parse(param) == true)
+                {
+                    Journey newJourney = new Journey
+                    {
+                        Id = (DataProvider.Ins.DB.Journeys == null) ? 1 : DataProvider.Ins.DB.Journeys.Max(x => x.Id),
+                        Name = JourneyName,
+                        Description = JourneyDescription,
+                        LocationId = SelectedLocation.Id,
+                    };
+                    DataProvider.Ins.DB.Journeys.Add(newJourney);
+                    DataProvider.Ins.DB.SaveChanges();
+                    if (CompareDateWithPresent(newJourney.Arrival) == 1)
+                    {
+                        dynamic tmp = new
+                        {
+                            Id = newJourney.Id,
+                            Name = newJourney.Name,
+                            Description = newJourney.Description,
+                            State = (CompareDateWithPresent(newJourney.Departure) == -1) ? "Đang đi" : "Kế hoạch",
+                        };
+                        CurrentTripList.Add(tmp);
+                    }
+                    else
+                    {
+                        dynamic tmp = new
+                        {
+                            Id = newJourney.Id,
+                            Name = newJourney.Name,
+                            Description = newJourney.Description,
+                        };
+                        LastTripList.Add(tmp);
+                    }
+                }
+                IsOpenAddJourneyDialog = false;
+            });
+
+            DeleteJourneyCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
+                if (Global.GetInstance().ConfirmMessageDelete() == true)
+                {
+                    Journey deleteJourney = DataProvider.Ins.DB.Journeys.Find(param.Id);
+                    DataProvider.Ins.DB.Locations.Find(deleteJourney.LocationId).Journeys.Remove(deleteJourney);
+                    foreach (var cost in deleteJourney.Costs.ToList())
+                    {
+                        DataProvider.Ins.DB.Costs.Remove(cost);
+                    }
+                    foreach (var expense in deleteJourney.Expenses.ToList())
+                    {
+                        DataProvider.Ins.DB.Expenses.Remove(expense);
+                    }
+                    foreach (var member in deleteJourney.Members.ToList())
+                    {
+                        DataProvider.Ins.DB.Members.Find(member.Id).Journeys.Remove(deleteJourney);
+                        deleteJourney.Members.Remove(DataProvider.Ins.DB.Members.Find(member.Id));
+                    }
+                    foreach (var photo in deleteJourney.Photos.ToList())
+                    {
+                        DataProvider.Ins.DB.Photos.Remove(photo);
+                    }
+                    foreach (var route in deleteJourney.Routes.ToList())
+                    {
+                        DataProvider.Ins.DB.Routes.Remove(route);
+                    }
+                    DataProvider.Ins.DB.Journeys.Remove(deleteJourney);
+                    DataProvider.Ins.DB.SaveChanges();
+                        CurrentTripList.Remove(param);
+                        LastTripList.Remove(param);
+                }
             });
         }
-
         public void CallSearch()
         {
             LoadTripList();
