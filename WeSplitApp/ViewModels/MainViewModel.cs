@@ -13,7 +13,7 @@ namespace WeSplitApp.ViewModels
     {
         #region private variables
         //private BaseViewModel _currentPageViewModel = null;
-
+        private Visibility _leftPanelVisibility = Visibility.Visible;
         private String _homeColor;
         private String _addPlaceColor = Brushes.White.ToString();
         private String _detailColor = Brushes.White.ToString();
@@ -32,6 +32,8 @@ namespace WeSplitApp.ViewModels
         public ICommand SettingCommand { get; set; }
         public ICommand AboutCommand { get; set; }
 
+        public ICommand OpenPanelCommand { get; set; }
+
         #endregion
 
         #region PanelColor
@@ -47,6 +49,8 @@ namespace WeSplitApp.ViewModels
         public String VersionTextBlock { get => _versionTextBlock; set { _versionTextBlock = value; OnPropertyChanged(); } }
 
         public Global global =  Global.GetInstance();
+
+        public Visibility LeftPanelVisibility { get => _leftPanelVisibility; set { _leftPanelVisibility = value; OnPropertyChanged(); } }
 
         #endregion
 
@@ -71,6 +75,14 @@ namespace WeSplitApp.ViewModels
           
             global.CurrentPageViewModel = new HomeUCViewModel();
             HomeColor = global.ThemeColor;
+
+            OpenPanelCommand = new RelayCommand<object>((param) => { return true; }, (param) =>
+            {
+                if (LeftPanelVisibility == Visibility.Visible)
+                    LeftPanelVisibility = Visibility.Collapsed;
+                else
+                    LeftPanelVisibility = Visibility.Visible;
+            });
             HomeCommand = new RelayCommand<ContentControl>((param) => { return true; }, (param) =>
             {
                 ResetAllPanelColor();

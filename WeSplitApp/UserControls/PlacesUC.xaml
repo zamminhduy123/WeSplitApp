@@ -34,7 +34,7 @@
         </Grid.ColumnDefinitions>
 
         <!--Current trips-->
-        <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" Grid.RowSpan="2" Background="White" VerticalAlignment="Center"
+        <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" Grid.RowSpan="2" Background="White" VerticalAlignment="Top"
                         CornerRadius="50" Height="700" MinHeight="300" Padding="0" RenderOptions.BitmapScalingMode="HighQuality" Margin="10 10 10 5">
             <Border.Effect>
                 <DropShadowEffect BlurRadius="10" ShadowDepth="10"></DropShadowEffect>
@@ -77,7 +77,7 @@
 
         <!--Fix or add trips-->
         <Border Grid.Column="2"  Grid.Row="1" Grid.RowSpan="2" Background="White"
-                        CornerRadius="50" Height="700" MinHeight="300" Padding="0" RenderOptions.BitmapScalingMode="HighQuality" Margin="10 10 10 5" VerticalAlignment="Center">
+                        CornerRadius="50" Height="700" MinHeight="300" Padding="0" RenderOptions.BitmapScalingMode="HighQuality" Margin="10 10 10 5" VerticalAlignment="Top">
             <Border.Effect>
                 <DropShadowEffect BlurRadius="10" ShadowDepth="10"></DropShadowEffect>
             </Border.Effect>

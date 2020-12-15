@@ -32,12 +32,12 @@
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="150"/>
+            <RowDefinition Height="90"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
         <StackPanel Orientation="Horizontal"  Width="auto"  Grid.Row="0" Grid.Column="0"
-            Height="50" Margin="50 20 0 0"     HorizontalAlignment="Left"
+            Height="50" Margin="50 0 0 0"     HorizontalAlignment="Left"
             VerticalAlignment="Center">
             <materialDesign:PackIcon  Width="40"
                                       Height="40" Kind="MapSearchOutline" VerticalAlignment="Center" />
@@ -54,7 +54,7 @@
 
         </StackPanel>
 
-        <StackPanel  Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="0 20 0 0" Orientation="Horizontal"  >
+        <StackPanel  Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Orientation="Horizontal"  >
             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Text="Search to: " FontWeight="Medium" FontSize="25"></TextBlock>
             <ListBox VerticalAlignment="Center"
              Style="{StaticResource  MaterialDesignFilterChipAccentOutlineListBox}"
@@ -144,7 +144,7 @@
                 </StackPanel>
             </materialDesign:DialogHost.DialogContent>
             <Button
-                        Margin="0 50 10 0"
+                        Margin="0 10 10 0"
                         HorizontalAlignment="Right"
                         Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
                         Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"

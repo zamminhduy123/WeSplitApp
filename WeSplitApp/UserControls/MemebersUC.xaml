@@ -32,7 +32,7 @@
         </Grid.ColumnDefinitions>
 
         <!--member list -->
-        <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" Grid.RowSpan="2" Background="White" VerticalAlignment="Center"
+        <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" Grid.RowSpan="2" Background="White" VerticalAlignment="Top"
                         CornerRadius="50" Height="700" MinHeight="300" Padding="0" RenderOptions.BitmapScalingMode="HighQuality" Margin="10 10 10 5">
             <Border.Effect>
                 <DropShadowEffect BlurRadius="10" ShadowDepth="10"></DropShadowEffect>
@@ -44,7 +44,7 @@
                 <ListView Margin="0 10" x:Name="PlacesList" ItemsSource="{Binding MemberList}" SelectedItem="{Binding SelectedMember}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel>
+                            <StackPanel Margin="10">
                                 <Grid Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}},Path=ActualWidth}" Margin="5">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition/>
@@ -86,7 +86,7 @@
 
         <!--Fix or add trips-->
         <Border Grid.Column="2"  Grid.Row="1" Grid.RowSpan="2" Background="White"
-                        CornerRadius="50" Height="700" MinHeight="300" Padding="0" RenderOptions.BitmapScalingMode="HighQuality" Margin="10 10 10 5" VerticalAlignment="Center">
+                        CornerRadius="50" Height="700" MinHeight="300" Padding="0" RenderOptions.BitmapScalingMode="HighQuality" Margin="10 10 10 5" VerticalAlignment="Top">
             <Border.Effect>
                 <DropShadowEffect BlurRadius="10" ShadowDepth="10"></DropShadowEffect>
             </Border.Effect>
@@ -139,6 +139,7 @@
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Center" Command="{Binding AddImageCommand}"
                                     Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}"
+                                BorderBrush="{Binding Source={StaticResource themeColor},Path=ThemeColor}"
                                     Visibility="{Binding AddImageButtonVisibility}">
                                 <materialDesign:PackIcon
                                         Kind="ImagePlus"
