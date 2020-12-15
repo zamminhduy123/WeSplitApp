@@ -56,7 +56,7 @@
 
         <StackPanel  Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="0 20 0 0" Orientation="Horizontal"  >
             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Text="Search to: " FontWeight="Medium" FontSize="25"></TextBlock>
-            <ListBox
+            <ListBox VerticalAlignment="Center"
              Style="{StaticResource  MaterialDesignFilterChipAccentOutlineListBox}"
              x:Name="RadioButtonGroupChoiceChipPrimary">
                 <ListBoxItem BorderBrush="{Binding Source={StaticResource themeColor},Path=ThemeColor}"  IsSelected="{Binding IsPlaceSelected}">
@@ -66,16 +66,16 @@
                     Member
                 </ListBoxItem>
             </ListBox>
-        </StackPanel>
 
-        <materialDesign:DialogHost IsOpen="{Binding IsOpenAddJourneyDialog}" Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="2" Panel.ZIndex="1"
-                Style="{StaticResource MaterialDesignEmbeddedDialogHost}"
-                DialogMargin="8">
+        </StackPanel>
+        <materialDesign:DialogHost IsOpen="{Binding IsOpenAddJourneyDialog}" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Grid.ColumnSpan="2" Panel.ZIndex="1"
+                    Style="{StaticResource MaterialDesignEmbeddedDialogHost}"
+                    DialogMargin="8">
             <materialDesign:DialogHost.DialogContent>
-                
+
                 <StackPanel Margin="16">
                     <TextBlock>
-                            Add a new animal.
+                               THÊM CHUYẾN ĐI
                     </TextBlock>
                     <Grid Width="800" Height="200">
                         <Grid.ColumnDefinitions>
@@ -85,61 +85,68 @@
                         <!--Add new trip-->
                         <StackPanel Orientation="Vertical" Grid.Column="0" Margin="30 10">
                             <TextBox Margin="5 10"
-                              materialDesign:HintAssist.Hint="Tên chuyến đi"
-                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                              VerticalAlignment="Center"
-                              FontSize="20" Text="{Binding JourneyName}"/>
+                                  materialDesign:HintAssist.Hint="Tên chuyến đi"
+                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                  VerticalAlignment="Center"
+                                  FontSize="20" Text="{Binding JourneyName}"/>
 
                             <ComboBox Margin="5 10"
-                              materialDesign:HintAssist.Hint="Địa danh"
-                              materialDesign:HintAssist.HintOpacity=".26" SelectedItem="{Binding SelectedLocation}" ItemsSource="{Binding LocationsList}"
-                              IsEditable="True" DisplayMemberPath="Name">
+                                  materialDesign:HintAssist.Hint="Địa danh"
+                                  materialDesign:HintAssist.HintOpacity=".26" SelectedItem="{Binding SelectedLocation}" ItemsSource="{Binding LocationsList}"
+                                  IsEditable="True" DisplayMemberPath="Name">
                             </ComboBox>
+
+                            <TextBlock VerticalAlignment="Bottom" TextWrapping="Wrap" Foreground="Red" FontSize="20">
+                                CÁC CHI TIẾT KHÁC CẬP NHẬP TRONG DETAIL !!!
+                            </TextBlock>
 
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Grid.Column="1" Margin="30,10">
 
                             <TextBox TextWrapping="Wrap" AcceptsReturn="True" Grid.Row="1" Grid.Column="1" Margin="10,0"
-                             MaxLines="4"
-                             materialDesign:HintAssist.Hint="Mô tả"
-                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             VerticalAlignment="Center" Text="{Binding JourneyDescription}" Height="150" Width="450"/>
+                                 MaxLines="4"
+                                 materialDesign:HintAssist.Hint="Mô tả"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 VerticalAlignment="Center" Text="{Binding JourneyDescription}" Height="150" Width="450"/>
                         </StackPanel>
 
                     </Grid>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                         <Button
-                              Style="{StaticResource MaterialDesignFlatButton}"
-                              IsDefault="True"
-                              Margin="0 8 8 0"
-                              Command="{Binding AddJourneyCommand}"  CommandParameter="true">
+                                  Style="{StaticResource MaterialDesignFlatButton}"
+                                  IsDefault="True"
+                                  Margin="0 8 8 0"
+                                  Command="{Binding AddJourneyCommand}"  CommandParameter="true">
                             ACCEPT
                         </Button>
                         <Button
-                                      Style="{StaticResource MaterialDesignFlatButton}"
-                                      IsCancel="True"
-                                      Margin="0 8 8 0"
-                                      Command="{Binding AddJourneyCommand}"  CommandParameter="false">
+                                          Style="{StaticResource MaterialDesignFlatButton}"
+                                          IsCancel="True"
+                                          Margin="0 8 8 0"
+                                          Command="{Binding AddJourneyCommand}"  CommandParameter="false">
                             CANCEL
                         </Button>
                     </StackPanel>
                 </StackPanel>
             </materialDesign:DialogHost.DialogContent>
             <Button
-                    Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
-                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
-                    VerticalAlignment="Top"
-                    HorizontalAlignment="Right"
-                    Grid.Row="0"
-                    Margin="50"
-                      Height="100"
-                      Width="100">
+                        Margin="0 50 10 0"
+                        HorizontalAlignment="Right"
+                        Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                        Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
+                        ToolTip="Thêm 1 chuyến đi"
+                        VerticalAlignment="Top"
+                        Grid.Row="0"
+                          Height="75"
+                          Width="75">
                 <materialDesign:PackIcon
-                      Kind="Plus"
-                      Height="100"
-                      Width="100" />
+                          Kind="Plus"
+                          Height="35"
+                          Width="35" />
             </Button>
         </materialDesign:DialogHost>
+
+
         <!--Current trips-->
         <Border x:Name="CurrentList" Grid.Column="0"  Grid.Row="1" Grid.RowSpan="2" Background="White"
                         CornerRadius="50" Height="auto" MinHeight="300" Padding="0" RenderOptions.BitmapScalingMode="HighQuality" Margin="10 10 10 5">

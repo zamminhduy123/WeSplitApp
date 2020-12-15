@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -23,6 +20,7 @@ namespace WeSplitApp.ViewModels
         private String _addMemberColor = Brushes.White.ToString();
         private String _settingColor = Brushes.White.ToString();
         private String _aboutColor = Brushes.White.ToString();
+        private String _versionTextBlock = Brushes.White.ToString();
         #endregion
 
         #region Commands
@@ -46,9 +44,19 @@ namespace WeSplitApp.ViewModels
         public String SettingColor { get => _settingColor; set { _settingColor = value; OnPropertyChanged(); } }
         public String AboutColor { get => _aboutColor; set { _aboutColor = value; OnPropertyChanged(); } }
 
+        public String VersionTextBlock { get => _versionTextBlock; set { _versionTextBlock = value; OnPropertyChanged(); } }
+
         public Global global =  Global.GetInstance();
 
         #endregion
+
+        private string GetPublishedVersion()
+        {
+            var version = System.Reflection.Assembly.GetEntryAssembly().GetName().Version;
+            string appVersion = $"{version.Major}.{version.Minor}";
+            return appVersion;
+        }
+
 
         #region static variable
 
@@ -57,6 +65,10 @@ namespace WeSplitApp.ViewModels
         #endregion
         public MainViewModel()
         {
+              VersionTextBlock = GetPublishedVersion();
+             if (VersionTextBlock == null || VersionTextBlock =="" )
+                    VersionTextBlock = "not installed";
+          
             global.CurrentPageViewModel = new HomeUCViewModel();
             HomeColor = global.ThemeColor;
             HomeCommand = new RelayCommand<ContentControl>((param) => { return true; }, (param) =>
