@@ -25,7 +25,7 @@
                       MethodName="GetInstance" />
     </UserControl.Resources>
     <Grid Background="Transparent">
-        
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
@@ -68,15 +68,87 @@
             </ListBox>
         </StackPanel>
 
+        <materialDesign:DialogHost IsOpen="{Binding IsOpenAddJourneyDialog}" Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="2" Panel.ZIndex="1"
+                Style="{StaticResource MaterialDesignEmbeddedDialogHost}"
+                DialogMargin="8">
+            <materialDesign:DialogHost.DialogContent>
+                
+                <StackPanel Margin="16">
+                    <TextBlock>
+                            Add a new animal.
+                    </TextBlock>
+                    <Grid Width="800" Height="200">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <!--Add new trip-->
+                        <StackPanel Orientation="Vertical" Grid.Column="0" Margin="30 10">
+                            <TextBox Margin="5 10"
+                              materialDesign:HintAssist.Hint="Tên chuyến đi"
+                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                              VerticalAlignment="Center"
+                              FontSize="20" Text="{Binding JourneyName}"/>
+
+                            <ComboBox Margin="5 10"
+                              materialDesign:HintAssist.Hint="Địa danh"
+                              materialDesign:HintAssist.HintOpacity=".26" SelectedItem="{Binding SelectedLocation}" ItemsSource="{Binding LocationsList}"
+                              IsEditable="True" DisplayMemberPath="Name">
+                            </ComboBox>
+
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Grid.Column="1" Margin="30,10">
+
+                            <TextBox TextWrapping="Wrap" AcceptsReturn="True" Grid.Row="1" Grid.Column="1" Margin="10,0"
+                             MaxLines="4"
+                             materialDesign:HintAssist.Hint="Mô tả"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             VerticalAlignment="Center" Text="{Binding JourneyDescription}" Height="150" Width="450"/>
+                        </StackPanel>
+
+                    </Grid>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button
+                              Style="{StaticResource MaterialDesignFlatButton}"
+                              IsDefault="True"
+                              Margin="0 8 8 0"
+                              Command="{Binding AddJourneyCommand}"  CommandParameter="true">
+                            ACCEPT
+                        </Button>
+                        <Button
+                                      Style="{StaticResource MaterialDesignFlatButton}"
+                                      IsCancel="True"
+                                      Margin="0 8 8 0"
+                                      Command="{Binding AddJourneyCommand}"  CommandParameter="false">
+                            CANCEL
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:DialogHost.DialogContent>
+            <Button
+                    Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Right"
+                    Grid.Row="0"
+                    Margin="50"
+                      Height="100"
+                      Width="100">
+                <materialDesign:PackIcon
+                      Kind="Plus"
+                      Height="100"
+                      Width="100" />
+            </Button>
+        </materialDesign:DialogHost>
         <!--Current trips-->
-        <Border Grid.Column="0"  Grid.Row="2" Grid.RowSpan="2" Background="White"
+        <Border x:Name="CurrentList" Grid.Column="0"  Grid.Row="1" Grid.RowSpan="2" Background="White"
                         CornerRadius="50" Height="auto" MinHeight="300" Padding="0" RenderOptions.BitmapScalingMode="HighQuality" Margin="10 10 10 5">
             <Border.Effect>
                 <DropShadowEffect BlurRadius="10" ShadowDepth="10"></DropShadowEffect>
             </Border.Effect>
             <StackPanel>
                 <Border  CornerRadius="50 50 0 0"  BorderThickness="0" BorderBrush="Black" Height="100" Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}">
-                    <!--Background = "{Binding Source={StaticResource themeColor},Path=ThemeColor}"--> 
+                    <!--Background = "{Binding Source={StaticResource themeColor},Path=ThemeColor}"-->
                     <TextBlock Text="CHUYẾN ĐI HIỆN TẠI" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
                 </Border>
                 <ListView ItemsSource="{Binding CurrentTripList}" SelectedItem="{Binding SelectedTrip}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
@@ -92,6 +164,15 @@
                                     <TextBlock Text="{Binding Name}" FontSize="20" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
                                     <TextBlock Text="{Binding Description}" FontSize="15" TextWrapping="Wrap" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
                                     <TextBlock Text="{Binding State}" FontSize="10" Foreground="{Binding Source={StaticResource themeColor},Path=ThemeColor}" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                                    <Button DockPanel.Dock="Bottom"
+                                        Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}"
+                                        BorderBrush="{Binding Source={StaticResource themeColor},Path=ThemeColor}"
+                                        Margin="0 5"
+                                        Width="100"
+                                        Style="{StaticResource MaterialDesignFlatMidBgButton}"
+                                        Content="XÓA"
+                                        Command="{Binding ElementName=CurrentList, Path=DataContext.DeleteJourneyCommand}" CommandParameter="{Binding}">
+                                    </Button>
                                 </StackPanel>
                             </Grid>
                         </DataTemplate>
@@ -101,7 +182,7 @@
         </Border>
 
         <!--History trips-->
-        <Border Grid.Column="1"  Grid.Row="1" Grid.RowSpan="2" Background="White"
+        <Border x:Name="HistoryList" Grid.Column="1"  Grid.Row="1" Grid.RowSpan="2" Background="White"
                         CornerRadius="50" Height="auto" MinHeight="300" Padding="0" RenderOptions.BitmapScalingMode="HighQuality" Margin="10 10 10 5">
             <Border.Effect>
                 <DropShadowEffect BlurRadius="10" ShadowDepth="10"></DropShadowEffect>
@@ -122,6 +203,15 @@
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="{Binding Name}" FontSize="20" Foreground="Black" FontWeight="Medium" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
                                     <TextBlock TextWrapping="Wrap" Text="{Binding Description}" FontSize="15"  Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0 10"></TextBlock>
+                                    <Button DockPanel.Dock="Bottom"
+                                        Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}"
+                                        BorderBrush="{Binding Source={StaticResource themeColor},Path=ThemeColor}"
+                                        Margin="0 5"
+                                        Width="100"
+                                        Style="{StaticResource MaterialDesignFlatMidBgButton}"
+                                        Content="XÓA"
+                                        Command="{Binding ElementName=HistoryList, Path=DataContext.DeleteJourneyCommand}" CommandParameter="{Binding}">
+                                    </Button>
                                 </StackPanel>
                             </Grid>
                         </DataTemplate>

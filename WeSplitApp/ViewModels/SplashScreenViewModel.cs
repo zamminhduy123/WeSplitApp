@@ -60,7 +60,7 @@ namespace WeSplitApp.ViewModels
             else
             {
                 Location location;
-                int limit = 100;
+                int limit = 5;
                 do
                 {
                     limit--;
