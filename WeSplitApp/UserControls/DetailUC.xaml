@@ -7,6 +7,7 @@
              xmlns:xlocal="clr-namespace:WeSplitApp"
              xmlns:vmlocal="clr-namespace:WeSplitApp.ViewModels"
              
+             xmlns:model="clr-namespace:WeSplitApp.Models"
         
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -22,6 +23,20 @@
         <ObjectDataProvider x:Key="themeColor"
                       ObjectType="{x:Type xlocal:Global}"
                       MethodName="GetInstance" />
+        
+        <Style x:Key="HolderButton" TargetType="Border">
+            <Setter Property="Width" Value="auto"></Setter>
+            <Setter Property="Height" Value="auto"></Setter>
+            <Setter Property="CornerRadius" Value="50"></Setter>
+            <Setter Property="Background" Value="WhiteSmoke"></Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{Binding Source={StaticResource themeColor},Path=ThemeColor}"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <model:BytesToBitMapConverter x:Key="ImageConverter" />
     </UserControl.Resources>
 
     <TabControl TabStripPlacement="Top"  Margin="10" Background="Transparent" BorderBrush="Transparent" SelectedItem="{Binding SelectedTab, UpdateSourceTrigger=PropertyChanged}" >
@@ -36,17 +51,35 @@
                             BorderBrush="{x:Null}"
                             CornerRadius="50">
                     <Grid>
-                        <Border Name="Mask"
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition Height="50"/>
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="0" Grid.RowSpan="2" Name="Mask"
                                     Background="White"
                                     BorderBrush="Black"
                                     BorderThickness="2"
                                     CornerRadius="30">
                         </Border>
-                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Image Stretch="None" RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding Cover}"/>
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                            <Button Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Margin="0" Command="{Binding PrevImageCommand}" CommandParameter="{Binding ElementName=ImageHolder}" Visibility="{Binding NoImageVisibility}">
+                                <Border Style="{StaticResource HolderButton}">
+                                    <materialDesign:PackIcon Kind="ChevronLeft" Width="35" Height="35" Foreground="Black" />
+                                </Border>
+                            </Button>
+                            <Image x:Name="ImageHolder" Stretch="None" RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding ImageHolder, Converter={StaticResource ImageConverter}}" Width="600" Height="500"/>
+                            <Button Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Command="{Binding NextImageCommand}"  CommandParameter="{Binding ElementName=ImageHolder}" Visibility="{Binding NoImageVisibility}">
+                                <Border Style="{StaticResource HolderButton}">
+                                    <materialDesign:PackIcon Kind="ChevronRight" Width="35" Height="35" Foreground="Black" />
+                                </Border>
+                            </Button>
                             <StackPanel.OpacityMask>
                                 <VisualBrush Visual="{Binding ElementName=Mask}" />
                             </StackPanel.OpacityMask>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
+                            <Button Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}" BorderBrush="{x:Null}" Margin="5 0" Content="Thêm ảnh" Width="120"  Command="{Binding AddImageCommand}"></Button>
+                            <Button Background="DarkRed" BorderBrush="{x:Null}" Margin="0 0" Content="Xóa ảnh này" Width="120" Command="{Binding DeleteImageCommand}"  Visibility="{Binding NoImageVisibility}"></Button>
                         </StackPanel>
                     </Grid>
                 </Border>
