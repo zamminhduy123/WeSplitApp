@@ -361,12 +361,15 @@ namespace WeSplitApp.ViewModels
         private bool _isEnabledAddOutFeeButton;
         public bool IsEnabledAddOutFeeButton { get => _isEnabledAddOutFeeButton; set { _isEnabledAddOutFeeButton = value; OnPropertyChanged(); } }
         #endregion
+
+        #region IsValidValue
         private bool _isInFeeValid;
         public bool IsInFeeValid { get => _isInFeeValid; set { _isInFeeValid = value; OnPropertyChanged(); } }
         private bool _isOutFeeContentValid;
         public bool IsOutFeeContentValid { get => _isOutFeeContentValid; set { _isOutFeeContentValid = value; OnPropertyChanged(); } }
         private bool _isOutFeeValid;
         public bool IsOutFeeValid { get => _isOutFeeValid; set { _isOutFeeValid = value; OnPropertyChanged(); } }
+        #endregion
 
         #region Command
         public ICommand CloseWindowCommand { get; set; }
