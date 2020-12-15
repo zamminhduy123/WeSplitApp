@@ -86,16 +86,59 @@ namespace WeSplitApp.ViewModels
         // New Journey
 
         private bool _isOpenAddJourneyDialog;
-        public bool IsOpenAddJourneyDialog { get => _isOpenAddJourneyDialog; set { _isOpenAddJourneyDialog = value; OnPropertyChanged(); } }
+        public bool IsOpenAddJourneyDialog 
+        { 
+            get => _isOpenAddJourneyDialog; 
+            set 
+            { 
+                _isOpenAddJourneyDialog = value;
+                JourneyName = null;
+                SelectedLocation = null;
+                OnPropertyChanged();
+            }
+        }
 
         private string _journeyName;
-        public string JourneyName { get => _journeyName; set { _journeyName = value; OnPropertyChanged(); } }
+        public string JourneyName 
+        { 
+            get => _journeyName; 
+            set
+            { 
+                _journeyName = value;
+                if (SelectedLocation != null && JourneyName != null)
+                {
+                    IsEnabledAddJourneyButton = true;
+                }
+                IsNameValid = true;
+                OnPropertyChanged(); 
+            } 
+        }
 
+        private bool _isNameValid;
+        public bool IsNameValid { get => _isNameValid; set { _isNameValid = value; OnPropertyChanged(); } }
+
+        private bool _isEnabledAddJourneyButton;
+        public bool IsEnabledAddJourneyButton { get => _isEnabledAddJourneyButton; set { _isEnabledAddJourneyButton = value; OnPropertyChanged(); } }
+
+
+        //
         private AsyncObservableCollection<Location> _locationsList;
         public AsyncObservableCollection<Location> LocationsList { get => _locationsList; set { _locationsList = value; OnPropertyChanged(); } }
 
         private Location _selectedLocation;
-        public Location SelectedLocation { get => _selectedLocation; set { _selectedLocation = value; OnPropertyChanged(); } }
+        public Location SelectedLocation 
+        { 
+            get => _selectedLocation; 
+            set 
+            { 
+                _selectedLocation = value;
+                if (SelectedLocation != null && JourneyName != null && IsNameValid == true)
+                {
+                    IsEnabledAddJourneyButton = true;
+                }
+                OnPropertyChanged();
+            } 
+        }
 
         private string _journeyDescription;
         public string JourneyDescription { get => _journeyDescription; set { _journeyDescription = value; OnPropertyChanged(); } }
@@ -106,6 +149,7 @@ namespace WeSplitApp.ViewModels
         public ICommand SelectTripCommand { get; set; }
         public ICommand AddJourneyCommand { get; set; }
         public ICommand DeleteJourneyCommand { get; set; }
+        public ICommand DisableName { get; set; }
         #endregion
         public HomeUCViewModel()
         {
@@ -161,6 +205,7 @@ namespace WeSplitApp.ViewModels
                     }
                 }
                 IsOpenAddJourneyDialog = false;
+                IsEnabledAddJourneyButton = false;
             });
 
             DeleteJourneyCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
@@ -194,6 +239,10 @@ namespace WeSplitApp.ViewModels
                         CurrentTripList.Remove(param);
                         LastTripList.Remove(param);
                 }
+            });
+            DisableName = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
+                IsNameValid = false;
+                IsEnabledAddJourneyButton = false;
             });
         }
         public void CallSearch()
