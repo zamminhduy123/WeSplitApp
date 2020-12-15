@@ -145,7 +145,7 @@
             </StackPanel>
 
             <ScrollViewer Grid.Column="1" Grid.Row="1"  VerticalAlignment="Top" HorizontalAlignment="Center" HorizontalScrollBarVisibility="Auto">
-                <ContentControl Name="mainContentControl"  Content="{Binding Source={StaticResource currentPage},Path=CurrentPageViewModel}" Width="1000" Height="800" MinHeight="720" MinWidth="300" Margin="10" ></ContentControl>
+                <ContentControl Name="mainContentControl"  Content="{Binding Source={StaticResource currentPage},Path=CurrentPageViewModel}" Width="1137" Height="866" MinHeight="720" MinWidth="300" Margin="10" ></ContentControl>
             </ScrollViewer>
 
         </Grid>
