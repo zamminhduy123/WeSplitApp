@@ -5,9 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WeSplitApp.UserControls"
              xmlns:xlocal ="clr-namespace:WeSplitApp"
+             xmlns:vmlocal="clr-namespace:WeSplitApp.ViewModels"
              
              xmlns:model="clr-namespace:WeSplitApp.Models"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
              TextOptions.TextFormattingMode="Ideal"
              TextOptions.TextRenderingMode="Auto"
@@ -89,7 +90,20 @@
                               materialDesign:HintAssist.Hint="Tên Địa Danh"
                               Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                               VerticalAlignment="Center"
-                                 FontSize="20" Text="{Binding LocationName}"/>
+                                 FontSize="20">
+                        <TextBox.Text>
+                            <Binding Path="LocationName" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
+                                <Binding.ValidationRules>
+                                    <vmlocal:IsNotNullStringRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                        <i:Interaction.Triggers>
+                            <vmlocal:RoutedEventTrigger RoutedEvent="{x:Static Validation.ErrorEvent}">
+                                <i:InvokeCommandAction Command="{Binding DisableName}"/>
+                            </vmlocal:RoutedEventTrigger>
+                        </i:Interaction.Triggers>
+                    </TextBox>
                     <Border Height="171" MinHeight="150" CornerRadius="20" BorderThickness="1" BorderBrush="#03254c" Margin="10">
                         <Border.Background>
                             <ImageBrush ImageSource="{Binding ImageCover, Converter={StaticResource ImageConverter}}" RenderOptions.BitmapScalingMode="HighQuality"/>
@@ -136,6 +150,7 @@
                         Margin="0 10 0 0"
                         Style="{StaticResource MaterialDesignRaisedAccentButton}"
                         Width="150"
+                        IsEnabled="{Binding IsEnabledAddLocationButton}"
                         materialDesign:RippleAssist.Feedback="#DD000000" Command="{Binding AddLocationCommand}" Content="{Binding UpdateOrAddContent}">
                     </Button>
                 </StackPanel>

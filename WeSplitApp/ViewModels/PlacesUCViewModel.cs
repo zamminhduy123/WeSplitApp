@@ -26,7 +26,19 @@ namespace WeSplitApp.ViewModels
         public AsyncObservableCollection<Province> ProvinceList { get => _provinceList; set { _provinceList = value; OnPropertyChanged(); } }
 
         private Province _selectedProvince;
-        public Province SelectedProvince { get => _selectedProvince; set { _selectedProvince = value; OnPropertyChanged(); } }
+        public Province SelectedProvince 
+        { 
+            get => _selectedProvince; 
+            set 
+            { 
+                _selectedProvince = value;
+                if (SelectedProvince != null && LocationName != null  && IsNameValid == true)
+                {
+                    IsEnabledAddLocationButton = true;
+                }
+                OnPropertyChanged(); 
+            }
+        }
 
         private dynamic _selectedLocation;
 
@@ -50,7 +62,7 @@ namespace WeSplitApp.ViewModels
                     ImageCover = null;
                     SelectedProvince = null;
                     UpdateOrAddContent = "THÊM";
-
+                    
                 }
                 OnPropertyChanged(); 
             } 
@@ -58,7 +70,20 @@ namespace WeSplitApp.ViewModels
 
 
         private string _locationName;
-        public string LocationName { get => _locationName; set { _locationName = value; OnPropertyChanged(); } }
+        public string LocationName 
+        { 
+            get => _locationName;
+            set
+            { 
+                _locationName = value;
+                if (SelectedProvince != null && LocationName != null)
+                {
+                    IsEnabledAddLocationButton = true;
+                }
+                IsNameValid = true;
+                OnPropertyChanged(); 
+            } 
+        }
 
         private string _locationAddress;
         public string LocationAddress { get => _locationAddress; set { _locationAddress = value; OnPropertyChanged(); } }
@@ -74,11 +99,22 @@ namespace WeSplitApp.ViewModels
 
         // Variables
         private int _selectedLocationId;
+        //
 
-        //Commands
+        private bool _isNameValid;
+        public bool IsNameValid { get => _isNameValid; set { _isNameValid = value; OnPropertyChanged(); } }
+
+        private bool _isEnabledAddLocationButton;
+        public bool IsEnabledAddLocationButton { get => _isEnabledAddLocationButton; set { _isEnabledAddLocationButton = value; OnPropertyChanged(); } }
+
+
+        #region Command
         public ICommand AddImageCommand { get; set; }
         public ICommand AddLocationCommand { get; set; }
         public ICommand DeletePlaceCommand { get; set; }
+        public ICommand DisableName { get; set; }
+
+        #endregion
 
         public PlacesUCViewModel()
         {
@@ -138,12 +174,13 @@ namespace WeSplitApp.ViewModels
                         Address = LocationAddress,
                         Description = LocationDescription,
                         ImageBytes = ImageCover,
-                };
+                    };
                     DataProvider.Ins.DB.Locations.Add(newLocation);
                     DataProvider.Ins.DB.SaveChanges();
                     AddLoctationToViewList(newLocation);
                 }
                 SelectedLocation = null;
+                IsEnabledAddLocationButton = false;
             });
 
             DeletePlaceCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
@@ -166,6 +203,10 @@ namespace WeSplitApp.ViewModels
                         LocationList.Remove(param);
                     }
                 }
+            });
+            DisableName = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
+                IsNameValid = false;
+                IsEnabledAddLocationButton = false;
             });
         }
 
