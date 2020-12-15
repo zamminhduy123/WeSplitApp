@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
@@ -89,9 +90,6 @@ namespace WeSplitApp.ViewModels
             }
         }
 
-        private BitmapImage _cover;
-        public BitmapImage Cover { get => _cover; set { _cover = value; OnPropertyChanged(); } }
-
         private string _routeName;
         public string RouteName
         {
@@ -154,11 +152,22 @@ namespace WeSplitApp.ViewModels
                 IsEnabledAddOrEditRouteButton = false;
                 if (SelectedTab.Header == "Thời gian")
                 {
+                    NoImageVisibility = (DetailJourney.Photos.Count == 0) ? Visibility.Hidden : Visibility.Visible;
 
-                    // get cover
-                    byte[] bytearray = (DetailJourney.Photos.Count == 0) ? System.Text.Encoding.Default.GetBytes(Global.GetInstance().NoImageStringSource) : DetailJourney.Photos.ToList()[0].ImageBytes;
-                    BitmapImage bitmapimage = ByteArrayToImage(bytearray);
-                    Cover = bitmapimage;
+                    // get _imageList
+                    _imageList = new List<dynamic>();
+                    foreach (var photo in DetailJourney.Photos)
+                    {
+                        dynamic tmp = new {
+                            Id = photo.OrderNumber,
+                            ImageBytes = photo.ImageBytes,
+                        };
+                        _imageList.Add(tmp);
+                    }
+
+                    // get ImageHolder
+                    _imageHolderNumber = (_imageList.Count == 0) ? 0 : _imageList[0].Id;
+                    ImageHolder = (_imageList.Count == 0) ? System.Text.Encoding.Default.GetBytes(Global.GetInstance().NoImageStringSource) : _imageList[0].ImageBytes;
 
                     // get Start date
                     StartDate = DetailJourney.Departure.ToString().Split(' ').First();
@@ -256,6 +265,14 @@ namespace WeSplitApp.ViewModels
                 OnPropertyChanged();
             }
         }
+        // Ảnh
+
+        private int _imageHolderNumber;
+
+        private byte[] _imageHolder;
+        public byte[] ImageHolder { get => _imageHolder; set { _imageHolder = value; OnPropertyChanged(); } }
+
+        private List<dynamic> _imageList;
 
         // Thu chi
         //danh sách thành viên tham gia chuyến đi
@@ -352,6 +369,8 @@ namespace WeSplitApp.ViewModels
         }
 
         #region EnableButtonCommand
+        private Visibility _noImageVisibility; // hiden nếu ko có ảnh
+        public Visibility NoImageVisibility { get => _noImageVisibility; set { _noImageVisibility = value; OnPropertyChanged(); } }
         private bool _isEnabledAddOrEditRouteButton;
         public bool IsEnabledAddOrEditRouteButton { get => _isEnabledAddOrEditRouteButton; set { _isEnabledAddOrEditRouteButton = value; OnPropertyChanged(); } }
         private bool _isEnabledAddParticipantButton;
@@ -385,6 +404,10 @@ namespace WeSplitApp.ViewModels
         public ICommand DisableAddInFeeButton { get; set; }
         public ICommand DisableAddOutFee { get; set; }
         public ICommand DisableAddOutFeeContent { get; set; }
+        public ICommand PrevImageCommand { get; set; }
+        public ICommand NextImageCommand { get; set; }
+        public ICommand AddImageCommand { get; set; }
+        public ICommand DeleteImageCommand { get; set; }
 
         #endregion
         public DetailUCViewModel()
@@ -627,24 +650,122 @@ namespace WeSplitApp.ViewModels
                 IsOutFeeContentValid = false;
                 IsEnabledAddOutFeeButton = false;
             });
+            PrevImageCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
+                if (_imageList.Count < 2) return;
+                if (_imageList[0].Id == _imageHolderNumber) // ảnh đầu list
+                {
+                    _imageHolderNumber = _imageList[_imageList.Count - 1].Id;
+                    ImageHolder = _imageList[_imageList.Count - 1].ImageBytes;
+                }
+                else
+                {
+                    dynamic tmp = new
+                    {
+                        Id = _imageHolderNumber,
+                        ImageBytes = ImageHolder,
+                    };
+                    int index = _imageList.IndexOf(tmp);
+                    _imageHolderNumber = _imageList[index - 1].Id;
+                    ImageHolder = _imageList[index - 1].ImageBytes;
+                }
+            });
+            NextImageCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
+                if (_imageList.Count < 2) return;
+                if (_imageList[_imageList.Count - 1].Id == _imageHolderNumber) // ảnh cuối list
+                {
+                    _imageHolderNumber = _imageList[0].Id;
+                    ImageHolder = _imageList[0].ImageBytes;
+                }
+                else
+                {
+                    dynamic tmp = new
+                    {
+                        Id = _imageHolderNumber,
+                        ImageBytes = ImageHolder,
+                    };
+                    int index = _imageList.IndexOf(tmp);
+                    _imageHolderNumber = _imageList[index + 1].Id;
+                    ImageHolder = _imageList[index + 1].ImageBytes;
+                }
+            });
+            AddImageCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
+                OpenFileDialog dialog = new OpenFileDialog();
+                dialog.Multiselect = true;
+                dialog.Filter = "JPG files (*.jpg)|*.jpg| PNG files (*.png)|*.png| All files (*.*)|*.*";
+                if (dialog.ShowDialog() == true)
+                {
+                    foreach (var absoluteLink in dialog.FileNames)
+                    {
+                        byte[] newBytesImage = BitMapImageTOBytes(new BitmapImage(
+                                                    new Uri(absoluteLink,
+                                                    UriKind.Absolute)
+                                                    ));
+                        Photo newPhoto = new Photo {
+                            JourneyId = DetailJourney.Id,
+                            OrderNumber = (DetailJourney.Photos.Count == 0) ? 1 : DetailJourney.Photos.Max(x => x.OrderNumber) + 1,
+                            ImageBytes = newBytesImage,
+                        };
+                        DataProvider.Ins.DB.Photos.Add(newPhoto);
+                        DataProvider.Ins.DB.SaveChanges();
+                        _imageList.Add(new { 
+                            Id = newPhoto.OrderNumber,
+                            ImageBytes = newPhoto.ImageBytes,
+                        });
+                    }
+                    if (NoImageVisibility == Visibility.Hidden)
+                    {
+                        _imageHolderNumber = _imageList[0].Id;
+                        ImageHolder = _imageList[0].ImageBytes;
+                        NoImageVisibility = Visibility.Visible;
+                    }
+                }
+
+            });
+            DeleteImageCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
+                if (Global.GetInstance().ConfirmMessageDelete() == true)
+                {
+                    Photo deletePhoto = DetailJourney.Photos.First(x => x.OrderNumber == _imageHolderNumber);
+                    DataProvider.Ins.DB.Photos.Remove(deletePhoto);
+                    DataProvider.Ins.DB.SaveChanges();
+                    dynamic tmp = new
+                    {
+                        Id = _imageHolderNumber,
+                        ImageBytes = ImageHolder,
+                    };
+                    if (_imageList.Count == 1) // rỗng sau khi xóa
+                    {
+                        _imageList.RemoveAt(0);
+                        _imageHolderNumber = 0;
+                        ImageHolder = System.Text.Encoding.Default.GetBytes(Global.GetInstance().NoImageStringSource);
+                        NoImageVisibility = Visibility.Hidden;
+                    }
+                    else
+                    {
+                        if (_imageList[_imageList.Count - 1].Id == _imageHolderNumber) // ảnh cuối list
+                        {
+                            _imageHolderNumber = _imageList[0].Id;
+                            ImageHolder = _imageList[0].ImageBytes;
+                        }
+                        else
+                        {
+                            int index = _imageList.IndexOf(tmp);
+                            _imageHolderNumber = _imageList[index + 1].Id;
+                            ImageHolder = _imageList[index + 1].ImageBytes;
+                        }
+                    }
+                    _imageList.Remove(tmp);
+                }
+            });
         }
 
-        public BitmapImage ByteArrayToImage(byte[] imageData)
+        public byte[] BitMapImageTOBytes(BitmapImage imageC)
         {
-            if (imageData == null || imageData.Length == 0) return null;
-            var image = new BitmapImage();
-            using (var mem = new MemoryStream(imageData))
-            {
-                mem.Position = 0;
-                image.BeginInit();
-                image.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
-                image.CacheOption = BitmapCacheOption.OnLoad;
-                image.UriSource = null;
-                image.StreamSource = mem;
-                image.EndInit();
-            }
-            image.Freeze();
-            return image;
+            if (imageC == null) return null;
+            MemoryStream memStream = new MemoryStream();
+            JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(imageC));
+            encoder.Save(memStream);
+            return memStream.ToArray();
         }
     }
 
