@@ -5,9 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WeSplitApp.UserControls"
              xmlns:xlocal="clr-namespace:WeSplitApp"
+             xmlns:vmlocal="clr-namespace:WeSplitApp.ViewModels"
 
              xmlns:model="clr-namespace:WeSplitApp.Models"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
              TextOptions.TextFormattingMode="Ideal"
              TextOptions.TextRenderingMode="Auto"
@@ -98,7 +99,20 @@
                               materialDesign:HintAssist.Hint="Tên Thành Viên"
                               Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                               VerticalAlignment="Center"
-                                 FontSize="20" Text="{Binding MemberName}"/>
+                                 FontSize="20">
+                        <TextBox.Text>
+                            <Binding Path="MemberName" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
+                                <Binding.ValidationRules>
+                                    <vmlocal:IsNotNullStringRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                        <i:Interaction.Triggers>
+                            <vmlocal:RoutedEventTrigger RoutedEvent="{x:Static Validation.ErrorEvent}">
+                                <i:InvokeCommandAction Command="{Binding DisableName}"/>
+                            </vmlocal:RoutedEventTrigger>
+                        </i:Interaction.Triggers>
+                    </TextBox>
                     <!-- avatar image -->
                     <Border BorderThickness="2"
                             BorderBrush="{x:Null}"
@@ -141,19 +155,46 @@
                               materialDesign:HintAssist.Hint="Số điện thoại"
                               Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                               VerticalAlignment="Center"
-                                 FontSize="20" Margin="10" Text="{Binding MemberPhone}"/>
+                                 FontSize="20" Margin="10">
+                        <TextBox.Text>
+                            <Binding Path="MemberPhone" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
+                                <Binding.ValidationRules>
+                                    <vmlocal:IsOnlyContainNumberRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                        <i:Interaction.Triggers>
+                            <vmlocal:RoutedEventTrigger RoutedEvent="{x:Static Validation.ErrorEvent}">
+                                <i:InvokeCommandAction Command="{Binding DisablePhone}"/>
+                            </vmlocal:RoutedEventTrigger>
+                        </i:Interaction.Triggers>
+                    </TextBox>
 
                     <TextBox Grid.Row="1" Grid.Column="0"
                               materialDesign:HintAssist.Hint="Email"
                               Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                               VerticalAlignment="Center"
-                                 FontSize="20" Margin="10" Text="{Binding MemberEmail}"/>
+                                 FontSize="20" Margin="10">
+                        <TextBox.Text>
+                            <Binding Path="MemberEmail" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
+                                <Binding.ValidationRules>
+                                    <vmlocal:IsEmailFormatRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                        <i:Interaction.Triggers>
+                            <vmlocal:RoutedEventTrigger RoutedEvent="{x:Static Validation.ErrorEvent}">
+                                <i:InvokeCommandAction Command="{Binding DisableEmail}"/>
+                            </vmlocal:RoutedEventTrigger>
+                        </i:Interaction.Triggers>
+                    </TextBox>
 
 
                     <Button
                         Margin="0 10 0 0"
                         Style="{StaticResource MaterialDesignRaisedAccentButton}"
                         Width="150"
+                        IsEnabled="{Binding IsEnabledAddMemberButton}"
                         materialDesign:RippleAssist.Feedback="#DD000000" Command="{Binding AddMemberCommand}" Content="{Binding UpdateOrAddContent}">
                     </Button>
                 </StackPanel>

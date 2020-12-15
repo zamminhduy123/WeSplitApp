@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Interactivity;
 using System.Windows.Media.Imaging;
 using WeSplitApp.Model;
 using WeSplitApp.Models;
@@ -17,7 +20,11 @@ namespace WeSplitApp.ViewModels
     {
         //Properties
         private Journey _detailJourney;
-        public Journey DetailJourney { get => _detailJourney; set { _detailJourney = value;
+        public Journey DetailJourney
+        {
+            get => _detailJourney; set
+            {
+                _detailJourney = value;
 
                 // get member list who don't paticipate journey
                 MemberList = new AsyncObservableCollection<Member>();
@@ -30,9 +37,11 @@ namespace WeSplitApp.ViewModels
                     MemberList.Remove(member);
                 }
 
-                OnPropertyChanged(); } }
+                OnPropertyChanged();
+            }
+        }
 
-        private  AsyncObservableCollection<dynamic> _detailRouteList;
+        private AsyncObservableCollection<dynamic> _detailRouteList;
         public AsyncObservableCollection<dynamic> DetailRouteList { get => _detailRouteList; set { _detailRouteList = value; OnPropertyChanged(); } }
 
         private AsyncObservableCollection<dynamic> _detailMemberList;
@@ -42,34 +51,83 @@ namespace WeSplitApp.ViewModels
         public AsyncObservableCollection<Member> MemberList { get => _memberList; set { _memberList = value; OnPropertyChanged(); } }
 
         private Member _selectedMember;
-        public Member SelectedMember { get => _selectedMember; set { _selectedMember = value; OnPropertyChanged(); } }
+        public Member SelectedMember
+        {
+            get => _selectedMember;
+            set
+            {
+                _selectedMember = value;
+                if (SelectedMember != null)
+                {
+                    IsEnabledAddParticipantButton = true;
+                }
+                OnPropertyChanged();
+            }
+        }
 
         private string _startDate;
-        public string StartDate { get => _startDate; set { _startDate = value;
+        public string StartDate
+        {
+            get => _startDate; set
+            {
+                _startDate = value;
                 DataProvider.Ins.DB.Journeys.Find(DetailJourney.Id).Departure = Convert.ToDateTime(StartDate);
                 DataProvider.Ins.DB.SaveChanges();
-                OnPropertyChanged(); } }
+                OnPropertyChanged();
+            }
+        }
 
         private string _endDate;
-        public string EndDate { get => _endDate; set { _endDate = value;
+        public string EndDate
+        {
+            get => _endDate; set
+            {
+                _endDate = value;
                 DataProvider.Ins.DB.Journeys.Find(DetailJourney.Id).Arrival = Convert.ToDateTime(EndDate);
                 DataProvider.Ins.DB.SaveChanges();
-                OnPropertyChanged(); } }
+                OnPropertyChanged();
+            }
+        }
 
         private BitmapImage _cover;
         public BitmapImage Cover { get => _cover; set { _cover = value; OnPropertyChanged(); } }
 
         private string _routeName;
-        public string RouteName { get => _routeName; set { _routeName = value; OnPropertyChanged(); } }
+        public string RouteName
+        {
+            get => _routeName;
+            set
+            {
+                _routeName = value;
+                if (RouteName != "" && RouteName != null)
+                {
+                    IsEnabledAddOrEditRouteButton = true;
+                }
+                OnPropertyChanged();
+            }
+        }
 
         private string _routeDescription;
-        public string RouteDescription { get => _routeDescription; set { _routeDescription = value; OnPropertyChanged(); } }
+        public string RouteDescription
+        {
+            get => _routeDescription;
+            set
+            {
+                _routeDescription = value;
+                OnPropertyChanged();
+            }
+        }
 
         private string _addOrUpdateRouteContent;
         public string AddOrUpdateRouteContent { get => _addOrUpdateRouteContent; set { _addOrUpdateRouteContent = value; OnPropertyChanged(); } }
 
         private dynamic _selectedRoute;
-        public dynamic SelectedRoute { get => _selectedRoute; set { _selectedRoute = value;
+        public dynamic SelectedRoute
+        {
+            get => _selectedRoute;
+            set
+            {
+                _selectedRoute = value;
                 if (SelectedRoute == null)
                 {
                     RouteName = "";
@@ -82,10 +140,18 @@ namespace WeSplitApp.ViewModels
                     RouteDescription = SelectedRoute.Description;
                     AddOrUpdateRouteContent = "CẬP NHẬT";
                 }
-                OnPropertyChanged(); } }
+                OnPropertyChanged();
+            }
+        }
 
         private dynamic _selectedTab;
-        public dynamic SelectedTab { get => _selectedTab; set { _selectedTab = value;
+        public dynamic SelectedTab
+        {
+            get => _selectedTab;
+            set
+            {
+                _selectedTab = value;
+                IsEnabledAddOrEditRouteButton = false;
                 if (SelectedTab.Header == "Thời gian")
                 {
 
@@ -103,7 +169,9 @@ namespace WeSplitApp.ViewModels
                 }
                 if (SelectedTab.Header == "Thành viên")
                 {
-
+                    //reset các biến kiểm tra dữ liệu nhập vào
+                    SelectedMember = null;
+                    IsEnabledAddParticipantButton = false;
                     // get Members List
                     DetailMemberList = new AsyncObservableCollection<dynamic>();
                     foreach (var member in DetailJourney.Members)
@@ -120,6 +188,10 @@ namespace WeSplitApp.ViewModels
                 }
                 if (SelectedTab.Header == "Lộ trình")
                 {
+                    //reset các biến kiểm tra dữ liệu nhập vào
+                    RouteName = null;
+                    RouteDescription = null;
+                    IsEnabledAddOrEditRouteButton = false;
                     // get Routes list
                     DetailRouteList = new AsyncObservableCollection<dynamic>();
                     foreach (var route in DetailJourney.Routes.OrderBy(t => t.OrderNumber))
@@ -136,6 +208,13 @@ namespace WeSplitApp.ViewModels
                 }
                 if (SelectedTab.Header == "Thu chi")
                 {
+                    // reset lại các biến kiểm tra dữ liệu nhập vào
+                    SelectedInFeeMember = null;
+                    InFee = null;
+                    OutFeeContent = null;
+                    OutFee = null;
+                    IsEnabledAddInFeeButton = false;
+                    IsEnabledAddOutFeeButton = false;
                     // đọc danh sách thành viên tham gia chuyến đi
                     PaticipantsList = new AsyncObservableCollection<Member>();
                     foreach (var member in DetailJourney.Members)
@@ -174,52 +253,140 @@ namespace WeSplitApp.ViewModels
                 {
 
                 }
-                OnPropertyChanged(); } }
-           
+                OnPropertyChanged();
+            }
+        }
+
         // Thu chi
-            //danh sách thành viên tham gia chuyến đi
+        //danh sách thành viên tham gia chuyến đi
         private AsyncObservableCollection<Member> _paticipantsList;
         public AsyncObservableCollection<Member> PaticipantsList { get => _paticipantsList; set { _paticipantsList = value; OnPropertyChanged(); } }
-            
-            // thành viên đc chọn để thu tiền
-        private Member _selectedInFeeMember;
-        public Member SelectedInFeeMember { get => _selectedInFeeMember; set { _selectedInFeeMember = value; OnPropertyChanged(); } }
 
-            // Danh sách thành viên đã đóng tiền và số tiền đã đóng
+        // thành viên đc chọn để thu tiền
+        private Member _selectedInFeeMember;
+        public Member SelectedInFeeMember
+        {
+            get => _selectedInFeeMember;
+            set
+            {
+                _selectedInFeeMember = value;
+                if (SelectedInFeeMember != null
+                    && InFee != null
+                    && IsInFeeValid == true)
+                {
+                    IsEnabledAddInFeeButton = true;
+                }
+                OnPropertyChanged();
+            }
+        }
+
+        // Danh sách thành viên đã đóng tiền và số tiền đã đóng
         private AsyncObservableCollection<dynamic> _inFeesList;
         public AsyncObservableCollection<dynamic> InFeesList { get => _inFeesList; set { _inFeesList = value; OnPropertyChanged(); } }
 
-            // Số tiền thu vào
+        // Số tiền thu vào
         private string _inFee;
-        public string InFee { get => _inFee; set { _inFee = value; OnPropertyChanged(); } }
+        public string InFee
+        {
+            get => _inFee;
+            set
+            {
+                _inFee = value;
+                if (SelectedInFeeMember != null && InFee != null)
+                {
+                    IsEnabledAddInFeeButton = true;
+                }
+                IsInFeeValid = true;
+                OnPropertyChanged();
+            }
+        }
 
-            // danh sách khoản chi
+        // danh sách khoản chi
         private AsyncObservableCollection<dynamic> _outFeesList;
         public AsyncObservableCollection<dynamic> OutFeesList { get => _outFeesList; set { _outFeesList = value; OnPropertyChanged(); } }
-            
-            // Tên khoản chi mới
+
+        // Tên khoản chi mới
         private string _outFeeContent;
-        public string OutFeeContent { get => _outFeeContent; set { _outFeeContent = value; OnPropertyChanged(); } }
+        public string OutFeeContent
+        {
+            get => _outFeeContent;
+            set
+            {
+                _outFeeContent = value;
+                if (OutFeeContent != null && OutFee != null && IsOutFeeValid == true)
+                {
+                    IsEnabledAddOutFeeButton = true;
+                }
+                IsOutFeeContentValid = true;
+                OnPropertyChanged();
+            }
+        }
 
-            // Số tiền chi ra
+        // Số tiền chi ra
         private string _outFee;
-        public string OutFee { get => _outFee; set { _outFee = value; OnPropertyChanged(); } }
+        public string OutFee
+        {
+            get => _outFee;
+            set
+            {
+                _outFee = value;
+                if (OutFeeContent != null && OutFee != null && IsOutFeeContentValid == true)
+                {
+                    IsEnabledAddOutFeeButton = true;
+                }
+                IsOutFeeValid = true;
+                OnPropertyChanged();
+            }
+        }
 
-            // Khoản chi đã chọn dưới danh sách
+        // Khoản chi đã chọn dưới danh sách
         private dynamic _selectedOutFee;
-        public dynamic SelectedOutFee { get => _selectedOutFee; set { _selectedOutFee = value;
+        public dynamic SelectedOutFee
+        {
+            get => _selectedOutFee; set
+            {
+                _selectedOutFee = value;
                 OutFeeContent = (SelectedOutFee == null) ? null : SelectedOutFee.Name;
-                OnPropertyChanged(); } }
-        //Commands
+                OnPropertyChanged();
+            }
+        }
+
+        #region EnableButtonCommand
+        private bool _isEnabledAddOrEditRouteButton;
+        public bool IsEnabledAddOrEditRouteButton { get => _isEnabledAddOrEditRouteButton; set { _isEnabledAddOrEditRouteButton = value; OnPropertyChanged(); } }
+        private bool _isEnabledAddParticipantButton;
+        public bool IsEnabledAddParticipantButton { get => _isEnabledAddParticipantButton; set { _isEnabledAddParticipantButton = value; OnPropertyChanged(); } }
+        private bool _isEnabledAddInFeeButton;
+        public bool IsEnabledAddInFeeButton { get => _isEnabledAddInFeeButton; set { _isEnabledAddInFeeButton = value; OnPropertyChanged(); } }
+        private bool _isEnabledAddOutFeeButton;
+        public bool IsEnabledAddOutFeeButton { get => _isEnabledAddOutFeeButton; set { _isEnabledAddOutFeeButton = value; OnPropertyChanged(); } }
+        #endregion
+
+        #region IsValidValue
+        private bool _isInFeeValid;
+        public bool IsInFeeValid { get => _isInFeeValid; set { _isInFeeValid = value; OnPropertyChanged(); } }
+        private bool _isOutFeeContentValid;
+        public bool IsOutFeeContentValid { get => _isOutFeeContentValid; set { _isOutFeeContentValid = value; OnPropertyChanged(); } }
+        private bool _isOutFeeValid;
+        public bool IsOutFeeValid { get => _isOutFeeValid; set { _isOutFeeValid = value; OnPropertyChanged(); } }
+        #endregion
+
+        #region Command
         public ICommand CloseWindowCommand { get; set; }
         public ICommand DeleteParticipantCommand { get; set; }
         public ICommand AddParticipantCommand { get; set; }
-        public ICommand AddRouteCommand { get; set; }
+        public ICommand AddOrEditRouteCommand { get; set; }
         public ICommand DeleteRouteCommand { get; set; }
         public ICommand AddInFeeCommand { get; set; }
         public ICommand DeleteInFeeCommand { get; set; }
         public ICommand AddOutFeeCommand { get; set; }
         public ICommand DeleteOutFeeCommand { get; set; }
+        public ICommand DisableAddOrEditRouteButton { get; set; }
+        public ICommand DisableAddInFeeButton { get; set; }
+        public ICommand DisableAddOutFee { get; set; }
+        public ICommand DisableAddOutFeeContent { get; set; }
+
+        #endregion
         public DetailUCViewModel()
         {
             AddOrUpdateRouteContent = "THÊM";
@@ -228,17 +395,18 @@ namespace WeSplitApp.ViewModels
             int JourneyId = DetailTripId;
             DetailJourney = DataProvider.Ins.DB.Journeys.Where(x => x.Id == JourneyId).FirstOrDefault();
 
-            DeleteParticipantCommand = new RelayCommand<Member>((param) => { return true; }, (param) => {
+            DeleteParticipantCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
                 if (Global.GetInstance().ConfirmMessageDelete() == true)
                 {
-                    foreach (var expense in DataProvider.Ins.DB.Expenses.Where(x => x.JourneyId == DetailJourney.Id && x.MemberId == param.Id))
+                    Member deleteMember = DataProvider.Ins.DB.Members.Find(param.Id);
+                    foreach (var expense in DataProvider.Ins.DB.Expenses.Where(x => x.JourneyId == DetailJourney.Id && x.MemberId == deleteMember.Id))
                     {
                         DataProvider.Ins.DB.Expenses.Remove(expense);
                     }
-                    DataProvider.Ins.DB.Journeys.Find(DetailJourney.Id).Members.Remove(param);
-                    DataProvider.Ins.DB.Members.Find(param.Id).Journeys.Remove(DetailJourney);
+                    DataProvider.Ins.DB.Journeys.Find(DetailJourney.Id).Members.Remove(deleteMember);
+                    DataProvider.Ins.DB.Members.Find(deleteMember.Id).Journeys.Remove(DetailJourney);
                     DataProvider.Ins.DB.SaveChanges();
-                    MemberList.Add(param);
+                    MemberList.Add(deleteMember);
                     DetailMemberList.Remove(param);
                 }
             });
@@ -260,9 +428,11 @@ namespace WeSplitApp.ViewModels
                 DataProvider.Ins.DB.Members.Find(SelectedMember.Id).Journeys.Add(DetailJourney);
                 MemberList.Remove(SelectedMember);
                 DataProvider.Ins.DB.SaveChanges();
+                SelectedMember = null;
+                IsEnabledAddParticipantButton = false;
             });
 
-            AddRouteCommand = new RelayCommand<object>((param) => { return true; }, (param) => {
+            AddOrEditRouteCommand = new RelayCommand<object>((param) => { return true; }, (param) => {
                 if (RouteName == null || RouteName == "")
                 {
                     MessageBox.Show("Please enter route name");
@@ -270,11 +440,12 @@ namespace WeSplitApp.ViewModels
                 }
                 if (SelectedRoute == null)
                 {
-                    DataProvider.Ins.DB.Routes.Add(new Route { 
+                    DataProvider.Ins.DB.Routes.Add(new Route
+                    {
                         JourneyId = DetailJourney.Id,
                         OrderNumber = (DetailJourney.Routes == null) ? 1 : DetailJourney.Routes.Max(x => x.OrderNumber) + 1,
                         Name = RouteName,
-                        Description=RouteDescription,
+                        Description = RouteDescription,
                     });
                     DataProvider.Ins.DB.SaveChanges();
                     dynamic tmp = new
@@ -305,8 +476,11 @@ namespace WeSplitApp.ViewModels
                     }
                 }
                 SelectedRoute = null;
+                RouteName = null;
+                RouteDescription = null;
+                IsEnabledAddOrEditRouteButton = false;
             });
-            
+
             DeleteRouteCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
                 if (Global.GetInstance().ConfirmMessageDelete() == true)
                 {
@@ -348,7 +522,7 @@ namespace WeSplitApp.ViewModels
                 dynamic tmp = new
                 {
                     Id = newexpense.OrderNumber,
-                    MemberId =  newexpense.MemberId,
+                    MemberId = newexpense.MemberId,
                     Name = newexpense.Member.Name,
                     Fees = newexpense.Fees.Value,
                 };
@@ -356,6 +530,7 @@ namespace WeSplitApp.ViewModels
 
                 SelectedInFeeMember = null;
                 InFee = null;
+                IsEnabledAddInFeeButton = false;
             });
 
             DeleteInFeeCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
@@ -424,6 +599,7 @@ namespace WeSplitApp.ViewModels
                 DataProvider.Ins.DB.SaveChanges();
                 OutFeeContent = null;
                 OutFee = null;
+                IsEnabledAddOutFeeButton = false;
             });
 
             DeleteOutFeeCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
@@ -435,9 +611,23 @@ namespace WeSplitApp.ViewModels
                     OutFeesList.Remove(param);
                 }
             });
+
+            DisableAddOrEditRouteButton = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
+                IsEnabledAddOrEditRouteButton = false;
+            });
+            DisableAddInFeeButton = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
+                IsInFeeValid = false;
+                IsEnabledAddInFeeButton = false;
+            });
+            DisableAddOutFee = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
+                IsOutFeeValid = false;
+                IsEnabledAddOutFeeButton = false;
+            });
+            DisableAddOutFeeContent = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
+                IsOutFeeContentValid = false;
+                IsEnabledAddOutFeeButton = false;
+            });
         }
-
-
 
         public BitmapImage ByteArrayToImage(byte[] imageData)
         {
@@ -455,6 +645,93 @@ namespace WeSplitApp.ViewModels
             }
             image.Freeze();
             return image;
+        }
+    }
+
+    public class RoutedEventTrigger : EventTriggerBase<DependencyObject>
+    {
+        RoutedEvent _routedEvent;
+        public RoutedEvent RoutedEvent
+        {
+            get => _routedEvent;
+            set { _routedEvent = value; }
+        }
+        public RoutedEventTrigger() { }
+        protected override void OnAttached()
+        {
+            Behavior behavior = base.AssociatedObject as Behavior;
+            FrameworkElement associatedElement = base.AssociatedObject as FrameworkElement;
+            if (behavior != null)
+            {
+                associatedElement = ((IAttachedObject)behavior).AssociatedObject as FrameworkElement;
+            }
+            if (associatedElement == null)
+            {
+                throw new ArgumentException("Routed Event Trigger can only be associated to framework elements");
+            }
+            if (RoutedEvent != null)
+            {
+                associatedElement.AddHandler(RoutedEvent, new RoutedEventHandler(this.OnRoutedEvent));
+            }
+        }
+        void OnRoutedEvent(object sender, RoutedEventArgs args)
+        {
+            base.OnEvent(args);
+        }
+        protected override string GetEventName()
+        {
+            return RoutedEvent.Name;
+        }
+    }
+    public class IsNotNullStringRule : ValidationRule
+    {
+        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+        {
+            try
+            {
+                if (((string)value).Length > 0)
+                {
+                    return ValidationResult.ValidResult;
+                }
+                else
+                {
+                    return new ValidationResult(false, "Vui lòng không bỏ trống trường này");
+                }
+            }
+            catch (Exception e)
+            {
+                return new ValidationResult(false, e.Message);
+            }
+
+        }
+    }
+    public class IsOnlyContainNumberRule : ValidationRule
+    {
+        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+        {
+            try
+            {
+                if (((string)value).Length > 0)
+                {
+                    if (System.Text.RegularExpressions.Regex.IsMatch((string)value, "^[0-9]+$"))
+                    {
+                        return ValidationResult.ValidResult;
+                    }
+                    else
+                    {
+                        return new ValidationResult(false, "Vui lòng nhập trường này chỉ bao gồm kí tự số");
+                    }
+                }
+                else
+                {
+                    return new ValidationResult(false, "Vui lòng không bỏ trống trường này");
+                }
+            }
+            catch (Exception e)
+            {
+                return new ValidationResult(false, e.Message);
+            }
+
         }
     }
 }

@@ -1,11 +1,13 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using WeSplitApp.Model;
@@ -15,7 +17,7 @@ namespace WeSplitApp.ViewModels
 {
     class MembersUCViewModel : BaseViewModel
     {
-        //Properties 
+        #region Properties
 
         private AsyncObservableCollection<dynamic> _memberList;
         public AsyncObservableCollection<dynamic> MemberList { get => _memberList; set { _memberList = value; OnPropertyChanged(); } }
@@ -47,25 +49,80 @@ namespace WeSplitApp.ViewModels
         }
 
         private string _memberName;
-        public string MemberName { get => _memberName; set { _memberName = value; OnPropertyChanged(); } }
+        public string MemberName 
+        { 
+            get => _memberName; 
+            set 
+            { 
+                _memberName = value; 
+                if (MemberName != null && MemberPhone != null && MemberEmail != null && IsPhoneValid == true && IsEmailValid == true)
+                {
+                    IsEnabledAddMemberButton = true;
+                }
+                IsNameValid = true;
+                OnPropertyChanged(); 
+            } 
+        }
 
         private string _memberPhone;
-        public string MemberPhone { get => _memberPhone; set { _memberPhone = value; OnPropertyChanged(); } }
+        public string MemberPhone 
+        {
+            get => _memberPhone; 
+            set
+            { 
+                _memberPhone = value;
+                if (MemberName != null && MemberPhone != null && MemberEmail != null && IsNameValid == true && IsEmailValid == true)
+                {
+                    IsEnabledAddMemberButton = true;
+                }
+                IsPhoneValid = true;
+                OnPropertyChanged();
+            } 
+        }
 
         private string _memberEmail;
-        public string MemberEmail { get => _memberEmail; set { _memberEmail = value; OnPropertyChanged(); } }
+        public string MemberEmail 
+        { 
+            get => _memberEmail; 
+            set
+            { 
+                _memberEmail = value;
+                if (MemberName != null && MemberPhone != null && MemberEmail != null && IsNameValid == true && IsPhoneValid == true)
+                {
+                    IsEnabledAddMemberButton = true;
+                }
+                IsEmailValid = true;
+                OnPropertyChanged();
+            }
+        }
 
         private byte[] _imageCover;
         public byte[] ImageCover { get => _imageCover; set { _imageCover = value; OnPropertyChanged(); } }
 
         private string _updateOrAddContent;
         public string UpdateOrAddContent { get => _updateOrAddContent; set { _updateOrAddContent = value; OnPropertyChanged(); } }
+        #endregion
 
+        #region IsValidValue
+        private bool _isNameValid;
+        public bool IsNameValid { get => _isNameValid; set { _isNameValid = value; OnPropertyChanged(); } }
+        private bool _isEmailValid;
+        public bool IsEmailValid { get => _isEmailValid; set { _isEmailValid = value; OnPropertyChanged(); } }
+        private bool _isPhoneValid;
+        public bool IsPhoneValid { get => _isPhoneValid; set { _isPhoneValid = value; OnPropertyChanged(); } }
+        #endregion
 
-        //Commands
+        private bool _isEnabledAddMemberButton;
+        public bool IsEnabledAddMemberButton { get => _isEnabledAddMemberButton; set { _isEnabledAddMemberButton = value; OnPropertyChanged(); } }
+
+        #region Command
         public ICommand AddImageCommand { get; set; }
         public ICommand AddMemberCommand { get; set; }
         public ICommand DeleteMemberCommand { get; set; }
+        public ICommand DisableName { get; set; }
+        public ICommand DisableEmail { get; set; }
+        public ICommand DisablePhone { get; set; }
+        #endregion
 
         public MembersUCViewModel()
         {
@@ -121,6 +178,7 @@ namespace WeSplitApp.ViewModels
                     AddMemberToViewList(newMember);
                 }
                 SelectedMember = null;
+                IsEnabledAddMemberButton = false;
             });
 
             DeleteMemberCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
@@ -144,6 +202,19 @@ namespace WeSplitApp.ViewModels
                     }
                 }
             });
+            DisableName = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
+                IsNameValid = false;
+                IsEnabledAddMemberButton = false;
+            });
+            DisableEmail = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
+                IsEmailValid = false;
+                IsEnabledAddMemberButton = false;
+            });
+            DisablePhone = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
+                IsPhoneValid = false;
+                IsEnabledAddMemberButton = false;
+            });
+
         }
 
 
@@ -168,6 +239,35 @@ namespace WeSplitApp.ViewModels
                 Avatar = (member.ImageBytes != null) ? member.ImageBytes : System.Text.Encoding.Default.GetBytes(Global.GetInstance().NoImageStringSource),
             };
             MemberList.Add(tmp);
+        }
+    }
+    public class IsEmailFormatRule : ValidationRule
+    {
+        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+        {
+            try
+            {
+                if (((string)value).Length > 0)
+                {
+                    if (System.Text.RegularExpressions.Regex.IsMatch((string)value, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"))
+                    {
+                        return ValidationResult.ValidResult;
+                    }
+                    else
+                    {
+                        return new ValidationResult(false, "Vui lòng nhập trường này đúng định dạng email");
+                    }
+                }
+                else
+                {
+                    return new ValidationResult(false, "Vui lòng không bỏ trống trường này");
+                }
+            }
+            catch (Exception e)
+            {
+                return new ValidationResult(false, e.Message);
+            }
+
         }
     }
 }

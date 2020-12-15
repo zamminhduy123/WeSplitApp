@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WeSplitApp.UserControls"
              xmlns:xlocal ="clr-namespace:WeSplitApp"
-             
+             xmlns:vmlocal="clr-namespace:WeSplitApp.ViewModels"
              
             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -88,7 +88,20 @@
                                   materialDesign:HintAssist.Hint="Tên chuyến đi"
                                   Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                   VerticalAlignment="Center"
-                                  FontSize="20" Text="{Binding JourneyName}"/>
+                                  FontSize="20">
+                                <TextBox.Text>
+                                    <Binding Path="JourneyName" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
+                                        <Binding.ValidationRules>
+                                            <vmlocal:IsNotNullStringRule/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                                <i:Interaction.Triggers>
+                                    <vmlocal:RoutedEventTrigger RoutedEvent="{x:Static Validation.ErrorEvent}">
+                                        <i:InvokeCommandAction Command="{Binding DisableName}"/>
+                                    </vmlocal:RoutedEventTrigger>
+                                </i:Interaction.Triggers>
+                            </TextBox>
 
                             <ComboBox Margin="5 10"
                                   materialDesign:HintAssist.Hint="Địa danh"
@@ -116,6 +129,7 @@
                                   Style="{StaticResource MaterialDesignFlatButton}"
                                   IsDefault="True"
                                   Margin="0 8 8 0"
+                                  IsEnabled="{Binding IsEnabledAddJourneyButton}"
                                   Command="{Binding AddJourneyCommand}"  CommandParameter="true">
                             ACCEPT
                         </Button>

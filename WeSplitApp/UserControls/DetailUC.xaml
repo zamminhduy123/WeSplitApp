@@ -5,6 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WeSplitApp.UserControls"
              xmlns:xlocal="clr-namespace:WeSplitApp"
+             xmlns:vmlocal="clr-namespace:WeSplitApp.ViewModels"
+             
         
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -22,7 +24,7 @@
                       MethodName="GetInstance" />
     </UserControl.Resources>
 
-    <TabControl TabStripPlacement="Top"  Margin="10" Background="Transparent" BorderBrush="Transparent" SelectedItem="{Binding SelectedTab}" >
+    <TabControl TabStripPlacement="Top"  Margin="10" Background="Transparent" BorderBrush="Transparent" SelectedItem="{Binding SelectedTab, UpdateSourceTrigger=PropertyChanged}" >
         <TabItem  Header="Thời gian" FontSize="45" FontWeight="Medium" Style="{StaticResource customTabItem}" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Grid>
                 <Grid.RowDefinitions>
@@ -32,21 +34,21 @@
                 <!-- thumbnail image -->
                 <Border Grid.Row="0" BorderThickness="2"
                             BorderBrush="{x:Null}"
-                            CornerRadius="50">      
-                        <Grid>
-                            <Border Name="Mask"
+                            CornerRadius="50">
+                    <Grid>
+                        <Border Name="Mask"
                                     Background="White"
                                     BorderBrush="Black"
                                     BorderThickness="2"
-                                    CornerRadius="30">  
-                            </Border>
-                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <Image Stretch="None" RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding Cover}"/>
-                                <StackPanel.OpacityMask>
-                                    <VisualBrush Visual="{Binding ElementName=Mask}" />
-                                </StackPanel.OpacityMask>
-                            </StackPanel>
-                        </Grid>
+                                    CornerRadius="30">
+                        </Border>
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Image Stretch="None" RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding Cover}"/>
+                            <StackPanel.OpacityMask>
+                                <VisualBrush Visual="{Binding ElementName=Mask}" />
+                            </StackPanel.OpacityMask>
+                        </StackPanel>
+                    </Grid>
                 </Border>
 
                 <!-- date -->
@@ -94,6 +96,7 @@
                             Style="{StaticResource MaterialDesignRaisedAccentButton}"
                             Width="150"
                             Height="50"
+                            IsEnabled="{Binding IsEnabledAddParticipantButton}"
                             materialDesign:RippleAssist.Feedback="#DD000000" Command="{Binding AddParticipantCommand}" Content="THÊM">
                         </Button>
                     </StackPanel>
@@ -135,17 +138,29 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <DockPanel Margin="0">
-                        <Border  CornerRadius="50 50 0 0"    Height="100" Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}" DockPanel.Dock="Top"> 
+                        <Border  CornerRadius="50 50 0 0"    Height="100" Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}" DockPanel.Dock="Top">
                             <TextBlock Text="LỘ TRÌNH CHUYẾN ĐI" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
                         </Border>
                         <StackPanel Orientation="Vertical" DockPanel.Dock="Left" Width="800" MinWidth="300">
                             <TextBox Grid.Row="1" Grid.Column="2" Margin="10"
                               materialDesign:HintAssist.Hint="Tên"
-                                      BorderBrush="{Binding Source={StaticResource themeColor},Path=ThemeColor}"
-                              materialDesign:HintAssist.HintOpacity=".26" Text="{Binding RouteName}" FontSize="20"></TextBox>
+                              materialDesign:HintAssist.HintOpacity=".26" FontSize="20">
+                                <TextBox.Text>
+                                    <Binding Path="RouteName" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
+                                        <Binding.ValidationRules>
+                                            <vmlocal:IsNotNullStringRule/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                                <i:Interaction.Triggers>
+                                    <vmlocal:RoutedEventTrigger RoutedEvent="{x:Static Validation.ErrorEvent}">
+                                        <i:InvokeCommandAction Command="{Binding DisableAddOrEditRouteButton}"/>
+                                    </vmlocal:RoutedEventTrigger>
+                                </i:Interaction.Triggers>
+                            </TextBox>
                             <TextBox TextWrapping="Wrap" AcceptsReturn="True" Grid.Row="1" Grid.Column="2" Margin="10"
                               materialDesign:HintAssist.Hint="Mô tả"
-                              materialDesign:HintAssist.HintOpacity=".26" Height="130" Text="{Binding RouteDescription}" FontSize="20" VerticalScrollBarVisibility="Auto"/>
+                              materialDesign:HintAssist.HintOpacity=".26" Height="130" Text="{Binding RouteDescription, UpdateSourceTrigger=PropertyChanged}" FontSize="20" VerticalScrollBarVisibility="Auto"/>
                         </StackPanel>
                         <Button DockPanel.Dock="Right"
                                 Margin="0 10 0 0"
@@ -153,29 +168,30 @@
                                 Style="{StaticResource MaterialDesignRaisedAccentButton}"
                                 Width="75"
                                 Height="75"
-                                materialDesign:RippleAssist.Feedback="#DD000000" Command="{Binding AddRouteCommand}" Content="{Binding AddOrUpdateRouteContent}">
+                                IsEnabled="{Binding IsEnabledAddOrEditRouteButton}"
+                                materialDesign:RippleAssist.Feedback="#DD000000" Command="{Binding AddOrEditRouteCommand}" Content="{Binding AddOrUpdateRouteContent}">
                         </Button>
                     </DockPanel>
                     <ListView Grid.Row="1" x:Name="RoutesList" Margin="0 0 0 30" ItemsSource="{Binding DetailRouteList}" SelectedItem="{Binding SelectedRoute}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto">
-                            <ListView.ItemTemplate >
-                                <DataTemplate>
-                                    <Grid Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}},Path=ActualWidth}">
-                                        <StackPanel Orientation="Vertical">
-                                            <TextBlock Text="{Binding Name}" FontSize="20" FontWeight="Medium" Margin="0 10" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
-                                            <TextBlock Text="{Binding Description}" FontSize="15" TextWrapping="Wrap" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
-                                            <Button
+                        <ListView.ItemTemplate >
+                            <DataTemplate>
+                                <Grid Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}},Path=ActualWidth}">
+                                    <StackPanel Orientation="Vertical">
+                                        <TextBlock Text="{Binding Name}" FontSize="20" FontWeight="Medium" Margin="0 10" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                                        <TextBlock Text="{Binding Description}" FontSize="15" TextWrapping="Wrap" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                                        <Button
                                                 Style="{StaticResource MaterialDesignFlatMidBgButton}"
                                                 ToolTip="Xóa thành viên" Content="XÓA"
                                                  BorderBrush="{Binding Source={StaticResource themeColor},Path=ThemeColor}"
                                                  Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}"
                                                 Width="100"
                                                 Command="{Binding ElementName=RoutesList, Path=DataContext.DeleteRouteCommand}" CommandParameter="{Binding}">
-                                            </Button>
-                                        </StackPanel>
-                                    </Grid>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
+                                        </Button>
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
 
                 </Grid>
             </Border>
@@ -206,22 +222,34 @@
                             <ComboBox Grid.Row="1" Grid.Column="2" Margin="0 10"
                                   materialDesign:HintAssist.Hint="Chọn thành viên"
                                   FontSize="20"
-                                  materialDesign:HintAssist.HintOpacity=".26" SelectedItem="{Binding SelectedInFeeMember}" ItemsSource="{Binding PaticipantsList}"
+                                  materialDesign:HintAssist.HintOpacity=".26" SelectedItem="{Binding SelectedInFeeMember, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding PaticipantsList}"
                           IsEditable="True" DisplayMemberPath="Name" Width="240">
                             </ComboBox>
                             <Button
                             Margin="10 5 0 0"
                             Style="{StaticResource MaterialDesignRaisedAccentButton}"
                             Width="150"
-                            Height="40"
+                            Height="50"
+                            IsEnabled="{Binding IsEnabledAddInFeeButton}"
                             materialDesign:RippleAssist.Feedback="#DD000000" Command="{Binding AddInFeeCommand}" Content="THÊM">
                             </Button>
                         </StackPanel>
                         <TextBox  
                                   materialDesign:HintAssist.Hint="Nhập số tiền (VNĐ)"
                                   FontSize="20"
-                                  materialDesign:HintAssist.HintOpacity=".26" Margin="20 5" Text="{Binding InFee}">
-                           
+                                  materialDesign:HintAssist.HintOpacity=".26" Margin="20 5">
+                            <TextBox.Text>
+                                <Binding Path="InFee" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
+                                    <Binding.ValidationRules>
+                                        <vmlocal:IsOnlyContainNumberRule/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                            <i:Interaction.Triggers>
+                                <vmlocal:RoutedEventTrigger RoutedEvent="{x:Static Validation.ErrorEvent}">
+                                    <i:InvokeCommandAction Command="{Binding DisableAddInFeeButton}"/>
+                                </vmlocal:RoutedEventTrigger>
+                            </i:Interaction.Triggers>
                         </TextBox>
                         <ListView x:Name="InFeesList"  ItemsSource="{Binding InFeesList}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                             <ListView.ItemTemplate >
@@ -261,26 +289,52 @@
                             <!--Background = "{Binding Source={StaticResource themeColor},Path=ThemeColor}"-->
                             <TextBlock Text="BẢNG CHI" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
                         </Border>
-                        <TextBox Grid.Row="1" Grid.Column="2" Margin="20 10" Text="{Binding OutFeeContent}"
+                        <TextBox Grid.Row="1" Grid.Column="2" Margin="20 10"
                                   materialDesign:HintAssist.Hint="Nhập tên khoản chi hoặc chọn khoản chi đã có"
                                   FontSize="20"
-                                  materialDesign:HintAssist.HintOpacity=".26" >
+                                  materialDesign:HintAssist.HintOpacity=".26" Width="450">
+                            <TextBox.Text>
+                                <Binding Path="OutFeeContent" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
+                                    <Binding.ValidationRules>
+                                        <vmlocal:IsNotNullStringRule/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                            <i:Interaction.Triggers>
+                                <vmlocal:RoutedEventTrigger RoutedEvent="{x:Static Validation.ErrorEvent}">
+                                    <i:InvokeCommandAction Command="{Binding DisableAddOutFeeContent}"/>
+                                </vmlocal:RoutedEventTrigger>
+
+                            </i:Interaction.Triggers>
                         </TextBox>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="437">
                             <TextBox  
                                   materialDesign:HintAssist.Hint="Nhập số tiền (VNĐ)"
                                   FontSize="20"
-                                  materialDesign:HintAssist.HintOpacity=".26" Margin="20 5" Text="{Binding OutFee}">
+                                  materialDesign:HintAssist.HintOpacity=".26" Margin="20 5" Width="242">
+                                <TextBox.Text>
+                                    <Binding Path="OutFee" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
+                                        <Binding.ValidationRules>
+                                            <vmlocal:IsOnlyContainNumberRule/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                                <i:Interaction.Triggers>
+                                    <vmlocal:RoutedEventTrigger RoutedEvent="{x:Static Validation.ErrorEvent}">
+                                        <i:InvokeCommandAction Command="{Binding DisableAddOutFee}"/>
+                                    </vmlocal:RoutedEventTrigger>
 
+                                </i:Interaction.Triggers>
                             </TextBox>
                             <Button
                             Style="{StaticResource MaterialDesignRaisedAccentButton}"
                             Width="150"
-                            Height="40"
+                            Height="50"
+                            IsEnabled="{Binding IsEnabledAddOutFeeButton}"
                             materialDesign:RippleAssist.Feedback="#DD000000" Command="{Binding AddOutFeeCommand}" Content="THÊM">
                             </Button>
                         </StackPanel>
-                        
+
                         <ListView x:Name="OutFeesList"  ItemsSource="{Binding OutFeesList}" SelectedItem="{Binding SelectedOutFee}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="20 10">
                             <ListView.ItemTemplate >
                                 <DataTemplate>
