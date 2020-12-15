@@ -78,13 +78,14 @@
                     <DropShadowEffect BlurRadius="10" ShadowDepth="10"></DropShadowEffect>
                 </Border.Effect>
                 <StackPanel>
-                    <Border  CornerRadius="50 50 0 0"  BorderThickness="0" BorderBrush="Black" Height="100" Background="#03254c">
+                    <Border  CornerRadius="50 50 0 0"  BorderThickness="0" BorderBrush="Black" Height="100"  Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}">
                         <TextBlock Text="THÀNH VIÊN THAM GIA" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
                     </Border>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="20 0 0 0">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 0 0 0">
                         <ComboBox Grid.Row="1" Grid.Column="2" Margin="20 10"
                           materialDesign:HintAssist.Hint="Chọn thành viên để thêm vào"
                                   FontSize="30"
+                                   BorderBrush="{Binding Source={StaticResource themeColor},Path=ThemeColor}"
                           materialDesign:HintAssist.HintOpacity=".26" SelectedItem="{Binding SelectedMember}" ItemsSource="{Binding MemberList}"
                           IsEditable="True" DisplayMemberPath="Name" Width="auto">
                         </ComboBox>
@@ -109,6 +110,8 @@
                                             Style="{StaticResource MaterialDesignFlatMidBgButton}"
                                             Content="XÓA"
                                             Width="150"
+                                             BorderBrush="{Binding Source={StaticResource themeColor},Path=ThemeColor}"
+                                             Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}"
                                             Command="{Binding ElementName=ParticipantsList, Path=DataContext.DeleteParticipantCommand}" CommandParameter="{Binding}">
                                     </Button>
                                 </Grid>
@@ -132,12 +135,13 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <DockPanel Margin="0">
-                        <Border  CornerRadius="50 50 0 0"    Height="100" Background="#03254c" DockPanel.Dock="Top"> 
+                        <Border  CornerRadius="50 50 0 0"    Height="100" Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}" DockPanel.Dock="Top"> 
                             <TextBlock Text="LỘ TRÌNH CHUYẾN ĐI" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
                         </Border>
                         <StackPanel Orientation="Vertical" DockPanel.Dock="Left" Width="800" MinWidth="300">
                             <TextBox Grid.Row="1" Grid.Column="2" Margin="10"
                               materialDesign:HintAssist.Hint="Tên"
+                                      BorderBrush="{Binding Source={StaticResource themeColor},Path=ThemeColor}"
                               materialDesign:HintAssist.HintOpacity=".26" Text="{Binding RouteName}" FontSize="20"></TextBox>
                             <TextBox TextWrapping="Wrap" AcceptsReturn="True" Grid.Row="1" Grid.Column="2" Margin="10"
                               materialDesign:HintAssist.Hint="Mô tả"
@@ -145,6 +149,7 @@
                         </StackPanel>
                         <Button DockPanel.Dock="Right"
                                 Margin="0 10 0 0"
+                                
                                 Style="{StaticResource MaterialDesignRaisedAccentButton}"
                                 Width="75"
                                 Height="75"
@@ -160,7 +165,9 @@
                                             <TextBlock Text="{Binding Description}" FontSize="15" TextWrapping="Wrap" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
                                             <Button
                                                 Style="{StaticResource MaterialDesignFlatMidBgButton}"
-                                                ToolTip="MaterialDesignFlatMidButton" Content="XÓA"
+                                                ToolTip="Xóa thành viên" Content="XÓA"
+                                                 BorderBrush="{Binding Source={StaticResource themeColor},Path=ThemeColor}"
+                                                 Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}"
                                                 Width="100"
                                                 Command="{Binding ElementName=RoutesList, Path=DataContext.DeleteRouteCommand}" CommandParameter="{Binding}">
                                             </Button>
@@ -190,24 +197,23 @@
                     <Border.Effect>
                         <DropShadowEffect BlurRadius="10" ShadowDepth="10"></DropShadowEffect>
                     </Border.Effect>
-                    
                     <StackPanel>
                         <Border  CornerRadius="50 50 0 0"  BorderThickness="0" BorderBrush="Black" Height="100" Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}">
                             <!--Background = "{Binding Source={StaticResource themeColor},Path=ThemeColor}"-->
-                            <TextBlock Text="Bảng thu" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
+                            <TextBlock Text="BẢNG THU" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
                         </Border>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="20 0 0 0" Width="437">
-                            <ComboBox Grid.Row="1" Grid.Column="2" Margin="20 10"
+                            <ComboBox Grid.Row="1" Grid.Column="2" Margin="0 10"
                                   materialDesign:HintAssist.Hint="Chọn thành viên"
                                   FontSize="20"
                                   materialDesign:HintAssist.HintOpacity=".26" SelectedItem="{Binding SelectedInFeeMember}" ItemsSource="{Binding PaticipantsList}"
                           IsEditable="True" DisplayMemberPath="Name" Width="240">
                             </ComboBox>
                             <Button
-                            Margin="0 10 0 0"
+                            Margin="10 5 0 0"
                             Style="{StaticResource MaterialDesignRaisedAccentButton}"
                             Width="150"
-                            Height="50"
+                            Height="40"
                             materialDesign:RippleAssist.Feedback="#DD000000" Command="{Binding AddInFeeCommand}" Content="THÊM">
                             </Button>
                         </StackPanel>
@@ -220,7 +226,7 @@
                         <ListView x:Name="InFeesList"  ItemsSource="{Binding InFeesList}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                             <ListView.ItemTemplate >
                                 <DataTemplate>
-                                    <Grid Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}},Path=ActualWidth}">
+                                    <Grid Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}},Path=ActualWidth}" Margin="10 5">
                                         <StackPanel Orientation="Vertical">
                                             <TextBlock Text="{Binding Name}" FontSize="20" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
                                             <StackPanel Orientation="Horizontal">
@@ -230,6 +236,8 @@
                                         </StackPanel>
                                         <Button HorizontalAlignment="Right"
                                                     Margin="0 0 50 0"
+                                                    BorderBrush="{Binding Source={StaticResource themeColor},Path=ThemeColor}"
+                                                    Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}" 
                                                     Style="{StaticResource MaterialDesignFlatMidBgButton}"
                                                     Content="XÓA"
                                                     Width="150"
@@ -251,43 +259,43 @@
                     <StackPanel>
                         <Border  CornerRadius="50 50 0 0"  BorderThickness="0" BorderBrush="Black" Height="100" Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}">
                             <!--Background = "{Binding Source={StaticResource themeColor},Path=ThemeColor}"-->
-                            <TextBlock Text="Bảng chi" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
+                            <TextBlock Text="BẢNG CHI" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
                         </Border>
                         <TextBox Grid.Row="1" Grid.Column="2" Margin="20 10" Text="{Binding OutFeeContent}"
                                   materialDesign:HintAssist.Hint="Nhập tên khoản chi hoặc chọn khoản chi đã có"
                                   FontSize="20"
-                                  materialDesign:HintAssist.HintOpacity=".26" Width="450">
+                                  materialDesign:HintAssist.HintOpacity=".26" >
                         </TextBox>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="20 0 0 0" Width="437">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="437">
                             <TextBox  
                                   materialDesign:HintAssist.Hint="Nhập số tiền (VNĐ)"
                                   FontSize="20"
-                                  materialDesign:HintAssist.HintOpacity=".26" Margin="20 5" Text="{Binding OutFee}" Width="242">
+                                  materialDesign:HintAssist.HintOpacity=".26" Margin="20 5" Text="{Binding OutFee}">
 
                             </TextBox>
                             <Button
-                            Margin="0 10 0 0"
                             Style="{StaticResource MaterialDesignRaisedAccentButton}"
                             Width="150"
-                            Height="50"
+                            Height="40"
                             materialDesign:RippleAssist.Feedback="#DD000000" Command="{Binding AddOutFeeCommand}" Content="THÊM">
                             </Button>
                         </StackPanel>
                         
-                        <ListView x:Name="OutFeesList"  ItemsSource="{Binding OutFeesList}" SelectedItem="{Binding SelectedOutFee}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                        <ListView x:Name="OutFeesList"  ItemsSource="{Binding OutFeesList}" SelectedItem="{Binding SelectedOutFee}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="20 10">
                             <ListView.ItemTemplate >
                                 <DataTemplate>
                                     <Grid Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}},Path=ActualWidth}">
                                         <StackPanel Orientation="Vertical">
                                             <TextBlock Text="{Binding Name}" FontSize="20" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
-                                            <StackPanel Orientation="Horizontal">
+                                            <StackPanel Orientation="Horizontal" Margin="0 5">
                                                 <TextBlock Text="{Binding Fees}" FontSize="15" TextWrapping="Wrap" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
                                                 <TextBlock Text=" VNĐ" FontSize="15" TextWrapping="Wrap" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
-                                                
                                             </StackPanel>
                                         </StackPanel>
                                         <Button HorizontalAlignment="Right"
-                                                    Margin="0 0 50 0"
+                                                    Margin="0 0 20 0"
+                                                    BorderBrush="{Binding Source={StaticResource themeColor},Path=ThemeColor}"
+                                                    Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}"
                                                     Style="{StaticResource MaterialDesignFlatMidBgButton}"
                                                     Content="XÓA"
                                                     Width="150"
@@ -311,7 +319,7 @@
                     <DropShadowEffect BlurRadius="10" ShadowDepth="10"></DropShadowEffect>
                 </Border.Effect>
                 <StackPanel>
-                    <Border  CornerRadius="50 50 0 0"  Height="100" Background="#03254c" >
+                    <Border  CornerRadius="50 50 0 0"  Height="100"  Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}" >
                         <TextBlock Text="TỔNG KẾT" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
                     </Border>
                     <!--<ListView ItemsSource="{Binding SummaryList}">

@@ -45,26 +45,29 @@
                 <ListView x:Name="PlacesList" ItemsSource="{Binding LocationList}" SelectedItem="{Binding SelectedLocation}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <Grid Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}},Path=ActualWidth}" Margin="5">
-
-                                <!--<Image Source="{Binding ImageBytes, Converter={StaticResource ImageConverter}}"></Image>-->
-                                <StackPanel Orientation="Vertical">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding Name}" Margin="5 0" FontSize="20" FontWeight="Medium" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                                        <TextBlock Text="-" FontSize="20" Margin="10 0"  Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                                        <TextBlock Text="{Binding Province}" Margin="10 0" FontSize="15" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                            <StackPanel>
+                                <DockPanel LastChildFill="True" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}},Path=ActualWidth}">
+                                    <Image DockPanel.Dock="Left" Width="200" Height="200" Source="{Binding ImageBytes, Converter={StaticResource ImageConverter}}"></Image>
+                                    <StackPanel Orientation="Vertical" DockPanel.Dock="Right" VerticalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Name}" Margin="5 0" FontSize="20" FontWeight="Medium" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                            <TextBlock Text="-" FontSize="20" Margin="10 0"  Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                            <TextBlock Text="{Binding Province}" Margin="10 0" FontSize="15" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <TextBlock Text="{Binding Address}" Margin="5 5 0 0" FontSize="15" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                                        <TextBlock Text="{Binding Description}" Margin="5 5 50 0" TextWrapping="Wrap" FontSize="13" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
                                     </StackPanel>
-                                    <TextBlock Text="{Binding Address}" Margin="5 5 0 0" FontSize="15" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
-                                    <TextBlock Text="{Binding Description}" Margin="5 5 50 0" TextWrapping="Wrap" FontSize="13" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
-                                    <Button
-                                        Margin="10"
+                                </DockPanel>
+                                <Button DockPanel.Dock="Bottom"
+                                        Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}"
+                                        BorderBrush="{Binding Source={StaticResource themeColor},Path=ThemeColor}"
+                                        Margin="0 5"
                                         Width="100"
                                         Style="{StaticResource MaterialDesignFlatMidBgButton}"
                                         Content="XÓA"
                                         Command="{Binding ElementName=PlacesList, Path=DataContext.DeletePlaceCommand}" CommandParameter="{Binding}">
-                                    </Button>
-                                </StackPanel>
-                            </Grid>
+                                </Button>
+                            </StackPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
@@ -79,10 +82,7 @@
             </Border.Effect>
             <StackPanel>
                 <Border  CornerRadius="50 50 0 0"  BorderThickness="0" BorderBrush="Black" Height="100" Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}">
-                    <StackPanel Orientation="Horizontal" Width="227">
-                        <TextBlock Text="{Binding UpdateOrAddContent}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
-                        <TextBlock Text=" ĐỊA DANH" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"/>
-                    </StackPanel>
+                    <TextBlock Text="{Binding UpdateOrAddContent}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
                 </Border>
                 <StackPanel Orientation="Vertical" Margin="0 20 0 0 ">
                     <TextBox Grid.Row="0" Grid.Column="0" Margin="10"
@@ -98,7 +98,8 @@
                             Grid.Column="0"
                             Grid.Row="1"
                           Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
-                          ToolTip="MaterialDesignFloatingActionDarkButton"
+                          ToolTip="Thêm ảnh"
+                            BorderBrush="{Binding Source={StaticResource themeColor},Path=ThemeColor}"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Center" Command="{Binding AddImageCommand}"
                             Background="{Binding ThemeColor, Source={StaticResource themeColor}}"
@@ -110,14 +111,12 @@
                                 Width="24" />
                         </Button>
                     </Border>
-
-
-
+                     <!-- Address -->
                     <TextBox Grid.Row="1" Grid.Column="0"
                               materialDesign:HintAssist.Hint="Địa chỉ"
                               Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                               VerticalAlignment="Center"
-                                 FontSize="20" Margin="10" Text="{Binding LocationAddress}"/>
+                              FontSize="20" Margin="10 5" Text="{Binding LocationAddress}"/>
 
 
 
