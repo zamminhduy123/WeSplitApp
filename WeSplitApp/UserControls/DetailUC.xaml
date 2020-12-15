@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:WeSplitApp.UserControls"
              xmlns:xlocal="clr-namespace:WeSplitApp"
              xmlns:vmlocal="clr-namespace:WeSplitApp.ViewModels"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              
              xmlns:model="clr-namespace:WeSplitApp.Models"
         
@@ -40,7 +41,7 @@
     </UserControl.Resources>
 
     <TabControl TabStripPlacement="Top"  Margin="10" Background="Transparent" BorderBrush="Transparent" SelectedItem="{Binding SelectedTab, UpdateSourceTrigger=PropertyChanged}" >
-        <TabItem  Header="Thời gian" FontSize="45" FontWeight="Medium" Style="{StaticResource customTabItem}" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <TabItem  Header="Thời gian" FontSize="35" FontWeight="Medium" Style="{StaticResource customTabItem}" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -105,7 +106,7 @@
             </Grid>
         </TabItem>
 
-        <TabItem Header="Thành viên" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="45" FontWeight="Medium" Style="{StaticResource customTabItem}">
+        <TabItem Header="Thành viên" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="35" FontWeight="Medium" Style="{StaticResource customTabItem}">
             <!-- member list -->
             <Border Grid.Column="0"  Grid.Row="2" Grid.RowSpan="2" Background="White"
                         CornerRadius="50" Height="auto" MinHeight="300" Padding="0" RenderOptions.BitmapScalingMode="HighQuality" Margin="10 10 10 5">
@@ -159,7 +160,7 @@
 
         </TabItem>
 
-        <TabItem Header="Lộ trình" FontSize="45" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Medium" Style="{StaticResource customTabItem}">
+        <TabItem Header="Lộ trình" FontSize="35" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Medium" Style="{StaticResource customTabItem}">
             <!-- route list -->
             <Border Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Background="white" CornerRadius="50" Margin="10 10 10 0"  >
                 <Border.Effect>
@@ -232,7 +233,7 @@
 
         </TabItem>
 
-        <TabItem Header="Thu chi" FontSize="45" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Medium" Style="{StaticResource customTabItem}">
+        <TabItem Header="Thu chi" FontSize="35" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Medium" Style="{StaticResource customTabItem}">
             <Grid>
 
                 <Grid.ColumnDefinitions>
@@ -397,9 +398,31 @@
                 </Border>
             </Grid>
         </TabItem>
+        <TabItem Header="Biểu đồ" FontSize="35" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Medium" Style="{StaticResource customTabItem}">
+            <!-- chart list -->
+            <Border Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Background="white" CornerRadius="50" Margin="10 10 10 0"  >
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="10" ShadowDepth="10"></DropShadowEffect>
+                </Border.Effect>
+                <Grid>
+                    <lvc:PieChart LegendLocation="Bottom" DataClick="Chart_OnDataClick" Hoverable="False" DataTooltip="{x:Null}">
+                        <lvc:PieChart.Series>
+                            <lvc:PieSeries Title="Maria" Values="3" DataLabels="True"
+                               LabelPoint="{Binding PointLabel}"/>
+                            <lvc:PieSeries Title="Charles" Values="4" DataLabels="True" 
+                               LabelPoint="{Binding PointLabel}"/>
+                            <lvc:PieSeries Title="Frida" Values="6" DataLabels="True" 
+                               LabelPoint="{Binding PointLabel}"/>
+                            <lvc:PieSeries Title="Frederic" Values="2" DataLabels="True" 
+                               LabelPoint="{Binding PointLabel}"/>
+                        </lvc:PieChart.Series>
+                    </lvc:PieChart>
+                </Grid>
+            </Border>
+        </TabItem>
 
 
-        <TabItem Header="Tổng kết" FontSize="45" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Medium" Style="{StaticResource customTabItem}">
+        <TabItem Header="Tổng kết" FontSize="35" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Medium" Style="{StaticResource customTabItem}">
             <!-- Summary -->
             <Border Grid.Column="3" Grid.Row="0" Grid.RowSpan="4" Background="white" CornerRadius="50" Margin="10 10 10 5">
                 <Border.Effect>
