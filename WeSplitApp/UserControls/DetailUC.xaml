@@ -405,18 +405,27 @@
                     <DropShadowEffect BlurRadius="10" ShadowDepth="10"></DropShadowEffect>
                 </Border.Effect>
                 <Grid>
-                    <lvc:PieChart LegendLocation="Bottom" DataClick="Chart_OnDataClick" Hoverable="False" DataTooltip="{x:Null}">
-                        <lvc:PieChart.Series>
-                            <lvc:PieSeries Title="Maria" Values="3" DataLabels="True"
-                               LabelPoint="{Binding PointLabel}"/>
-                            <lvc:PieSeries Title="Charles" Values="4" DataLabels="True" 
-                               LabelPoint="{Binding PointLabel}"/>
-                            <lvc:PieSeries Title="Frida" Values="6" DataLabels="True" 
-                               LabelPoint="{Binding PointLabel}"/>
-                            <lvc:PieSeries Title="Frederic" Values="2" DataLabels="True" 
-                               LabelPoint="{Binding PointLabel}"/>
-                        </lvc:PieChart.Series>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <lvc:PieChart
+                        Margin="10"
+                        FontSize="25"
+                        DataTooltip="{x:Null}"
+                        Hoverable="True"
+                        LegendLocation="Bottom"
+                        Series="{Binding PieChartSeriesCollection}">
                     </lvc:PieChart>
+
+                    <lvc:CartesianChart Grid.Row="1" Series="{Binding CartesianChartCollection}" LegendLocation="Right">
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis Title="Người chi" Labels="{Binding Labels}"></lvc:Axis>
+                        </lvc:CartesianChart.AxisX>
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis Title="Số tiền" LabelFormatter="{Binding Formatter}"></lvc:Axis>
+                        </lvc:CartesianChart.AxisY>
+                    </lvc:CartesianChart>
                 </Grid>
             </Border>
         </TabItem>

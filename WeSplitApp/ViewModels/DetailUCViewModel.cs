@@ -1,4 +1,6 @@
-﻿using Microsoft.Win32;
+﻿using LiveCharts;
+using LiveCharts.Wpf;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -158,7 +160,8 @@ namespace WeSplitApp.ViewModels
                     _imageList = new List<dynamic>();
                     foreach (var photo in DetailJourney.Photos)
                     {
-                        dynamic tmp = new {
+                        dynamic tmp = new
+                        {
                             Id = photo.OrderNumber,
                             ImageBytes = photo.ImageBytes,
                         };
@@ -368,6 +371,64 @@ namespace WeSplitApp.ViewModels
             }
         }
 
+        private SeriesCollection _pieChartSeriesCollection = new SeriesCollection();
+        public SeriesCollection PieChartSeriesCollection { get => _pieChartSeriesCollection; set { _pieChartSeriesCollection = value; OnPropertyChanged(); } }
+
+
+        // take data and tranfer to pie chart
+        void makePieChart()
+        {
+            if (PieChartSeriesCollection != null)
+                PieChartSeriesCollection.Clear();
+            foreach (var fee in DetailJourney.Costs)
+            {
+                dynamic tmp = new
+                {
+                    Name = fee.Content,
+                    Fees = (fee.Fees == null) ? 0 : fee.Fees.Value,
+                };
+                PieChartSeriesCollection.Add(new PieSeries { Title = $"{tmp.Name}", Values = new ChartValues<int> { 20 }, DataLabels = true });
+            }
+        }
+        public string[] Labels { get; set; }
+        public Func<double, string> Formatter { get; set; }
+
+        private SeriesCollection _cartesianChartCollection = new SeriesCollection();
+        public SeriesCollection CartesianChartCollection { get => _cartesianChartCollection; set { _cartesianChartCollection = value; OnPropertyChanged(); } }
+
+
+        void makeCartestianChart()
+        {
+            if (CartesianChartCollection != null)
+                CartesianChartCollection.Clear();
+            ChartValues
+                <Double> fees = new ChartValues
+                <Double>();
+            List<String> name = new List<String>();
+
+            foreach (var fee in DetailJourney.Expenses)
+            {
+                dynamic tmp = new
+                {
+                    Name = fee.Member.Name,
+                    Fees = (fee.Fees == null) ? 0 : fee.Fees.Value
+                };
+                fees.Add(tmp.Fees);
+                name.Add(tmp.Name);
+            }
+            CartesianChartCollection = new SeriesCollection
+                {
+                    new ColumnSeries
+                    {
+                        Title = "Payment",
+                        Values = fees
+                    }
+                };
+            // collumn name
+            Labels = name.ToArray();
+             Formatter = value => value.ToString("N");
+        }
+
         #region EnableButtonCommand
         private Visibility _noImageVisibility; // hiden nếu ko có ảnh
         public Visibility NoImageVisibility { get => _noImageVisibility; set { _noImageVisibility = value; OnPropertyChanged(); } }
@@ -418,7 +479,8 @@ namespace WeSplitApp.ViewModels
             int JourneyId = DetailTripId;
             DetailJourney = DataProvider.Ins.DB.Journeys.Where(x => x.Id == JourneyId).FirstOrDefault();
 
-            DeleteParticipantCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
+            DeleteParticipantCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) =>
+            {
                 if (Global.GetInstance().ConfirmMessageDelete() == true)
                 {
                     Member deleteMember = DataProvider.Ins.DB.Members.Find(param.Id);
@@ -434,7 +496,8 @@ namespace WeSplitApp.ViewModels
                 }
             });
 
-            AddParticipantCommand = new RelayCommand<object>((param) => { return true; }, (param) => {
+            AddParticipantCommand = new RelayCommand<object>((param) => { return true; }, (param) =>
+            {
                 if (SelectedMember == null)
                 {
                     MessageBox.Show("Please select a member to add to this journey");
@@ -455,7 +518,8 @@ namespace WeSplitApp.ViewModels
                 IsEnabledAddParticipantButton = false;
             });
 
-            AddOrEditRouteCommand = new RelayCommand<object>((param) => { return true; }, (param) => {
+            AddOrEditRouteCommand = new RelayCommand<object>((param) => { return true; }, (param) =>
+            {
                 if (RouteName == null || RouteName == "")
                 {
                     MessageBox.Show("Please enter route name");
@@ -504,7 +568,8 @@ namespace WeSplitApp.ViewModels
                 IsEnabledAddOrEditRouteButton = false;
             });
 
-            DeleteRouteCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
+            DeleteRouteCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) =>
+            {
                 if (Global.GetInstance().ConfirmMessageDelete() == true)
                 {
                     int id = param.Id;
@@ -516,7 +581,8 @@ namespace WeSplitApp.ViewModels
                 }
             });
 
-            AddInFeeCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
+            AddInFeeCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) =>
+            {
                 if (SelectedInFeeMember == null)
                 {
                     MessageBox.Show("Hãy chọn thành viên trước");
@@ -556,7 +622,8 @@ namespace WeSplitApp.ViewModels
                 IsEnabledAddInFeeButton = false;
             });
 
-            DeleteInFeeCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
+            DeleteInFeeCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) =>
+            {
                 if (Global.GetInstance().ConfirmMessageDelete() == true)
                 {
                     Expense deleteExpense = DataProvider.Ins.DB.Expenses.Find(DetailJourney.Id, param.Id, param.MemberId);
@@ -566,7 +633,8 @@ namespace WeSplitApp.ViewModels
                 }
             });
 
-            AddOutFeeCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
+            AddOutFeeCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) =>
+            {
                 if (OutFeeContent == null || OutFeeContent == "")
                 {
                     MessageBox.Show("Hãy nhập khoản chi trước");
@@ -625,7 +693,8 @@ namespace WeSplitApp.ViewModels
                 IsEnabledAddOutFeeButton = false;
             });
 
-            DeleteOutFeeCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
+            DeleteOutFeeCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) =>
+            {
                 if (Global.GetInstance().ConfirmMessageDelete() == true)
                 {
                     Cost deleteCost = DetailJourney.Costs.First(x => x.OrderNumber == param.Id);
@@ -635,22 +704,27 @@ namespace WeSplitApp.ViewModels
                 }
             });
 
-            DisableAddOrEditRouteButton = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
+            DisableAddOrEditRouteButton = new RelayCommand<dynamic>((param) => { return true; }, (param) =>
+            {
                 IsEnabledAddOrEditRouteButton = false;
             });
-            DisableAddInFeeButton = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
+            DisableAddInFeeButton = new RelayCommand<dynamic>((param) => { return true; }, (param) =>
+            {
                 IsInFeeValid = false;
                 IsEnabledAddInFeeButton = false;
             });
-            DisableAddOutFee = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
+            DisableAddOutFee = new RelayCommand<dynamic>((param) => { return true; }, (param) =>
+            {
                 IsOutFeeValid = false;
                 IsEnabledAddOutFeeButton = false;
             });
-            DisableAddOutFeeContent = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
+            DisableAddOutFeeContent = new RelayCommand<dynamic>((param) => { return true; }, (param) =>
+            {
                 IsOutFeeContentValid = false;
                 IsEnabledAddOutFeeButton = false;
             });
-            PrevImageCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
+            PrevImageCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) =>
+            {
                 if (_imageList.Count < 2) return;
                 if (_imageList[0].Id == _imageHolderNumber) // ảnh đầu list
                 {
@@ -669,7 +743,8 @@ namespace WeSplitApp.ViewModels
                     ImageHolder = _imageList[index - 1].ImageBytes;
                 }
             });
-            NextImageCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
+            NextImageCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) =>
+            {
                 if (_imageList.Count < 2) return;
                 if (_imageList[_imageList.Count - 1].Id == _imageHolderNumber) // ảnh cuối list
                 {
@@ -688,7 +763,8 @@ namespace WeSplitApp.ViewModels
                     ImageHolder = _imageList[index + 1].ImageBytes;
                 }
             });
-            AddImageCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
+            AddImageCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) =>
+            {
                 OpenFileDialog dialog = new OpenFileDialog();
                 dialog.Multiselect = true;
                 dialog.Filter = "JPG files (*.jpg)|*.jpg| PNG files (*.png)|*.png| All files (*.*)|*.*";
@@ -700,14 +776,16 @@ namespace WeSplitApp.ViewModels
                                                     new Uri(absoluteLink,
                                                     UriKind.Absolute)
                                                     ));
-                        Photo newPhoto = new Photo {
+                        Photo newPhoto = new Photo
+                        {
                             JourneyId = DetailJourney.Id,
                             OrderNumber = (DetailJourney.Photos.Count == 0) ? 1 : DetailJourney.Photos.Max(x => x.OrderNumber) + 1,
                             ImageBytes = newBytesImage,
                         };
                         DataProvider.Ins.DB.Photos.Add(newPhoto);
                         DataProvider.Ins.DB.SaveChanges();
-                        _imageList.Add(new { 
+                        _imageList.Add(new
+                        {
                             Id = newPhoto.OrderNumber,
                             ImageBytes = newPhoto.ImageBytes,
                         });
@@ -721,7 +799,8 @@ namespace WeSplitApp.ViewModels
                 }
 
             });
-            DeleteImageCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
+            DeleteImageCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) =>
+            {
                 if (Global.GetInstance().ConfirmMessageDelete() == true)
                 {
                     Photo deletePhoto = DetailJourney.Photos.First(x => x.OrderNumber == _imageHolderNumber);
@@ -756,6 +835,7 @@ namespace WeSplitApp.ViewModels
                     _imageList.Remove(tmp);
                 }
             });
+            makePieChart(); makeCartestianChart();
         }
 
         public byte[] BitMapImageTOBytes(BitmapImage imageC)
