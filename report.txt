@@ -1,7 +1,7 @@
 I. Thông tin nhóm:
 -------------------------------------------------------------------------------------------------------------------------
--      MSSV     - 	        Họ và tên		-           	          Email cá nhân
--   18120161   - 	Nguyễn Công Danh		- 	congdanh1392@gmail.com
+-     MSSV     - 	     Họ và tên		-           Email cá nhân
+-   18120161   - 	Nguyễn Công Danh	- 	congdanh1392@gmail.com
 -   18120165   - 	Nguyễn Ngọc Đức		- 	ducnghu@gmail.com
 -   18120172   - 	Nguyễn Thanh Minh Duy	- 	ntminhduy123@gmail.com
 -------------------------------------------------------------------------------------------------------------------------
