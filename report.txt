@@ -1,0 +1,79 @@
+I. Thông tin nhóm:
+-------------------------------------------------------------------------------------------------------------------------
+-      MSSV     - 	        Họ và tên		-           	          Email cá nhân
+-   18120161   - 	Nguyễn Công Danh		- 	congdanh1392@gmail.com
+-   18120165   - 	Nguyễn Ngọc Đức		- 	ducnghu@gmail.com
+-   18120172   - 	Nguyễn Thanh Minh Duy	- 	ntminhduy123@gmail.com
+-------------------------------------------------------------------------------------------------------------------------
+II. Danh sách chức năng đã hoàn thành:
+
+1. Splash Screen (0.5 điểm):
+- Hiển thị thông tin chào mừng mỗi khi ứng dụng khởi chạy.
+- Mỗi lần hiện ngẫu nhiên một thông tin thú vị về một địa điểm du lịch.
+- Cho phép chọn check “Không hiện hộp thoại này mỗi khi khởi động”. Từ nay về sau đi thẳng vào màn hình HomeScreen.
+
+2. HomeScreen (4 điểm):
+- Liệt kê danh sách các chuyến đi, phân ra theo 2 loại: đã từng đi trước đó và đang đi.
+- Xem chi tiết các chuyến đi: 
+	+ Danh sách các thành viên
+	+ Danh sách các địa điểm
+	+ Tổng kết các mục thu chi của cả nhóm (vẽ biểu đồ hình bánh)
+
+3. SearchScreen (2 điểm):
+- Tìm kiếm chuyến đi theo tên địa điểm, tên thành viên trong chuyến đi
+
+4. CreateJourneyScreen (1 điểm):
+- Cho phép trưởng nhóm tạo mới một chuyến đi với các thông tin:
+	+ Tên chuyến đi
+	+ Thêm các thành viên
+	+ Thêm các khoản chi
+
+5. UpdateJourneyScreen (2.5 điểm):
+- Cập nhật thông tin của chuyến đi: 
+	+ Các thành viên
+	+ Các hình ảnh
+	+ Các mốc lộ trình
+	+ Các khoản thu chi
+- Nếu có người ứng trước cần báo cáo ai phải trả cho ai bao nhiêu tiền.
+
+-------------------------------------------------------------------------------------------------------------------------
+III. Các chức năng đã làm thêm:
+- Tìm kiếm chuyến đi theo tên địa điểm hoặc tên thành viên hỗ trợ cả 6 cảnh giới như đồ án 1:
+	+ Cảnh giới 1: Tìm chính xác. 
+	+ Cảnh giới 2: Hỗ trợ tìm kiếm không dấu. 
+	+ Cảnh giới 3: Tìm không dấu hay có dấu hoặc có dấu chưa đúng nhưng kết quả vẫn ra và có độ ưu tiên.
+	+ Cảnh giới 4: Tìm với từng từ hoặc kết hợp tạo ra tổ hợp từ các từ, có thể trong các trường khác nhau của dữ liệu.
+	+ Cảnh giới 5: Thêm các từ khóa and, or, not.
+	+ Cảnh giới 6: dùng CSDL hỗ trợ sạch các cảnh giới trên. (dùng SQL và ADO.NET framework).
+- Đổi màu ứng dụng (Trong tab Setting/ App Theme).
+- Kiểm tra các mục dữ liệu người dùng nhập vào có thỏa điều kiện cho trước hay không (Validation)
+- Vô hiệu hóa nút Thêm khi người dùng nhập sai hoặc chưa nhập dữ liệu cần thêm.
+
+-------------------------------------------------------------------------------------------------------------------------
+IV. Các chức năng chưa hoàn thành:
+- Không có.
+-------------------------------------------------------------------------------------------------------------------------
+V. Mô hình thiết kế:
+- Sản phẩm được thiết kế theo kiến trúc mô hình MVVM (Model - View - ViewModel).
+-------------------------------------------------------------------------------------------------------------------------
+VI. Các thư viện và package hỗ trợ:
+- MaterialDesign.
+- EntityFramework.
+- SqlExpress.
+-------------------------------------------------------------------------------------------------------------------------
+VII. Các con đường bất hạnh đã xử lí:
+- Vô hiệu hóa nút Thêm nếu người dùng chưa nhập hoặc nhập sai dữ liệu cần thêm vào.
+- Hiện hình ảnh "No image" trong trường hợp trường dữ liệu ảnh không có ảnh.
+-------------------------------------------------------------------------------------------------------------------------
+VIII. Điểm đề nghị:
+    10/10 điểm.
+-------------------------------------------------------------------------------------------------------------------------
+IX. Link video demo:
+
+-------------------------------------------------------------------------------------------------------------------------
+X. Link source code github:
+https://github.com/zamminhduy123/WeSplitApp
+-------------------------------------------------------------------------------------------------------------------------
++ Public: video Demo, file release sản phẩm
++ Private: source code
+-------------------------------------------------------------------------------------------------------------------------
