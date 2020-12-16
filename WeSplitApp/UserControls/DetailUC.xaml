@@ -412,9 +412,8 @@
                     <lvc:PieChart
                         Margin="10"
                         FontSize="25"
-                        DataTooltip="{x:Null}"
                         Hoverable="True"
-                        LegendLocation="Bottom"
+                        LegendLocation="Right"
                         Series="{Binding PieChartSeriesCollection}">
                     </lvc:PieChart>
 

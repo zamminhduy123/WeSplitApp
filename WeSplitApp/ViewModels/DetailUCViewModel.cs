@@ -371,11 +371,11 @@ namespace WeSplitApp.ViewModels
             }
         }
 
+        // pie cchart
+
         private SeriesCollection _pieChartSeriesCollection = new SeriesCollection();
         public SeriesCollection PieChartSeriesCollection { get => _pieChartSeriesCollection; set { _pieChartSeriesCollection = value; OnPropertyChanged(); } }
 
-
-        // take data and tranfer to pie chart
         void makePieChart()
         {
             if (PieChartSeriesCollection != null)
@@ -390,6 +390,7 @@ namespace WeSplitApp.ViewModels
                 PieChartSeriesCollection.Add(new PieSeries { Title = $"{tmp.Name}", Values = new ChartValues<int> { 20 }, DataLabels = true });
             }
         }
+        // collumn chart
         public string[] Labels { get; set; }
         public Func<double, string> Formatter { get; set; }
 
