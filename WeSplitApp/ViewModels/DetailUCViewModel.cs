@@ -1,4 +1,6 @@
-﻿using Microsoft.Win32;
+﻿using LiveCharts;
+using LiveCharts.Wpf;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -240,7 +242,7 @@ namespace WeSplitApp.ViewModels
                             Id = fee.OrderNumber,
                             MemberId = fee.MemberId,
                             Name = fee.Member.Name,
-                            Fees = (fee.Fees == null) ? 0 : fee.Fees.Value,
+                            Fees = ((fee.Fees == null) ? 0 : fee.Fees.Value).ToString(),
                         };
                         InFeesList.Add(tmp);
                     }
@@ -253,14 +255,51 @@ namespace WeSplitApp.ViewModels
                         {
                             Id = fee.OrderNumber,
                             Name = fee.Content,
-                            Fees = (fee.Fees == null) ? 0 : fee.Fees.Value,
+                            Fees = ((fee.Fees == null) ? 0 : fee.Fees.Value).ToString(),
                         };
                         OutFeesList.Add(tmp);
                     }
                 }
+                if (SelectedTab.Header == "Biểu đồ")
+                {
+                    makePieChart(); 
+                    makeCartestianChart();
+
+                }
                 if (SelectedTab.Header == "Tổng kết")
                 {
+                    List<int> memberId = new List<int>();
+                    List<int> inFees = new List<int>();
+                    int totalInFee = 0;
+                    int totalOutFee = 0;
+                    SummaryList = new List<dynamic>();
 
+                    foreach (var member in DetailJourney.Members)
+                    {
+                        memberId.Add(member.Id);
+                        inFees.Add(0);
+                    }
+                    foreach (var fee in DetailJourney.Expenses)
+                    {
+                        inFees[memberId.IndexOf(fee.MemberId)] += (fee.Fees == null) ? 0 : fee.Fees.Value;
+                        totalInFee += (fee.Fees == null) ? 0 : fee.Fees.Value;
+                    }
+                    foreach (var fee in DetailJourney.Costs)
+                    {
+                        totalOutFee += (fee.Fees == null) ? 0 : fee.Fees.Value;
+                    }
+                    TotalInFee = totalInFee.ToString();
+                    TotalOutFee = totalOutFee.ToString();
+                    TotalFee = (totalInFee - totalOutFee).ToString();
+
+                    for (int i = 0; i < memberId.Count(); i++)
+                    {
+                        SummaryList.Add(new
+                        {
+                            Name = DataProvider.Ins.DB.Members.Find(memberId[i]).Name,
+                            Quantity = (inFees[i] - totalOutFee / memberId.Count).ToString(),
+                        });
+                    }
                 }
                 OnPropertyChanged();
             }
@@ -367,6 +406,108 @@ namespace WeSplitApp.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        private SeriesCollection _pieChartSeriesCollection = new SeriesCollection();
+        public SeriesCollection PieChartSeriesCollection { get => _pieChartSeriesCollection; set { _pieChartSeriesCollection = value; OnPropertyChanged(); } }
+
+        public Func<ChartPoint,string> PointLabel { get; set; }
+
+        // take data and tranfer to pie chart
+        void makePieChart()
+        {
+            if (PieChartSeriesCollection != null)
+                PieChartSeriesCollection.Clear();
+            int totalCost = 0;
+            foreach (var fee in DetailJourney.Costs)
+            {
+                totalCost += (fee.Fees == null) ? 0 : fee.Fees.Value;
+            }
+            foreach (var fee in DetailJourney.Costs)
+            {
+                dynamic tmp = new
+                {
+                    Name = fee.Content,
+                    Fees = (fee.Fees == null) ? 0 : fee.Fees.Value,
+                };
+                double x = (double)(tmp.Fees) / totalCost * 100;
+                double percent = Math.Truncate(x * 100) / 100;
+                PointLabel = chartPoint => (chartPoint.Participation > 0.05) ? string.Format("{0:P}", chartPoint.Participation) : null;
+                PieChartSeriesCollection.Add(new PieSeries { Title = $"{tmp.Name}", Values = new ChartValues<int> { tmp.Fees }, DataLabels = true, LabelPoint = PointLabel});
+            }
+        }
+
+        //Biểu đồ cột - Thu
+        private List<string> _labels = new List<string>();
+        public List<string> Labels { get => _labels; set { _labels = value; OnPropertyChanged(); } }
+        public Func<double, string> Formatter { get; set; }
+
+        private SeriesCollection _cartesianChartCollection = new SeriesCollection();
+        public SeriesCollection CartesianChartCollection { get => _cartesianChartCollection; set { _cartesianChartCollection = value; OnPropertyChanged(); } }
+
+
+        void makeCartestianChart()
+        {
+            if (CartesianChartCollection != null)
+                CartesianChartCollection.Clear();
+            ChartValues
+                <Double> fees = new ChartValues<Double>();
+            List<String> name = new List<String>();
+            List<dynamic> counts = new List<dynamic>();
+            foreach (var member in DetailJourney.Members)
+            {
+                counts.Add(new { 
+                    Id = member.Id,
+                    Name = member.Name,
+                    Fee = 0,
+                });
+            }
+
+            foreach (var fee in DetailJourney.Expenses)
+            {
+                dynamic member = counts.First(x => x.Id == fee.MemberId);
+                dynamic newmember = new {
+                    Id = member.Id,
+                    Name = member.Name,
+                    Fee = member.Fee + ((fee.Fees == null) ? 0 : fee.Fees.Value),
+                };
+                counts.Remove(member);
+                counts.Add(newmember);
+            }
+
+            foreach (var count in counts)
+            {
+                name.Add(count.Name);
+                fees.Add(count.Fee);
+            }
+            CartesianChartCollection = new SeriesCollection
+                {
+                    new ColumnSeries
+                    {
+                        Title = "Payment",
+                        Values = fees
+                    }
+                };
+            // collumn name
+            Labels = name.ToList();
+            Formatter = value => value.ToString("N");
+        }
+
+        // Tổng kết
+            //Tổng tiền thu
+        private string _totalInFee;
+        public string TotalInFee { get => _totalInFee; set { _totalInFee = value; OnPropertyChanged(); } }
+
+        //Tổng tiền chi
+        private string _totalOutFee;
+        public string TotalOutFee { get => _totalOutFee; set { _totalOutFee = value; OnPropertyChanged(); } }
+
+        //Tổng tiền còn lại Quỹ
+        private string _totalFee;
+        public string TotalFee { get => _totalFee; set { _totalFee = value; OnPropertyChanged(); } }
+
+        //Danh sách thành viên và khoản tiền còn lại
+        private List<dynamic> _summaryList = new List<dynamic>();
+        public List<dynamic> SummaryList { get => _summaryList; set { _summaryList = value; OnPropertyChanged(); } }
 
         #region EnableButtonCommand
         private Visibility _noImageVisibility; // hiden nếu ko có ảnh
@@ -547,7 +688,7 @@ namespace WeSplitApp.ViewModels
                     Id = newexpense.OrderNumber,
                     MemberId = newexpense.MemberId,
                     Name = newexpense.Member.Name,
-                    Fees = newexpense.Fees.Value,
+                    Fees = newexpense.Fees.Value.ToString(),
                 };
                 InFeesList.Add(tmp);
 
@@ -596,7 +737,7 @@ namespace WeSplitApp.ViewModels
                         {
                             Id = fee.OrderNumber,
                             Name = fee.Content,
-                            Fees = (fee.Fees == null) ? 0 : fee.Fees.Value,
+                            Fees = ((fee.Fees == null) ? 0 : fee.Fees.Value).ToString(),
                         };
                         OutFeesList.Add(tmp);
                     }
@@ -607,7 +748,7 @@ namespace WeSplitApp.ViewModels
                     {
                         JourneyId = DetailJourney.Id,
                         OrderNumber = (DataProvider.Ins.DB.Costs == null) ? 1 : DataProvider.Ins.DB.Costs.Max(x => x.OrderNumber) + 1,
-                        Content = OutFeeContent,
+                        Content = OutFeeContent.Substring(0, 1).ToUpper() + OutFeeContent.Substring(1, OutFeeContent.Length - 1).ToLower(),
                         Fees = int.Parse(OutFee),
                     };
                     DataProvider.Ins.DB.Costs.Add(newCost);
@@ -615,7 +756,7 @@ namespace WeSplitApp.ViewModels
                     {
                         Id = newCost.OrderNumber,
                         Name = newCost.Content,
-                        Fees = newCost.Fees.Value,
+                        Fees = newCost.Fees.Value.ToString(),
                     };
                     OutFeesList.Add(tmp);
                 }

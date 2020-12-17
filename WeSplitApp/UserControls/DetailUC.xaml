@@ -38,6 +38,7 @@
         </Style>
 
         <model:BytesToBitMapConverter x:Key="ImageConverter" />
+        <model:NumberToVNDConverter x:Key="MoneyConverter" />
     </UserControl.Resources>
 
     <TabControl TabStripPlacement="Top"  Margin="10" Background="Transparent" BorderBrush="Transparent" SelectedItem="{Binding SelectedTab, UpdateSourceTrigger=PropertyChanged}" >
@@ -292,8 +293,7 @@
                                         <StackPanel Orientation="Vertical">
                                             <TextBlock Text="{Binding Name}" FontSize="20" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{Binding Fees}" FontSize="15" TextWrapping="Wrap" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
-                                                <TextBlock Text=" VNĐ" FontSize="15" TextWrapping="Wrap" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                                                <TextBlock Text="{Binding Fees, Converter={StaticResource MoneyConverter}}" FontSize="15" TextWrapping="Wrap" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
                                             </StackPanel>
                                         </StackPanel>
                                         <Button HorizontalAlignment="Right"
@@ -376,8 +376,7 @@
                                         <StackPanel Orientation="Vertical">
                                             <TextBlock Text="{Binding Name}" FontSize="20" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
                                             <StackPanel Orientation="Horizontal" Margin="0 5">
-                                                <TextBlock Text="{Binding Fees}" FontSize="15" TextWrapping="Wrap" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
-                                                <TextBlock Text=" VNĐ" FontSize="15" TextWrapping="Wrap" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                                                <TextBlock Text="{Binding Fees, Converter={StaticResource MoneyConverter}}" FontSize="15" TextWrapping="Wrap" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
                                             </StackPanel>
                                         </StackPanel>
                                         <Button HorizontalAlignment="Right"
@@ -405,18 +404,32 @@
                     <DropShadowEffect BlurRadius="10" ShadowDepth="10"></DropShadowEffect>
                 </Border.Effect>
                 <Grid>
-                    <lvc:PieChart LegendLocation="Bottom" DataClick="Chart_OnDataClick" Hoverable="False" DataTooltip="{x:Null}">
-                        <lvc:PieChart.Series>
-                            <lvc:PieSeries Title="Maria" Values="3" DataLabels="True"
-                               LabelPoint="{Binding PointLabel}"/>
-                            <lvc:PieSeries Title="Charles" Values="4" DataLabels="True" 
-                               LabelPoint="{Binding PointLabel}"/>
-                            <lvc:PieSeries Title="Frida" Values="6" DataLabels="True" 
-                               LabelPoint="{Binding PointLabel}"/>
-                            <lvc:PieSeries Title="Frederic" Values="2" DataLabels="True" 
-                               LabelPoint="{Binding PointLabel}"/>
-                        </lvc:PieChart.Series>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <lvc:PieChart
+                        Margin="10"
+                        FontSize="25"
+                        Hoverable="True"
+                        LegendLocation="Right"
+                        Series="{Binding PieChartSeriesCollection}">
+                        <lvc:PieChart.DataTooltip>
+                            <lvc:DefaultTooltip BulletSize="20" Background="LightGray" SelectionMode="SharedYInSeries" FontSize="20"/>
+                        </lvc:PieChart.DataTooltip>
                     </lvc:PieChart>
+
+                    <lvc:CartesianChart Grid.Row="1" Series="{Binding CartesianChartCollection}">
+                        <lvc:CartesianChart.DataTooltip>
+                            <lvc:DefaultTooltip BulletSize="20" Background="LightGray" SelectionMode="SharedXValues" FontSize="20"/>
+                        </lvc:CartesianChart.DataTooltip>
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis Title="Người chi" Labels="{Binding Labels}" Foreground="Black" FontSize="15"></lvc:Axis>
+                        </lvc:CartesianChart.AxisX>
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis Title="Số tiền" LabelFormatter="{Binding Formatter}"></lvc:Axis>
+                        </lvc:CartesianChart.AxisY>
+                    </lvc:CartesianChart>
                 </Grid>
             </Border>
         </TabItem>
@@ -424,26 +437,78 @@
 
         <TabItem Header="Tổng kết" FontSize="35" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Medium" Style="{StaticResource customTabItem}">
             <!-- Summary -->
-            <Border Grid.Column="3" Grid.Row="0" Grid.RowSpan="4" Background="white" CornerRadius="50" Margin="10 10 10 5">
+            <Border Background="white" CornerRadius="50" Margin="10 10 10 5">
                 <Border.Effect>
                     <DropShadowEffect BlurRadius="10" ShadowDepth="10"></DropShadowEffect>
                 </Border.Effect>
                 <StackPanel>
-                    <Border  CornerRadius="50 50 0 0"  Height="100"  Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}" >
-                        <TextBlock Text="TỔNG KẾT" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
-                    </Border>
-                    <!--<ListView ItemsSource="{Binding SummaryList}">
-                        <ListView.ItemTemplate >
-                            <DataTemplate>
-                                <Grid Margin="0" Width="100" >
-                                    <StackPanel Orientation="Vertical">
-                                        <TextBlock Text="{Binding Name}" FontSize="12   " Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
-                                        <TextBlock Text="{Binding Quantity}" FontSize="10" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
-                                    </StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40*"/>
+                            <ColumnDefinition Width="60*" />
+                        </Grid.ColumnDefinitions>
+                        <!--Tổng kết chung-->
+                        <Border Grid.Column="0" Background="White" VerticalAlignment="Center"
+                            CornerRadius="50" Height="auto" MinHeight="300" Padding="0" RenderOptions.BitmapScalingMode="HighQuality" Margin="10 10 10 5">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="10" ShadowDepth="10"></DropShadowEffect>
+                            </Border.Effect>
+                            <StackPanel>
+                                <Border  CornerRadius="50 50 0 0"  BorderThickness="0" BorderBrush="Black" Height="100" Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}">
+                                    <!--Background = "{Binding Source={StaticResource themeColor},Path=ThemeColor}"-->
+                                    <TextBlock Text="TỔNG KẾT CHUNG" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
+                                </Border>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="10" FontSize="20" VerticalAlignment="Center">Tổng thu</TextBlock>
+                                    <TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" Margin="10" FontSize="20" VerticalAlignment="Center">:</TextBlock>
+                                    <TextBlock Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10" FontSize="20" VerticalAlignment="Center" Text="{Binding TotalInFee, Converter={StaticResource MoneyConverter}}"></TextBlock>
+                                    <TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" Margin="10" FontSize="20" VerticalAlignment="Center">Tổng chi</TextBlock>
+                                    <TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" Margin="10" FontSize="20" VerticalAlignment="Center">:</TextBlock>
+                                    <TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Margin="10" FontSize="20" VerticalAlignment="Center" Text="{Binding TotalOutFee, Converter={StaticResource MoneyConverter}}"></TextBlock>
+                                    <TextBlock Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" Margin="10" FontSize="20" VerticalAlignment="Center">Còn lại</TextBlock>
+                                    <TextBlock Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" Margin="10" FontSize="20" VerticalAlignment="Center">:</TextBlock>
+                                    <TextBlock Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Margin="10" FontSize="20" VerticalAlignment="Center" Text="{Binding TotalFee, Converter={StaticResource MoneyConverter}}"></TextBlock>
                                 </Grid>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>-->
+                            </StackPanel>
+                        </Border>
+                        <!--Tổng kết thành viên-->
+                        <Border Grid.Column="1" Background="White" VerticalAlignment="Center"
+                            CornerRadius="50" Height="auto" MinHeight="300" Padding="0" RenderOptions.BitmapScalingMode="HighQuality" Margin="10 10 10 5">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="10" ShadowDepth="10"></DropShadowEffect>
+                            </Border.Effect>
+                            <StackPanel>
+                                <Border  CornerRadius="50 50 0 0"  BorderThickness="0" BorderBrush="Black" Height="100" Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}">
+                                    <!--Background = "{Binding Source={StaticResource themeColor},Path=ThemeColor}"-->
+                                    <TextBlock Text="TỔNG KẾT THÀNH VIÊN" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
+                                </Border>
+                                <ListView ItemsSource="{Binding SummaryList}" Margin="5">
+                                    <ListView.ItemTemplate >
+                                        <DataTemplate>
+                                            <Grid Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}},Path=ActualWidth}" Margin="0 5">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Grid.Column="0"  Text="{Binding Name}"     FontSize="20" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"></TextBlock>
+                                                <TextBlock Grid.Column="1"  Text="{Binding Quantity, Converter={StaticResource MoneyConverter}}" FontSize="20" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5"></TextBlock>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </StackPanel>
+                        </Border>
+
+                    </Grid>
                 </StackPanel>
             </Border>
         </TabItem>
