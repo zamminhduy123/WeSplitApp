@@ -94,6 +94,7 @@ namespace WeSplitApp.ViewModels
                 _isOpenAddJourneyDialog = value;
                 JourneyName = null;
                 SelectedLocation = null;
+                JourneyDescription = null;
                 OnPropertyChanged();
             }
         }
