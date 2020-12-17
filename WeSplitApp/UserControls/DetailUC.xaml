@@ -373,7 +373,7 @@
                             </Button>
                         </StackPanel>
 
-                        <ListView x:Name="OutFeesList"  ItemsSource="{Binding OutFeesList}" SelectedItem="{Binding SelectedOutFee}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="20 10">
+                        <ListView x:Name="OutFeesList"  ItemsSource="{Binding OutFeesList}" SelectedItem="{Binding SelectedOutFee}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False" Margin="20 10">
                             <ListView.ItemTemplate >
                                 <DataTemplate>
                                     <Grid Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}},Path=ActualWidth}">
@@ -506,7 +506,7 @@
                                 <Border  CornerRadius="50 50 0 0"  BorderThickness="0" BorderBrush="Black" Height="100" Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}">
                                     <TextBlock Text="TỔNG KẾT THÀNH VIÊN" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
                                 </Border>
-                                <ListView Height="auto" Margin="5" ItemsSource="{Binding SummaryList}" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}},Path=ActualWidth}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                <ListView Height="auto" Margin="5" ItemsSource="{Binding SummaryList}" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}},Path=ActualWidth}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False">
                                     <ListView.ItemTemplate >
                                         <DataTemplate>
                                             <DockPanel LastChildFill="False" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}},Path=ActualWidth}">

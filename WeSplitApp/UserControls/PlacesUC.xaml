@@ -43,7 +43,7 @@
                 <Border DockPanel.Dock="Top" CornerRadius="50 50 0 0"  BorderThickness="0" BorderBrush="Black" Height="100" Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}">
                     <TextBlock Text="DANH SÁCH ĐỊA DANH" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
                 </Border>
-                <ListView x:Name="PlacesList" ItemsSource="{Binding LocationList}" SelectedItem="{Binding SelectedLocation}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListView x:Name="PlacesList" ItemsSource="{Binding LocationList}" SelectedItem="{Binding SelectedLocation}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>

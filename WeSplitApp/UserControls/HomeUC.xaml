@@ -172,7 +172,7 @@
                     <!--Background = "{Binding Source={StaticResource themeColor},Path=ThemeColor}"-->
                     <TextBlock Text="CHUYẾN ĐI HIỆN TẠI" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
                 </Border>
-                <ListView ItemsSource="{Binding CurrentTripList}" SelectedItem="{Binding SelectedTrip}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListView ItemsSource="{Binding CurrentTripList}" SelectedItem="{Binding SelectedTrip}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
                             <i:InvokeCommandAction Command="{Binding SelectTripCommand}" />
@@ -212,7 +212,7 @@
                 <Border  CornerRadius="50 50 0 0"  BorderThickness="0" BorderBrush="Black" Height="100" Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}">
                     <TextBlock Text="LỊCH SỬ CHUYẾN ĐI" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
                 </Border>
-                <ListView ItemsSource="{Binding LastTripList}" SelectedItem="{Binding SelectedTrip}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListView ItemsSource="{Binding LastTripList}" SelectedItem="{Binding SelectedTrip}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
                             <i:InvokeCommandAction Command="{Binding SelectTripCommand}" />
