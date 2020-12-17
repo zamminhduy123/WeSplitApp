@@ -39,6 +39,7 @@
 
         <model:BytesToBitMapConverter x:Key="ImageConverter" />
         <model:NumberToVNDConverter x:Key="MoneyConverter" />
+        <model:CheckFeeConverter x:Key="CheckFeeConverter" />
     </UserControl.Resources>
 
     <TabControl TabStripPlacement="Top"  Margin="10" Background="Transparent" BorderBrush="Transparent" SelectedItem="{Binding SelectedTab, UpdateSourceTrigger=PropertyChanged}" >
@@ -139,15 +140,18 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <Grid Margin="20 0 0 0"  Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}},Path=ActualWidth}">
-                                    <StackPanel Orientation="Vertical">
-                                        <TextBlock Text="{Binding Name}" FontSize="25" Foreground="Black" FontWeight="Medium" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
-                                        <TextBlock Text="{Binding Phone}" FontSize="15" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
-                                    </StackPanel>
-                                    <Button HorizontalAlignment="Right"
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="60*"/>
+                                        <ColumnDefinition Width="20*"/>
+                                        <ColumnDefinition Width="20*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="{Binding Name}" FontSize="25" Foreground="Black" FontWeight="Medium" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                                    <TextBlock Grid.Column="1" Text="{Binding Phone}" FontSize="15" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                                    <Button Grid.Column="2" HorizontalAlignment="Right"
                                             Margin="0 0 50 0"
                                             Style="{StaticResource MaterialDesignFlatMidBgButton}"
                                             Content="XÓA"
-                                            Width="150"
+                                            Width="100"
                                              BorderBrush="{Binding Source={StaticResource themeColor},Path=ThemeColor}"
                                              Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}"
                                             Command="{Binding ElementName=ParticipantsList, Path=DataContext.DeleteParticipantCommand}" CommandParameter="{Binding}">
@@ -293,7 +297,7 @@
                                         <StackPanel Orientation="Vertical">
                                             <TextBlock Text="{Binding Name}" FontSize="20" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{Binding Fees, Converter={StaticResource MoneyConverter}}" FontSize="15" TextWrapping="Wrap" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                                                <TextBlock Text="{Binding Fees, Converter={StaticResource MoneyConverter}}" FontSize="15" TextWrapping="Wrap" Foreground="Green" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
                                             </StackPanel>
                                         </StackPanel>
                                         <Button HorizontalAlignment="Right"
@@ -302,7 +306,7 @@
                                                     Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}" 
                                                     Style="{StaticResource MaterialDesignFlatMidBgButton}"
                                                     Content="XÓA"
-                                                    Width="150"
+                                                    Width="100"
                                                     Command="{Binding ElementName=InFeesList, Path=DataContext.DeleteInFeeCommand}" CommandParameter="{Binding}">
                                         </Button>
                                     </Grid>
@@ -376,7 +380,7 @@
                                         <StackPanel Orientation="Vertical">
                                             <TextBlock Text="{Binding Name}" FontSize="20" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
                                             <StackPanel Orientation="Horizontal" Margin="0 5">
-                                                <TextBlock Text="{Binding Fees, Converter={StaticResource MoneyConverter}}" FontSize="15" TextWrapping="Wrap" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                                                <TextBlock Text="{Binding Fees, Converter={StaticResource MoneyConverter}}" FontSize="15" TextWrapping="Wrap" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
                                             </StackPanel>
                                         </StackPanel>
                                         <Button HorizontalAlignment="Right"
@@ -385,7 +389,7 @@
                                                     Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}"
                                                     Style="{StaticResource MaterialDesignFlatMidBgButton}"
                                                     Content="XÓA"
-                                                    Width="150"
+                                                    Width="100"
                                                     Command="{Binding ElementName=OutFeesList, Path=DataContext.DeleteOutFeeCommand}" CommandParameter="{Binding}">
                                         </Button>
                                     </Grid>
@@ -441,7 +445,7 @@
                 <Border.Effect>
                     <DropShadowEffect BlurRadius="10" ShadowDepth="10"></DropShadowEffect>
                 </Border.Effect>
-                <StackPanel>
+                <StackPanel VerticalAlignment="Center">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="40*"/>
@@ -469,13 +473,26 @@
                                     </Grid.RowDefinitions>
                                     <TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="10" FontSize="20" VerticalAlignment="Center">Tổng thu</TextBlock>
                                     <TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" Margin="10" FontSize="20" VerticalAlignment="Center">:</TextBlock>
-                                    <TextBlock Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10" FontSize="20" VerticalAlignment="Center" Text="{Binding TotalInFee, Converter={StaticResource MoneyConverter}}"></TextBlock>
+                                    <TextBlock Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10" FontSize="20" VerticalAlignment="Center" Text="{Binding TotalInFee, Converter={StaticResource MoneyConverter}}" Foreground="Green"></TextBlock>
                                     <TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" Margin="10" FontSize="20" VerticalAlignment="Center">Tổng chi</TextBlock>
                                     <TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" Margin="10" FontSize="20" VerticalAlignment="Center">:</TextBlock>
-                                    <TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Margin="10" FontSize="20" VerticalAlignment="Center" Text="{Binding TotalOutFee, Converter={StaticResource MoneyConverter}}"></TextBlock>
+                                    <TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Margin="10" FontSize="20" VerticalAlignment="Center" Text="{Binding TotalOutFee, Converter={StaticResource MoneyConverter}}" Foreground="Red"></TextBlock>
                                     <TextBlock Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" Margin="10" FontSize="20" VerticalAlignment="Center">Còn lại</TextBlock>
                                     <TextBlock Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" Margin="10" FontSize="20" VerticalAlignment="Center">:</TextBlock>
-                                    <TextBlock Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Margin="10" FontSize="20" VerticalAlignment="Center" Text="{Binding TotalFee, Converter={StaticResource MoneyConverter}}"></TextBlock>
+                                    <TextBlock Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Margin="10" FontSize="20" VerticalAlignment="Center" Text="{Binding TotalFee, Converter={StaticResource MoneyConverter}}">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding TotalFee, Converter={StaticResource CheckFeeConverter}}" Value="false">
+                                                        <Setter Property="Foreground" Value="Red"></Setter>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding TotalFee, Converter={StaticResource CheckFeeConverter}}" Value="true">
+                                                        <Setter Property="Foreground" Value="Green"></Setter>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
                                 </Grid>
                             </StackPanel>
                         </Border>
@@ -489,12 +506,25 @@
                                 <Border  CornerRadius="50 50 0 0"  BorderThickness="0" BorderBrush="Black" Height="100" Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}">
                                     <TextBlock Text="TỔNG KẾT THÀNH VIÊN" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
                                 </Border>
-                                <ListView Height="auto" Margin="5" ItemsSource="{Binding SummaryList} " Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}},Path=ActualWidth}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                <ListView Height="auto" Margin="5" ItemsSource="{Binding SummaryList}" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}},Path=ActualWidth}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                                     <ListView.ItemTemplate >
                                         <DataTemplate>
                                             <DockPanel LastChildFill="False" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}},Path=ActualWidth}">
                                                 <TextBlock Grid.Column="0"  Text="{Binding Name}" DockPanel.Dock="Left" FontSize="20" Foreground="Black" Margin="0 5"></TextBlock>
-                                                <TextBlock Grid.Column="1"  Text="{Binding Quantity, Converter={StaticResource MoneyConverter}}" FontSize="20" Foreground="Black" DockPanel.Dock="Right" Margin="0 0 15 0"></TextBlock>
+                                                <TextBlock Grid.Column="1"  Text="{Binding Quantity, Converter={StaticResource MoneyConverter}}" FontSize="20" DockPanel.Dock="Right" Margin="0 0 15 0">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Quantity, Converter={StaticResource CheckFeeConverter}}" Value="false">
+                                                                    <Setter Property="Foreground" Value="Red"></Setter>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding Quantity, Converter={StaticResource CheckFeeConverter}}" Value="true">
+                                                                    <Setter Property="Foreground" Value="Green"></Setter>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
                                             </DockPanel>
                                         </DataTemplate>
                                     </ListView.ItemTemplate>
