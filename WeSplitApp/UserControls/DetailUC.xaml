@@ -323,7 +323,7 @@
                             <!--Background = "{Binding Source={StaticResource themeColor},Path=ThemeColor}"-->
                             <TextBlock Text="BẢNG CHI" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
                         </Border>
-                        <TextBox Grid.Row="1" Grid.Column="2" Margin="20 10"
+                        <TextBox HorizontalAlignment="Left" Grid.Row="1" Grid.Column="2" Margin="20 10"
                                   materialDesign:HintAssist.Hint="Nhập tên khoản chi hoặc chọn khoản chi đã có"
                                   FontSize="20"
                                   materialDesign:HintAssist.HintOpacity=".26" Width="450">
@@ -448,14 +448,13 @@
                             <ColumnDefinition Width="60*" />
                         </Grid.ColumnDefinitions>
                         <!--Tổng kết chung-->
-                        <Border Grid.Column="0" Background="White" VerticalAlignment="Center"
-                            CornerRadius="50" Height="auto" MinHeight="300" Padding="0" RenderOptions.BitmapScalingMode="HighQuality" Margin="10 10 10 5">
+                        <Border Grid.Column="0" Background="White" VerticalAlignment="Top"
+                            CornerRadius="50" Height="auto" MinHeight="300" Padding="0" RenderOptions.BitmapScalingMode="HighQuality" Margin="5">
                             <Border.Effect>
                                 <DropShadowEffect BlurRadius="10" ShadowDepth="10"></DropShadowEffect>
                             </Border.Effect>
                             <StackPanel>
                                 <Border  CornerRadius="50 50 0 0"  BorderThickness="0" BorderBrush="Black" Height="100" Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}">
-                                    <!--Background = "{Binding Source={StaticResource themeColor},Path=ThemeColor}"-->
                                     <TextBlock Text="TỔNG KẾT CHUNG" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
                                 </Border>
                                 <Grid>
@@ -482,26 +481,21 @@
                         </Border>
                         <!--Tổng kết thành viên-->
                         <Border Grid.Column="1" Background="White" VerticalAlignment="Center"
-                            CornerRadius="50" Height="auto" MinHeight="300" Padding="0" RenderOptions.BitmapScalingMode="HighQuality" Margin="10 10 10 5">
+                            CornerRadius="50" Height="auto" MinHeight="300" Padding="0" RenderOptions.BitmapScalingMode="HighQuality" Margin="5">
                             <Border.Effect>
                                 <DropShadowEffect BlurRadius="10" ShadowDepth="10"></DropShadowEffect>
                             </Border.Effect>
-                            <StackPanel>
+                            <StackPanel Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}},Path=ActualWidth}">
                                 <Border  CornerRadius="50 50 0 0"  BorderThickness="0" BorderBrush="Black" Height="100" Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}">
-                                    <!--Background = "{Binding Source={StaticResource themeColor},Path=ThemeColor}"-->
                                     <TextBlock Text="TỔNG KẾT THÀNH VIÊN" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
                                 </Border>
-                                <ListView ItemsSource="{Binding SummaryList}" Margin="5">
+                                <ListView Height="auto" Margin="5" ItemsSource="{Binding SummaryList} " Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}},Path=ActualWidth}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                                     <ListView.ItemTemplate >
                                         <DataTemplate>
-                                            <Grid Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}},Path=ActualWidth}" Margin="0 5">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition/>
-                                                    <ColumnDefinition/>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock Grid.Column="0"  Text="{Binding Name}"     FontSize="20" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"></TextBlock>
-                                                <TextBlock Grid.Column="1"  Text="{Binding Quantity, Converter={StaticResource MoneyConverter}}" FontSize="20" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5"></TextBlock>
-                                            </Grid>
+                                            <DockPanel LastChildFill="False" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}},Path=ActualWidth}">
+                                                <TextBlock Grid.Column="0"  Text="{Binding Name}" DockPanel.Dock="Left" FontSize="20" Foreground="Black" Margin="0 5"></TextBlock>
+                                                <TextBlock Grid.Column="1"  Text="{Binding Quantity, Converter={StaticResource MoneyConverter}}" FontSize="20" Foreground="Black" DockPanel.Dock="Right" Margin="0 0 15 0"></TextBlock>
+                                            </DockPanel>
                                         </DataTemplate>
                                     </ListView.ItemTemplate>
                                 </ListView>
