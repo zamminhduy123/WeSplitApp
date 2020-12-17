@@ -17,6 +17,15 @@ namespace WeSplitApp.ViewModels
         public ICommand ThemeButtonCommand { get; set; }
 
         public Global globalTheme = Global.GetInstance();
+        
+        private bool _isShowSplash;
+        public bool IsShowSplash { get => _isShowSplash; set { _isShowSplash = value;
+                var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                config.AppSettings.Settings["ShowSplashScreen"].Value = IsShowSplash.ToString();
+                config.Save(ConfigurationSaveMode.Minimal);
+
+                ConfigurationManager.RefreshSection("appSettings");
+                OnPropertyChanged(); } }
 
         public ThemeUCViewModel()
         {
@@ -32,6 +41,9 @@ namespace WeSplitApp.ViewModels
                 globalTheme.OnPropertyChanged("ThemeColor");
 
             });
+
+            var value = ConfigurationManager.AppSettings["ShowSplashScreen"];
+            IsShowSplash = bool.Parse(value);
         }
     }
 }

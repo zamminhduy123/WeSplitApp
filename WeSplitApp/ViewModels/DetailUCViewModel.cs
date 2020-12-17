@@ -74,8 +74,11 @@ namespace WeSplitApp.ViewModels
             get => _startDate; set
             {
                 _startDate = value;
-                DataProvider.Ins.DB.Journeys.Find(DetailJourney.Id).Departure = Convert.ToDateTime(StartDate);
-                DataProvider.Ins.DB.SaveChanges();
+                if (StartDate != null && StartDate != "")
+                {
+                    DataProvider.Ins.DB.Journeys.Find(DetailJourney.Id).Departure = Convert.ToDateTime(StartDate);
+                    DataProvider.Ins.DB.SaveChanges();
+                }
                 OnPropertyChanged();
             }
         }
@@ -86,8 +89,11 @@ namespace WeSplitApp.ViewModels
             get => _endDate; set
             {
                 _endDate = value;
-                DataProvider.Ins.DB.Journeys.Find(DetailJourney.Id).Arrival = Convert.ToDateTime(EndDate);
-                DataProvider.Ins.DB.SaveChanges();
+                if (EndDate != null && EndDate != "")
+                {
+                    DataProvider.Ins.DB.Journeys.Find(DetailJourney.Id).Arrival = Convert.ToDateTime(EndDate);
+                    DataProvider.Ins.DB.SaveChanges();
+                }
                 OnPropertyChanged();
             }
         }
