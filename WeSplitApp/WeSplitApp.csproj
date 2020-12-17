@@ -142,6 +142,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\CheckFeeConverter.cs" />
     <Compile Include="Models\NumberToVNDConverter.cs" />
     <Compile Include="Models\BytesToBitMapConverter.cs" />
     <Compile Include="Global.cs" />
