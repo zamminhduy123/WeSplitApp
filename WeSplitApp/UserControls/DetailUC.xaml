@@ -217,7 +217,7 @@
                                 <Grid Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}},Path=ActualWidth}">
                                     <StackPanel Orientation="Vertical">
                                         <TextBlock Text="{Binding Name}" FontSize="20" FontWeight="Medium" Margin="0 10" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
-                                        <TextBlock Text="{Binding Description}" FontSize="15" TextWrapping="Wrap" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                                        <TextBlock Text="{Binding Description}" FontSize="15" TextWrapping="Wrap" Margin="0 0 50 0" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
                                         <Button
                                                 Style="{StaticResource MaterialDesignFlatMidBgButton}"
                                                 ToolTip="Xóa thành viên" Content="XÓA"
@@ -445,7 +445,7 @@
                 <Border.Effect>
                     <DropShadowEffect BlurRadius="10" ShadowDepth="10"></DropShadowEffect>
                 </Border.Effect>
-                <StackPanel VerticalAlignment="Center">
+                <StackPanel VerticalAlignment="Top">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="40*"/>
@@ -497,7 +497,7 @@
                             </StackPanel>
                         </Border>
                         <!--Tổng kết thành viên-->
-                        <Border Grid.Column="1" Background="White" VerticalAlignment="Center"
+                        <Border Grid.Column="1" Background="White" VerticalAlignment="Top"
                             CornerRadius="50" Height="auto" MinHeight="300" Padding="0" RenderOptions.BitmapScalingMode="HighQuality" Margin="5">
                             <Border.Effect>
                                 <DropShadowEffect BlurRadius="10" ShadowDepth="10"></DropShadowEffect>

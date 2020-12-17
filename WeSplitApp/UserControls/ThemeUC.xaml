@@ -15,8 +15,8 @@
              mc:Ignorable="d" 
              DataContext="{StaticResource TUCVM}"
              d:DesignHeight="850" d:DesignWidth="1000" MinWidth="300">
-    <Grid>
-        <materialDesign:Card MinWidth="300" Padding="0 5" Background="White" HorizontalAlignment="Left" VerticalAlignment="Top" Height="350" Width="auto" UniformCornerRadius="30">
+    <StackPanel Orientation="Vertical">
+        <materialDesign:Card MinWidth="300" Padding="0 5" Background="White" HorizontalAlignment="Left" VerticalAlignment="Top" Height="350" Width="auto" UniformCornerRadius="30" Margin="10">
             <StackPanel>
                 <TextBlock VerticalAlignment="Top" HorizontalAlignment="Center" Text="APP THEME" FontSize="30" FontWeight="DemiBold" Foreground="Black" Margin="10 0 0 0" />
                 <ItemsControl x:Name="colorList" ItemsSource="{Binding Colors}" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="10" MinWidth="300">
@@ -38,5 +38,16 @@
                 </ItemsControl>
             </StackPanel>
         </materialDesign:Card>
-    </Grid>
+        <materialDesign:Card MinWidth="300" Padding="0 5" Background="White" HorizontalAlignment="Left" VerticalAlignment="Top"  Width="auto" UniformCornerRadius="30" Margin="10">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock FontSize="30" FontWeight="Medium" Text="Splash Screen" Margin="20 0" VerticalAlignment="Center"></TextBlock>
+                <CheckBox
+                                             Background ="{Binding Source={StaticResource themeColor},Path=ThemeColor}"
+                                                  Margin="30 5"
+                                            IsChecked="{Binding IsShowSplash}" Command="{Binding IsShowSplashCommand}"
+                        materialDesign:CheckBoxAssist.CheckBoxSize="50">
+                </CheckBox>
+            </StackPanel>
+        </materialDesign:Card>
+    </StackPanel>
 </UserControl>
