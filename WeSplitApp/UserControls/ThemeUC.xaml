@@ -44,7 +44,7 @@
                 <CheckBox
                                              Background ="{Binding Source={StaticResource themeColor},Path=ThemeColor}"
                                                   Margin="30 5"
-                                            IsChecked="{Binding IsShowSplash}" Command="{Binding IsShowSplashCommand}"
+                                            IsChecked="{Binding IsShowSplash}"
                         materialDesign:CheckBoxAssist.CheckBoxSize="50">
                 </CheckBox>
             </StackPanel>
