@@ -14,7 +14,7 @@ namespace WeSplitApp.Models
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null || value == "0") return "0 VNĐ";
+            if (value == null || value.ToString() == "0") return "0 VNĐ";
             bool isNegative = false;
             var tmp = value as string;
             if (tmp[0] == '-')

@@ -7,15 +7,15 @@ using System.Configuration;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interactivity;
-using System.Windows.Media.Imaging;
+using System.Threading.Tasks;
+using System.Windows.Media.Animation;
 using WeSplitApp.Model;
 using WeSplitApp.Models;
+using System.Windows.Media.Imaging;
 
 namespace WeSplitApp.ViewModels
 {
@@ -557,6 +557,27 @@ namespace WeSplitApp.ViewModels
         public ICommand DeleteImageCommand { get; set; }
 
         #endregion
+        #region animation
+
+        DoubleAnimation fadeIn = new DoubleAnimation
+        {
+            Duration = new Duration(TimeSpan.FromMilliseconds(250)),
+            AutoReverse = false,
+            RepeatBehavior = new RepeatBehavior(1),
+            From = 0.0,
+            To = 1.0
+        };
+
+        DoubleAnimation fadeOut = new DoubleAnimation
+        {
+            Duration = new Duration(TimeSpan.FromMilliseconds(250)),
+            AutoReverse = false,
+            RepeatBehavior = new RepeatBehavior(1),
+            From = 1.0,
+            To = 0.0
+        };
+        #endregion
+
         public DetailUCViewModel()
         {
             AddOrUpdateRouteContent = "THÊM";
@@ -797,7 +818,15 @@ namespace WeSplitApp.ViewModels
                 IsOutFeeContentValid = false;
                 IsEnabledAddOutFeeButton = false;
             });
-            PrevImageCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
+            PrevImageCommand = new RelayCommand<Border>((param) => { return true; }, async (stepImgHolder) => {
+                //fade in animation
+                Storyboard storyboard = new Storyboard();
+                storyboard.Children.Add(fadeOut);
+                Storyboard.SetTarget(fadeOut, stepImgHolder);
+                Storyboard.SetTargetProperty(fadeOut, new PropertyPath("Opacity"));
+                storyboard.Begin(stepImgHolder);
+                await storyboard.BeginAsync();
+                
                 if (_imageList.Count < 2) return;
                 if (_imageList[0].Id == _imageHolderNumber) // ảnh đầu list
                 {
@@ -815,8 +844,22 @@ namespace WeSplitApp.ViewModels
                     _imageHolderNumber = _imageList[index - 1].Id;
                     ImageHolder = _imageList[index - 1].ImageBytes;
                 }
+                //fade out
+                storyboard = new Storyboard();
+                storyboard.Children.Add(fadeIn);
+                Storyboard.SetTarget(fadeIn, stepImgHolder);
+                Storyboard.SetTargetProperty(fadeIn, new PropertyPath("Opacity"));
+                storyboard.Begin(stepImgHolder);
+                await storyboard.BeginAsync();
             });
-            NextImageCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
+            NextImageCommand = new RelayCommand<dynamic>((param) => { return true; }, async (stepImgHolder) => {
+                //fade in animation
+                Storyboard storyboard = new Storyboard();
+                storyboard.Children.Add(fadeOut);
+                Storyboard.SetTarget(fadeOut, stepImgHolder);
+                Storyboard.SetTargetProperty(fadeOut, new PropertyPath("Opacity"));
+                storyboard.Begin(stepImgHolder);
+                await storyboard.BeginAsync();
                 if (_imageList.Count < 2) return;
                 if (_imageList[_imageList.Count - 1].Id == _imageHolderNumber) // ảnh cuối list
                 {
@@ -834,6 +877,13 @@ namespace WeSplitApp.ViewModels
                     _imageHolderNumber = _imageList[index + 1].Id;
                     ImageHolder = _imageList[index + 1].ImageBytes;
                 }
+                //fade out
+                storyboard = new Storyboard();
+                storyboard.Children.Add(fadeIn);
+                Storyboard.SetTarget(fadeIn, stepImgHolder);
+                Storyboard.SetTargetProperty(fadeIn, new PropertyPath("Opacity"));
+                storyboard.Begin(stepImgHolder);
+                await storyboard.BeginAsync();
             });
             AddImageCommand = new RelayCommand<dynamic>((param) => { return true; }, (param) => {
                 OpenFileDialog dialog = new OpenFileDialog();
@@ -1000,6 +1050,26 @@ namespace WeSplitApp.ViewModels
                 return new ValidationResult(false, e.Message);
             }
 
+        }
+    }
+    public static class StoryboardExtensions
+    {
+        public static Task BeginAsync(this Storyboard storyboard)
+        {
+            System.Threading.Tasks.TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
+            if (storyboard == null)
+                tcs.SetException(new ArgumentNullException());
+            else
+            {
+                EventHandler onComplete = null;
+                onComplete = (s, e) => {
+                    storyboard.Completed -= onComplete;
+                    tcs.SetResult(true);
+                };
+                storyboard.Completed += onComplete;
+                storyboard.Begin();
+            }
+            return tcs.Task;
         }
     }
 }

@@ -24,7 +24,7 @@
         
         DataContext="{StaticResource MVM}"
 
-        Height="900" Width="1440" MinWidth="940" MinHeight="750">
+        Height="900" Width="1440" MinWidth="940" MinHeight="800">
     <Window.Resources>
         <DataTemplate DataType="{x:Type viewmodels:DetailUCViewModel}">
             <uc:DetailUC DataContext="{Binding}"/>
