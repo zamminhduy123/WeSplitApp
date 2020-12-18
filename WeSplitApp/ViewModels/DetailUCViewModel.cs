@@ -278,7 +278,7 @@ namespace WeSplitApp.ViewModels
                     List<int> inFees = new List<int>();
                     int totalInFee = 0;
                     int totalOutFee = 0;
-                    SummaryList = new List<dynamic>();
+                    SummaryList = new AsyncObservableCollection<dynamic>();
 
                     foreach (var member in DetailJourney.Members)
                     {
@@ -512,8 +512,8 @@ namespace WeSplitApp.ViewModels
         public string TotalFee { get => _totalFee; set { _totalFee = value; OnPropertyChanged(); } }
 
         //Danh sách thành viên và khoản tiền còn lại
-        private List<dynamic> _summaryList = new List<dynamic>();
-        public List<dynamic> SummaryList { get => _summaryList; set { _summaryList = value; OnPropertyChanged(); } }
+        private AsyncObservableCollection<dynamic> _summaryList = new AsyncObservableCollection<dynamic>();
+        public AsyncObservableCollection<dynamic> SummaryList { get => _summaryList; set { _summaryList = value; OnPropertyChanged(); } }
 
         #region EnableButtonCommand
         private Visibility _noImageVisibility; // hiden nếu ko có ảnh

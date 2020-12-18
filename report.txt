@@ -48,7 +48,7 @@ III. Các chức năng đã làm thêm:
 - Đổi màu ứng dụng (Trong tab Setting/ App Theme).
 - Kiểm tra các mục dữ liệu người dùng nhập vào có thỏa điều kiện cho trước hay không (Validation)
 - Vô hiệu hóa nút Thêm khi người dùng nhập sai hoặc chưa nhập dữ liệu cần thêm.
-
+- Animation FadeIn/Out
 -------------------------------------------------------------------------------------------------------------------------
 IV. Các chức năng chưa hoàn thành:
 - Không có.
@@ -65,12 +65,14 @@ VI. Các thư viện và package hỗ trợ:
 VII. Các con đường bất hạnh đã xử lí:
 - Vô hiệu hóa nút Thêm nếu người dùng chưa nhập hoặc nhập sai dữ liệu cần thêm vào.
 - Hiện hình ảnh "No image" trong trường hợp trường dữ liệu ảnh không có ảnh.
+- Phải nhập đúng định dạng email abc@xyz.com
+- Những ô chỉ nhập số hiện cảnh báo khi nhập chữ.
 -------------------------------------------------------------------------------------------------------------------------
 VIII. Điểm đề nghị:
     10/10 điểm.
 -------------------------------------------------------------------------------------------------------------------------
 IX. Link video demo:
-
+https://youtu.be/1J529AsmkqY
 -------------------------------------------------------------------------------------------------------------------------
 X. Link source code github:
 https://github.com/zamminhduy123/WeSplitApp
