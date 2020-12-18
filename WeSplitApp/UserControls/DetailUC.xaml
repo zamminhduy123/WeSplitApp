@@ -71,7 +71,7 @@
                                 </Border>
                             </Button>
                             <Border VerticalAlignment="Center" Name="ImageHolder" 
-                             Width="600" Height="600">
+                             Width="600" Height="450">
                                 <Border.Effect>
                                     <DropShadowEffect ShadowDepth="5"/>
                                 </Border.Effect>
