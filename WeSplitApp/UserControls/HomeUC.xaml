@@ -182,9 +182,9 @@
                         <DataTemplate>
                             <Grid Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}},Path=ActualWidth}">
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="{Binding Name}" FontSize="20" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
-                                    <TextBlock Text="{Binding Description}" FontSize="15" TextWrapping="Wrap" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
-                                    <TextBlock Text="{Binding State}" FontSize="10" Foreground="{Binding Source={StaticResource themeColor},Path=ThemeColor}" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                                    <TextBlock Text="{Binding Name}" FontSize="20" FontWeight="Medium" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                                    <TextBlock TextWrapping="Wrap" Text="{Binding Description}" FontSize="15"  Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0 10"></TextBlock>
+                                    <TextBlock Text="{Binding State}" FontSize="15" Foreground="{Binding Source={StaticResource themeColor},Path=ThemeColor}" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
                                     <Button DockPanel.Dock="Bottom"
                                         Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}"
                                         BorderBrush="{Binding Source={StaticResource themeColor},Path=ThemeColor}"
