@@ -87,6 +87,7 @@
                 </Border>
                 <StackPanel Orientation="Vertical" Margin="0 20 0 0 ">
                     <TextBox Grid.Row="0" Grid.Column="0" Margin="10"
+                              materialDesign:ValidationAssist.FontSize="15"
                               materialDesign:HintAssist.Hint="Tên Địa Danh"
                               Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                               VerticalAlignment="Center"

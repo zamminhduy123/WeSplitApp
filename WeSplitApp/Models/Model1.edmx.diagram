@@ -13,7 +13,6 @@
         <EntityTypeShape EntityType="WeSplitAppDBModel.Photo" Width="1.5" PointX="7.5" PointY="12.375" IsExpanded="true" />
         <EntityTypeShape EntityType="WeSplitAppDBModel.Province" Width="1.5" PointX="0.75" PointY="7.5" IsExpanded="true" />
         <EntityTypeShape EntityType="WeSplitAppDBModel.Route" Width="1.5" PointX="7.5" PointY="14.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="WeSplitAppDBModel.sysdiagram" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <AssociationConnector Association="WeSplitAppDBModel.fk_cost_journey" ManuallyRouted="false" />
         <AssociationConnector Association="WeSplitAppDBModel.fk_expense_journey" ManuallyRouted="false" />
         <AssociationConnector Association="WeSplitAppDBModel.fk_expense_member" ManuallyRouted="false" />
