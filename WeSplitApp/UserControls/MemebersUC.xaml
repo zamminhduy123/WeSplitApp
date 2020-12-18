@@ -58,7 +58,7 @@
                                                     BorderThickness="2"
                                                     CornerRadius="30">
                                         <Border.Background>
-                                            <ImageBrush ImageSource="{Binding Avatar, Converter={StaticResource ImageConverter}}" RenderOptions.BitmapScalingMode="HighQuality" Stretch="None"></ImageBrush>
+                                            <ImageBrush ImageSource="{Binding Avatar, Converter={StaticResource ImageConverter}}" RenderOptions.BitmapScalingMode="HighQuality" Stretch="Uniform"></ImageBrush>
                                         </Border.Background>
                                     </Border>
                                     <!-- member info -->
@@ -127,7 +127,7 @@
                                     CornerRadius="30">
                             </Border>
                             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <Image Source="{Binding ImageCover, Converter={StaticResource ImageConverter}}" RenderOptions.BitmapScalingMode="HighQuality" Stretch="None"></Image>
+                                <Image Source="{Binding ImageCover, Converter={StaticResource ImageConverter}}" RenderOptions.BitmapScalingMode="HighQuality" Stretch="Uniform"></Image>
                                 <StackPanel.OpacityMask>
                                     <VisualBrush Visual="{Binding ElementName=Mask}" />
                                 </StackPanel.OpacityMask>

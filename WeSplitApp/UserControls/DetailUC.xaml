@@ -217,7 +217,7 @@
                                 Margin="0 10 0 0"
                                 
                                 Style="{StaticResource MaterialDesignRaisedAccentButton}"
-                                Width="75"
+                                Width="120"
                                 Height="75"
                                 IsEnabled="{Binding IsEnabledAddOrEditRouteButton}"
                                 materialDesign:RippleAssist.Feedback="#DD000000" Command="{Binding AddOrEditRouteCommand}" Content="{Binding AddOrUpdateRouteContent}">

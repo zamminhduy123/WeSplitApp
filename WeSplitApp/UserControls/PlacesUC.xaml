@@ -48,7 +48,7 @@
                         <DataTemplate>
                             <StackPanel>
                                 <DockPanel LastChildFill="True" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}},Path=ActualWidth}">
-                                    <Image DockPanel.Dock="Left" Width="200" Height="200" Source="{Binding ImageBytes, Converter={StaticResource ImageConverter}}"></Image>
+                                    <Image Stretch="Uniform" DockPanel.Dock="Left" Width="200" Height="200" Source="{Binding ImageBytes, Converter={StaticResource ImageConverter}}"></Image>
                                     <StackPanel Orientation="Vertical" DockPanel.Dock="Right" VerticalAlignment="Center">
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="{Binding Name}" Margin="5 0" FontSize="20" FontWeight="Medium" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left"/>
@@ -107,7 +107,7 @@
                     </TextBox>
                     <Border Height="171" MinHeight="150" CornerRadius="20" BorderThickness="1" BorderBrush="#03254c" Margin="10">
                         <Border.Background>
-                            <ImageBrush ImageSource="{Binding ImageCover, Converter={StaticResource ImageConverter}}" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            <ImageBrush Stretch="Uniform" ImageSource="{Binding ImageCover, Converter={StaticResource ImageConverter}}" RenderOptions.BitmapScalingMode="HighQuality"/>
                         </Border.Background>
                         <Button
                             Grid.Column="0"
