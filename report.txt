@@ -48,7 +48,7 @@ III. Các chức năng đã làm thêm:
 - Đổi màu ứng dụng (Trong tab Setting/ App Theme).
 - Kiểm tra các mục dữ liệu người dùng nhập vào có thỏa điều kiện cho trước hay không (Validation)
 - Vô hiệu hóa nút Thêm khi người dùng nhập sai hoặc chưa nhập dữ liệu cần thêm.
-
+- Animation FadeIn/Out
 -------------------------------------------------------------------------------------------------------------------------
 IV. Các chức năng chưa hoàn thành:
 - Không có.
