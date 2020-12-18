@@ -613,14 +613,14 @@ namespace WeSplitApp.ViewModels
                     DataProvider.Ins.DB.Routes.Add(new Route
                     {
                         JourneyId = DetailJourney.Id,
-                        OrderNumber = (DetailJourney.Routes == null) ? 1 : DetailJourney.Routes.Max(x => x.OrderNumber) + 1,
+                        OrderNumber = (DetailJourney.Routes.Count == 0) ? 1 : DetailJourney.Routes.Max(x => x.OrderNumber) + 1,
                         Name = RouteName,
                         Description = RouteDescription,
                     });
                     DataProvider.Ins.DB.SaveChanges();
                     dynamic tmp = new
                     {
-                        Id = (DetailJourney.Routes == null) ? 1 : DetailJourney.Routes.Max(x => x.OrderNumber),
+                        Id = (DetailJourney.Routes.Count == 0) ? 1 : DetailJourney.Routes.Max(x => x.OrderNumber),
                         Name = RouteName,
                         Description = RouteDescription,
                     };
@@ -684,7 +684,7 @@ namespace WeSplitApp.ViewModels
                 {
                     JourneyId = DetailJourney.Id,
                     MemberId = SelectedInFeeMember.Id,
-                    OrderNumber = (DataProvider.Ins.DB.Expenses == null) ? 1 : DataProvider.Ins.DB.Expenses.Max(x => x.OrderNumber) + 1,
+                    OrderNumber = (DataProvider.Ins.DB.Expenses.Count() == 0) ? 1 : DataProvider.Ins.DB.Expenses.Max(x => x.OrderNumber) + 1,
                     Fees = int.Parse(InFee),
                 };
                 DataProvider.Ins.DB.Expenses.Add(newexpense);
@@ -753,7 +753,7 @@ namespace WeSplitApp.ViewModels
                     Cost newCost = new Cost
                     {
                         JourneyId = DetailJourney.Id,
-                        OrderNumber = (DataProvider.Ins.DB.Costs == null) ? 1 : DataProvider.Ins.DB.Costs.Max(x => x.OrderNumber) + 1,
+                        OrderNumber = (DataProvider.Ins.DB.Costs.Count() == 0) ? 1 : DataProvider.Ins.DB.Costs.Max(x => x.OrderNumber) + 1,
                         Content = OutFeeContent.Substring(0, 1).ToUpper() + OutFeeContent.Substring(1, OutFeeContent.Length - 1).ToLower(),
                         Fees = int.Parse(OutFee),
                     };

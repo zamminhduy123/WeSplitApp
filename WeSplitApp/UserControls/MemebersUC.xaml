@@ -96,6 +96,7 @@
                 </Border>
                 <StackPanel Orientation="Vertical" Margin="0 20 0 0 ">
                     <TextBox Grid.Row="0" Grid.Column="0" Margin="10"
+                              materialDesign:ValidationAssist.FontSize="15"
                               materialDesign:HintAssist.Hint="Tên Thành Viên"
                               Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                               VerticalAlignment="Center"
@@ -153,6 +154,7 @@
 
 
                     <TextBox Grid.Row="1" Grid.Column="0"
+                              materialDesign:ValidationAssist.FontSize="15"
                               materialDesign:HintAssist.Hint="Số điện thoại"
                               Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                               VerticalAlignment="Center"
@@ -173,6 +175,7 @@
 
                     <TextBox Grid.Row="1" Grid.Column="0"
                               materialDesign:HintAssist.Hint="Email"
+                              materialDesign:ValidationAssist.FontSize="15"
                               Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                               VerticalAlignment="Center"
                                  FontSize="20" Margin="10">

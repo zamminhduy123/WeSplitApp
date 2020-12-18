@@ -185,9 +185,6 @@
     <Compile Include="Models\Route.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sysdiagram.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="SplashScreenWindow.xaml.cs" />
     <Compile Include="UserControls\AboutUC.xaml.cs">
       <DependentUpon>AboutUC.xaml</DependentUpon>

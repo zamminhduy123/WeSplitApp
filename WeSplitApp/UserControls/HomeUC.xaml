@@ -44,7 +44,7 @@
             <TextBox
                 Width="400"
               x:Name="SearchTextBox"
-              Foreground="{Binding Source={StaticResource themeColor},Path=ThemeColor}"
+              Foreground="{Binding Source={StaticResource themeColor},Path=ThemeColor}" FontSize="17"
               materialDesign:HintAssist.Hint="Search for trip"
               materialDesign:TextFieldAssist.HasClearButton="True"
               materialDesign:HintAssist.HelperText="Search bar will search for both table"
