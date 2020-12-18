@@ -169,7 +169,6 @@
             </Border.Effect>
             <StackPanel>
                 <Border  CornerRadius="50 50 0 0"  BorderThickness="0" BorderBrush="Black" Height="100" Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}">
-                    <!--Background = "{Binding Source={StaticResource themeColor},Path=ThemeColor}"-->
                     <TextBlock Text="CHUYẾN ĐI HIỆN TẠI" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
                 </Border>
                 <ListView ItemsSource="{Binding CurrentTripList}" SelectedItem="{Binding SelectedTrip}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False">
@@ -212,7 +211,7 @@
                 <Border  CornerRadius="50 50 0 0"  BorderThickness="0" BorderBrush="Black" Height="100" Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}">
                     <TextBlock Text="LỊCH SỬ CHUYẾN ĐI" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Medium"></TextBlock>
                 </Border>
-                <ListView ItemsSource="{Binding LastTripList}" SelectedItem="{Binding SelectedTrip}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False">
+                <ListView Height="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type StackPanel}},Path=ActualHeight}" ItemsSource="{Binding LastTripList}" SelectedItem="{Binding SelectedTrip}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Auto"  Margin="5 0 0 15">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
                             <i:InvokeCommandAction Command="{Binding SelectTripCommand}" />
@@ -223,7 +222,7 @@
                             <Grid Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}},Path=ActualWidth}">
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="{Binding Name}" FontSize="20" Foreground="Black" FontWeight="Medium" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
-                                    <TextBlock TextWrapping="Wrap" Text="{Binding Description}" FontSize="15"  Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0 10"></TextBlock>
+                                    <TextBlock TextWrapping="Wrap" Text="{Binding Description}" FontSize="15"  Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0 10 15 0"></TextBlock>
                                     <Button DockPanel.Dock="Bottom"
                                         Background="{Binding Source={StaticResource themeColor},Path=ThemeColor}"
                                         BorderBrush="{Binding Source={StaticResource themeColor},Path=ThemeColor}"

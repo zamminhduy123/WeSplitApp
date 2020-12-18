@@ -58,6 +58,13 @@ namespace WeSplitApp
             else return false;
         }
 
+        private String _homeColor;
+
+        private String _detailColor = Brushes.White.ToString();
+
+        public String HomeColor { get => _homeColor; set { _homeColor = value; OnPropertyChanged("HomeColor"); } }
+        public String DetailColor { get => _detailColor; set { _detailColor = value; OnPropertyChanged("DetailColor"); } }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

@@ -100,8 +100,7 @@
                     <StackPanel Width="250" DockPanel.Dock="Left" Orientation="Vertical" VerticalAlignment="Top" Height="auto" MinWidth="50"  DockPanel.ZIndex ="99"  Visibility="{Binding LeftPanelVisibility}">
                         <Button Background="{x:Null}" BorderBrush="{x:Null}"  Padding="0" Height="70" Margin="0 0 0 20" Command="{Binding HomeCommand}" CommandParameter="{Binding ElementName=mainContentControl}" Style="{StaticResource DropShadowButton}">
                             <StackPanel Orientation="Horizontal" Height="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}},Path=ActualHeight}"    Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}},Path=ActualWidth}"
-                                   Background="{Binding HomeColor}"
-                                    >
+                                    Background="{Binding Source={StaticResource currentPage},Path=HomeColor}">
                                 <materialDesign:PackIcon Kind="Home" Width="40" Height="40" Margin="5" VerticalAlignment="Center" Foreground="Black"/>
                                 <TextBlock Text="HOME" VerticalAlignment="Center" FontSize="25" FontWeight="Medium" Margin="10 5 0 0" Foreground="Black"></TextBlock>
                             </StackPanel>
@@ -109,7 +108,7 @@
                         <Button Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Height="70" Margin="0 0 0 20" Command="{Binding DetailCommand}" CommandParameter="{Binding ElementName=mainContentControl}" Style="{StaticResource DropShadowButton}">
                             <StackPanel  Orientation="Horizontal" Height="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}},Path=ActualHeight}"    
                                      Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}},Path=ActualWidth}" 
-                                      Background="{Binding DetailColor}">
+                                      Background="{Binding Source={StaticResource currentPage},Path=DetailColor}">
                                 <materialDesign:PackIcon Kind="MapMarkerRadius"  Width="40" Height="40" Margin="5" VerticalAlignment="Center" Foreground="Black"/>
                                 <TextBlock Text="DETAIL" VerticalAlignment="Center" FontSize="25" FontWeight="Medium" Margin="10 5 0 0" Foreground="Black"></TextBlock>
                             </StackPanel>

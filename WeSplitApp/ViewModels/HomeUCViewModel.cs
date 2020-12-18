@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -167,7 +168,11 @@ namespace WeSplitApp.ViewModels
 
             SelectTripCommand = new RelayCommand<object>((param) => { return true; }, (param) =>
             {
-                Global.GetInstance().CurrentPageViewModel = new DetailUCViewModel();
+                Global global = Global.GetInstance();
+
+                global.CurrentPageViewModel = new DetailUCViewModel();
+                global.HomeColor = Brushes.White.ToString();
+                global.DetailColor = global.ThemeColor;
             });
 
             AddJourneyCommand = new RelayCommand<string>((param) => { return true; }, (param) =>

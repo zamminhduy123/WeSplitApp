@@ -14,9 +14,7 @@ namespace WeSplitApp.ViewModels
         #region private variables
         //private BaseViewModel _currentPageViewModel = null;
         private Visibility _leftPanelVisibility = Visibility.Visible;
-        private String _homeColor;
         private String _addPlaceColor = Brushes.White.ToString();
-        private String _detailColor = Brushes.White.ToString();
         private String _addMemberColor = Brushes.White.ToString();
         private String _settingColor = Brushes.White.ToString();
         private String _aboutColor = Brushes.White.ToString();
@@ -37,9 +35,6 @@ namespace WeSplitApp.ViewModels
         #endregion
 
         #region PanelColor
-
-        public String HomeColor { get => _homeColor; set {_homeColor = value; OnPropertyChanged(); } }
-        public String DetailColor { get => _detailColor; set { _detailColor = value; OnPropertyChanged(); } }
 
         public String PlacesColor { get => _addPlaceColor; set { _addPlaceColor = value; OnPropertyChanged(); } }
         public String AddMemberColor { get => _addMemberColor; set { _addMemberColor = value; OnPropertyChanged(); } }
@@ -74,7 +69,7 @@ namespace WeSplitApp.ViewModels
                     VersionTextBlock = "not installed";
           
             global.CurrentPageViewModel = new HomeUCViewModel();
-            HomeColor = global.ThemeColor;
+            global.HomeColor = global.ThemeColor;
 
             OpenPanelCommand = new RelayCommand<object>((param) => { return true; }, (param) =>
             {
@@ -86,9 +81,10 @@ namespace WeSplitApp.ViewModels
             HomeCommand = new RelayCommand<ContentControl>((param) => { return true; }, (param) =>
             {
                 ResetAllPanelColor();
-                HomeColor = global.ThemeColor;
+                
                 //param.Content = new HomeUCViewModel();
                 global.CurrentPageViewModel = new HomeUCViewModel();
+                global.HomeColor = global.ThemeColor;
             });
             DetailCommand = new RelayCommand<ContentControl>((param) => { return true; }, (param) =>
             {
@@ -101,7 +97,7 @@ namespace WeSplitApp.ViewModels
                 else
                 {
                     ResetAllPanelColor();
-                    DetailColor = global.ThemeColor;
+                    global.DetailColor = global.ThemeColor;
                     //param.Content = new DetailUCViewModel();
                     global.CurrentPageViewModel = new DetailUCViewModel();
                 }
@@ -137,8 +133,8 @@ namespace WeSplitApp.ViewModels
         
         private void ResetAllPanelColor()
         {
-            HomeColor = Brushes.White.ToString();
-            DetailColor = Brushes.White.ToString();
+            global.HomeColor =  Brushes.White.ToString();
+            global.DetailColor = Brushes.White.ToString();
             PlacesColor = Brushes.White.ToString();
             AddMemberColor = Brushes.White.ToString();
             SettingColor = Brushes.White.ToString();
